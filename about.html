@@ -395,8 +395,30 @@
     .ab-skills-group__desc {
       font-size: 0.8125rem; line-height: 1.65; letter-spacing: 0.02em;
       color: var(--md-on-surface-variant);
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
+
+    /* Sub-group separator label */
+    .ab-skills-subgroup__label {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--md-on-surface-variant); opacity: 0.6;
+      margin: 1rem 0 0.5rem;
+    }
+
+    /* Two-line skill chip */
+    .ab-skill-text {
+      display: flex; flex-direction: column; gap: 2px;
+    }
+
+    .ab-skill-sub {
+      font-size: 0.6875rem; line-height: 1.3;
+      letter-spacing: 0.01em;
+      color: var(--md-on-surface-variant); opacity: 0.8;
+    }
+
+    .ab-skill-sub em { font-style: italic; }
 
     /* Back link */
     .ab-back {
@@ -644,7 +666,7 @@
       <div class="ab-skills-group ab-skills-group--bioprocess">
         <div class="ab-skills-group__header">
           <div class="ab-skills-group__dot ab-skills-group__dot--bioprocess"></div>
-          <span class="ab-skills-group__title">Bioprocessing &amp; Wet-Lab</span>
+          <span class="ab-skills-group__title">Bioengineering &amp; Wet-Lab</span>
         </div>
         <p class="ab-skills-group__desc">
           Currently working with <strong>CHO cells</strong> (batch &amp; fed-batch,
@@ -653,58 +675,116 @@
           productivity</strong> — maximizing titer while controlling critical quality
           attributes. Also proficient in <em>Saccharomyces cerevisiae</em> metabolic
           engineering and <em>Escherichia coli</em> mutant construction and plasmid
-          assembly for bacteria and yeast.
+          assembly.
         </p>
+
+        <!-- Biological Models -->
+        <p class="ab-skills-subgroup__label">Biological Models</p>
         <div class="ab-skills-grid">
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="12" r="4.5"/><circle cx="16" cy="12" r="4.5"/><line x1="12" y1="7.5" x2="12" y2="16.5"/></svg>
             </div>
-            <span class="ab-skill-name">CHO Cell Culture</span>
-          </div>
-          <div class="ab-skill-chip">
-            <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V8a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v11"/><line x1="2" y1="19" x2="22" y2="19"/><line x1="10" y1="8" x2="10" y2="15"/><line x1="14" y1="8" x2="14" y2="15"/></svg>
+            <div class="ab-skill-text">
+              <span class="ab-skill-name">Mammalian Cell Culture</span>
+              <span class="ab-skill-sub">CHO cells</span>
             </div>
-            <span class="ab-skill-name">Bioreactor Operation</span>
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3v11a3 3 0 0 0 6 0V3"/><line x1="6" y1="3" x2="18" y2="3"/><path d="M6 20h12"/></svg>
             </div>
-            <span class="ab-skill-name"><em>S. cerevisiae</em></span>
+            <div class="ab-skill-text">
+              <span class="ab-skill-name">Yeast Culture</span>
+              <span class="ab-skill-sub"><em>Saccharomyces cerevisiae</em></span>
+            </div>
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="10" ry="5"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="7" x2="12" y2="17"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="4.5"/><ellipse cx="12" cy="12" rx="9" ry="4.5" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="4.5" transform="rotate(120 12 12)"/></svg>
             </div>
-            <span class="ab-skill-name"><em>E. coli</em></span>
+            <div class="ab-skill-text">
+              <span class="ab-skill-name">Bacteria Culture</span>
+              <span class="ab-skill-sub"><em>Escherichia coli</em></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bioprocessing -->
+        <p class="ab-skills-subgroup__label">Bioprocessing</p>
+        <div class="ab-skills-grid">
+          <div class="ab-skill-chip">
+            <div class="ab-skill-icon ab-skill-icon--teal">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V8a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v11"/><line x1="2" y1="19" x2="22" y2="19"/><line x1="10" y1="8" x2="10" y2="15"/><line x1="14" y1="8" x2="14" y2="15"/></svg>
+            </div>
+            <div class="ab-skill-text">
+              <span class="ab-skill-name">Bioreactor Operation</span>
+              <span class="ab-skill-sub">Optimization &amp; process control</span>
+            </div>
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
             </div>
-            <span class="ab-skill-name">Molecular Cloning</span>
+            <div class="ab-skill-text">
+              <span class="ab-skill-name">Scale-up</span>
+              <span class="ab-skill-sub">Process transfer strategies</span>
+            </div>
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7" stroke-dasharray="2 2"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
             </div>
-            <span class="ab-skill-name">Flow Cytometry</span>
+            <div class="ab-skill-text">
+              <span class="ab-skill-name">Purification</span>
+              <span class="ab-skill-sub">Downstream processing</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Molecular Biology -->
+        <p class="ab-skills-subgroup__label">Molecular Biology</p>
+        <div class="ab-skills-grid">
+          <div class="ab-skill-chip">
+            <div class="ab-skill-icon ab-skill-icon--teal">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+            </div>
+            <div class="ab-skill-text">
+              <span class="ab-skill-name">Targeted Genome Editing</span>
+              <span class="ab-skill-sub">CRISPR-Cas9 · Cre-LoxP · HR</span>
+            </div>
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="8 17 12 13 16 17"/><polyline points="8 11 12 7 16 11"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-dasharray="3 2"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg>
             </div>
-            <span class="ab-skill-name">YSI Analytics</span>
+            <div class="ab-skill-text">
+              <span class="ab-skill-name">Plasmid Assembly</span>
+              <span class="ab-skill-sub">Golden Gate · Gibson · Gap Repair</span>
+            </div>
           </div>
+        </div>
+
+        <!-- Additional -->
+        <p class="ab-skills-subgroup__label">Additional</p>
+        <div class="ab-skills-grid">
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
             </div>
             <span class="ab-skill-name">Metabolic Engineering</span>
           </div>
+          <div class="ab-skill-chip">
+            <div class="ab-skill-icon ab-skill-icon--teal">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7" stroke-dasharray="2 2"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+            </div>
+            <div class="ab-skill-text">
+              <span class="ab-skill-name">Flow Cytometry</span>
+              <span class="ab-skill-sub">FlowJo · sweetspot analysis</span>
+            </div>
+          </div>
         </div>
+
       </div>
 
       <!-- ── Programming & Data Science group ── -->
