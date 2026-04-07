@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ebalderasr.github.io/HostCell/sitemap.xml
+Sitemap: https://hostcell.app/sitemap.xml
