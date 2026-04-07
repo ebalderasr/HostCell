@@ -6,304 +6,395 @@
   <meta name="description" content="Host Cell Lab Suite — Colección de herramientas web para biotecnólogos que trabajan con células de mamífero en bioprocesos de alta performance." />
   <title>Host Cell Lab Suite</title>
 
-  <!-- Fonts (same as BioReact family) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- ══ HEADER ══ -->
-  <header class="hc-header">
-    <div class="hc-header-brand">
-      <div class="g-logo">
-        <div class="g-dot" style="background:#4285F4"></div>
-        <div class="g-dot" style="background:#EA4335"></div>
-        <div class="g-dot" style="background:#FBBC05"></div>
-        <div class="g-dot" style="background:#34A853"></div>
+  <!-- ══ MD3 TOP APP BAR ══ -->
+  <header class="md-top-app-bar" id="app-bar">
+    <div class="md-top-app-bar__row">
+
+      <div class="md-top-app-bar__leading">
+        <div class="hc-logo-mark" aria-hidden="true">
+          <div class="hc-logo-dot" style="background:#1558D6"></div>
+          <div class="hc-logo-dot" style="background:#B3261E"></div>
+          <div class="hc-logo-dot" style="background:#FBBC04"></div>
+          <div class="hc-logo-dot" style="background:#006B53"></div>
+        </div>
+        <div class="hc-brand">
+          <span class="hc-brand__name">Host Cell Lab Suite</span>
+          <span class="hc-brand__tagline">Practical tools for high-performance biotechnology</span>
+        </div>
       </div>
-      <div class="hc-title-line">
-        <h1>Host Cell Lab Suite</h1>
-        <p class="hc-tagline">Practical tools for high-performance biotechnology</p>
-      </div>
-    </div>
-    <div class="hc-header-right">
-      <a class="hc-about-btn" href="#about">
-        <span>Acerca de</span>
-      </a>
+
+      <a class="md-button-tonal" href="#about">Acerca de</a>
+
     </div>
   </header>
 
-  <!-- ══ MAIN ══ -->
-  <main class="hc-main">
+  <!-- ══ HERO ══ -->
+  <section class="hc-hero" id="about" aria-label="Acerca de la suite">
 
-    <!-- Hero / About -->
-    <section class="hc-hero" id="about">
-      <div class="hc-hero-logo">
-        <div class="g-dot" style="background:#4285F4"></div>
-        <div class="g-dot" style="background:#EA4335"></div>
-        <div class="g-dot" style="background:#FBBC05"></div>
-        <div class="g-dot" style="background:#34A853"></div>
+    <div class="hc-hero__bg" aria-hidden="true">
+      <div class="hc-hero__bg-blob"></div>
+      <div class="hc-hero__bg-blob"></div>
+      <div class="hc-hero__bg-blob"></div>
+    </div>
+
+    <div class="hc-hero__content">
+
+      <div class="hc-hero__logo" aria-hidden="true">
+        <div class="hc-logo-dot" style="background:#1558D6"></div>
+        <div class="hc-logo-dot" style="background:#B3261E"></div>
+        <div class="hc-logo-dot" style="background:#FBBC04"></div>
+        <div class="hc-logo-dot" style="background:#006B53"></div>
       </div>
-      <h2 class="hc-hero-title">Host Cell Lab Suite</h2>
-      <p class="hc-hero-sub">
-        Una colección de herramientas web diseñadas para biotecnólogos que trabajan
-        con células de mamífero en bioprocesos de alta performance. Desde cálculos
-        rápidos de laboratorio hasta análisis complejos de datos y simuladores educativos.
+
+      <h1 class="hc-hero__title">Host Cell Lab Suite</h1>
+
+      <p class="hc-hero__body">
+        Una colección de herramientas web para biotecnólogos que trabajan con células
+        de mamífero. Desde cálculos rápidos de laboratorio hasta análisis complejos de
+        datos y simuladores educativos.
       </p>
-    </section>
 
-    <!-- ══ SECCIÓN 1: PWAs para Bioprocesos ══ -->
-    <section class="hc-section">
-      <div class="hc-section-header">
-        <span class="hc-section-kicker">Sección 1</span>
-        <h2 class="hc-section-title">PWAs para Bioprocesos</h2>
-        <p class="hc-section-sub">Herramientas rápidas y de uso diario en el laboratorio</p>
+      <!-- MD3 Assist Chips — información de contexto -->
+      <div class="hc-hero__chips" role="list">
+        <div class="hc-assist-chip" role="listitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+          </svg>
+          9 herramientas
+        </div>
+        <div class="hc-assist-chip" role="listitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 6h18M3 12h18M3 18h18"/>
+          </svg>
+          3 categorías
+        </div>
+        <div class="hc-assist-chip" role="listitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+          </svg>
+          Código abierto
+        </div>
       </div>
 
-      <div class="hc-grid">
+      <a class="md-button-filled" href="#tools">
+        Explorar herramientas
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>
+        </svg>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ══ TOOL SECTIONS ══ -->
+  <div class="hc-content" id="tools">
+
+    <!-- ── Sección 1: PWAs para Bioprocesos ── -->
+    <section class="hc-section" aria-labelledby="section-pwa-title">
+
+      <div class="hc-section__header">
+        <div class="hc-category-chip hc-category-chip--primary">
+          <span class="hc-category-chip__num" aria-hidden="true">1</span>
+          PWAs para Bioprocesos
+        </div>
+        <h2 class="hc-section__title" id="section-pwa-title">Herramientas de uso diario en el laboratorio</h2>
+        <p class="hc-section__sub">Rápidas, sin instalación, disponibles desde cualquier dispositivo</p>
+      </div>
+
+      <div class="hc-tool-grid">
 
         <!-- CellSplit -->
-        <a class="hc-card" href="https://ebalderasr.github.io/CellSplit/" target="_blank" rel="noopener noreferrer">
-          <div class="hc-card-icon blue">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="8" cy="12" r="5"/><circle cx="16" cy="12" r="5"/>
-              <line x1="12" y1="7" x2="12" y2="17"/>
-            </svg>
+        <a class="md-card" href="https://ebalderasr.github.io/CellSplit/" target="_blank" rel="noopener noreferrer" aria-label="Abrir CellSplit">
+          <div class="md-state-layer" aria-hidden="true"></div>
+          <div class="md-card__media">
+            <div class="md-card__icon-container md-card__icon-container--primary">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="8" cy="12" r="4.5"/><circle cx="16" cy="12" r="4.5"/>
+                <line x1="12" y1="7.5" x2="12" y2="16.5"/>
+              </svg>
+            </div>
           </div>
-          <div class="hc-card-name">CellSplit</div>
-          <p class="hc-card-desc">
-            Calcula diluciones y subcultivos de células de mamífero para mantener
-            tus cultivos en fase exponencial con la densidad de siembra correcta.
-          </p>
-          <span class="hc-card-cta">
-            Abrir
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </span>
+          <div class="md-card__body">
+            <div class="md-card__title">CellSplit</div>
+            <p class="md-card__supporting">Calcula diluciones y subcultivos de células de mamífero para mantener tus cultivos en fase exponencial con la densidad de siembra correcta.</p>
+          </div>
+          <div class="md-card__actions">
+            <span class="md-card__action-btn">
+              Abrir
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </span>
+          </div>
         </a>
 
         <!-- PulseGrowth -->
-        <a class="hc-card" href="https://ebalderasr.github.io/PulseGrowth/" target="_blank" rel="noopener noreferrer">
-          <div class="hc-card-icon green">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-            </svg>
+        <a class="md-card" href="https://ebalderasr.github.io/PulseGrowth/" target="_blank" rel="noopener noreferrer" aria-label="Abrir PulseGrowth">
+          <div class="md-state-layer" aria-hidden="true"></div>
+          <div class="md-card__media">
+            <div class="md-card__icon-container md-card__icon-container--primary">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
           </div>
-          <div class="hc-card-name">PulseGrowth</div>
-          <p class="hc-card-desc">
-            Visualiza y analiza curvas de crecimiento celular a partir de tus datos
-            de conteo: fases lag, exponencial y estacionaria con métricas clave.
-          </p>
-          <span class="hc-card-cta green">
-            Abrir
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </span>
+          <div class="md-card__body">
+            <div class="md-card__title">PulseGrowth</div>
+            <p class="md-card__supporting">Visualiza y analiza curvas de crecimiento celular a partir de tus datos de conteo: fases lag, exponencial y estacionaria con métricas clave.</p>
+          </div>
+          <div class="md-card__actions">
+            <span class="md-card__action-btn">
+              Abrir
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </span>
+          </div>
         </a>
 
         <!-- DiluteIt -->
-        <a class="hc-card" href="https://ebalderasr.github.io/DiluteIt/" target="_blank" rel="noopener noreferrer">
-          <div class="hc-card-icon blue">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 3h6l1 9H8L9 3z"/><path d="M8 12c0 0-2 2-2 5a6 6 0 0 0 12 0c0-3-2-5-2-5"/>
-            </svg>
+        <a class="md-card" href="https://ebalderasr.github.io/DiluteIt/" target="_blank" rel="noopener noreferrer" aria-label="Abrir DiluteIt">
+          <div class="md-state-layer" aria-hidden="true"></div>
+          <div class="md-card__media">
+            <div class="md-card__icon-container md-card__icon-container--primary">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 3h6l1 9H8L9 3z"/>
+                <path d="M8 12c0 0-2 2-2 5a6 6 0 0 0 12 0c0-3-2-5-2-5"/>
+              </svg>
+            </div>
           </div>
-          <div class="hc-card-name">DiluteIt</div>
-          <p class="hc-card-desc">
-            Genera esquemas de dilución serial para preparar soluciones estándar y
-            medios de cultivo sin errores, de forma rápida e intuitiva.
-          </p>
-          <span class="hc-card-cta">
-            Abrir
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </span>
+          <div class="md-card__body">
+            <div class="md-card__title">DiluteIt</div>
+            <p class="md-card__supporting">Genera esquemas de dilución serial para preparar soluciones estándar y medios de cultivo sin errores, de forma rápida e intuitiva.</p>
+          </div>
+          <div class="md-card__actions">
+            <span class="md-card__action-btn">
+              Abrir
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </span>
+          </div>
         </a>
 
         <!-- MolarPrep -->
-        <a class="hc-card yellow" href="https://ebalderasr.github.io/MolarPrep/" target="_blank" rel="noopener noreferrer">
-          <div class="hc-card-icon yellow">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B06000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 3v11a3 3 0 0 0 6 0V3"/><line x1="6" y1="3" x2="18" y2="3"/>
-              <path d="M6 20h12"/>
-            </svg>
+        <a class="md-card" href="https://ebalderasr.github.io/MolarPrep/" target="_blank" rel="noopener noreferrer" aria-label="Abrir MolarPrep">
+          <div class="md-state-layer" aria-hidden="true"></div>
+          <div class="md-card__media">
+            <div class="md-card__icon-container md-card__icon-container--primary">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 3v11a3 3 0 0 0 6 0V3"/>
+                <line x1="6" y1="3" x2="18" y2="3"/>
+                <path d="M6 20h12"/>
+              </svg>
+            </div>
           </div>
-          <div class="hc-card-name">MolarPrep</div>
-          <p class="hc-card-desc">
-            Calcula masas, volúmenes y concentraciones molares para preparar
-            reactivos y buffers de manera rápida y confiable en el laboratorio.
-          </p>
-          <span class="hc-card-cta yellow">
-            Abrir
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </span>
+          <div class="md-card__body">
+            <div class="md-card__title">MolarPrep</div>
+            <p class="md-card__supporting">Calcula masas, volúmenes y concentraciones molares para preparar reactivos y buffers de manera rápida y confiable en el laboratorio.</p>
+          </div>
+          <div class="md-card__actions">
+            <span class="md-card__action-btn">
+              Abrir
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </span>
+          </div>
         </a>
 
       </div>
     </section>
 
-    <div class="hc-divider"></div>
+    <!-- ── Sección 2: Herramientas Avanzadas ── -->
+    <section class="hc-section" aria-labelledby="section-adv-title">
 
-    <!-- ══ SECCIÓN 2: Herramientas Avanzadas ══ -->
-    <section class="hc-section">
-      <div class="hc-section-header">
-        <span class="hc-section-kicker green">Sección 2</span>
-        <h2 class="hc-section-title">Herramientas Avanzadas para Bioprocesos con Células de Mamífero</h2>
-        <p class="hc-section-sub">Análisis y procesamiento de datos complejos</p>
+      <div class="hc-section__header">
+        <div class="hc-category-chip hc-category-chip--secondary">
+          <span class="hc-category-chip__num" aria-hidden="true">2</span>
+          Herramientas Avanzadas
+        </div>
+        <h2 class="hc-section__title" id="section-adv-title">Bioprocesos con células de mamífero</h2>
+        <p class="hc-section__sub">Análisis y procesamiento de datos complejos de cultivo celular</p>
       </div>
 
-      <div class="hc-grid">
+      <div class="hc-tool-grid">
 
         <!-- Flowjo Sweetspot Web -->
-        <a class="hc-card green" href="https://ebalderasr.github.io/flowjo-sweetspot-web/" target="_blank" rel="noopener noreferrer">
-          <div class="hc-card-icon green">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" opacity="0.4"/>
-              <line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/>
-              <line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/>
-            </svg>
+        <a class="md-card md-card--secondary" href="https://ebalderasr.github.io/flowjo-sweetspot-web/" target="_blank" rel="noopener noreferrer" aria-label="Abrir Flowjo Sweetspot Web">
+          <div class="md-state-layer" aria-hidden="true"></div>
+          <div class="md-card__media">
+            <div class="md-card__icon-container md-card__icon-container--secondary">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="3"/>
+                <circle cx="12" cy="12" r="7" stroke-dasharray="2 2"/>
+                <line x1="12" y1="2" x2="12" y2="5"/>
+                <line x1="12" y1="19" x2="12" y2="22"/>
+                <line x1="2" y1="12" x2="5" y2="12"/>
+                <line x1="19" y1="12" x2="22" y2="12"/>
+              </svg>
+            </div>
           </div>
-          <div class="hc-card-name">Flowjo Sweetspot Web</div>
-          <p class="hc-card-desc">
-            Analiza datos de citometría de flujo y determina el punto óptimo de
-            expresión proteica en tus clones candidatos con visualizaciones interactivas.
-          </p>
-          <span class="hc-card-cta green">
-            Abrir
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </span>
+          <div class="md-card__body">
+            <div class="md-card__title">Flowjo Sweetspot Web</div>
+            <p class="md-card__supporting">Analiza datos de citometría de flujo y determina el punto óptimo de expresión proteica en tus clones candidatos con visualizaciones interactivas.</p>
+          </div>
+          <div class="md-card__actions">
+            <span class="md-card__action-btn">
+              Abrir
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </span>
+          </div>
         </a>
 
         <!-- YSI Processor -->
-        <a class="hc-card green" href="https://ebalderasr.github.io/ysi-processor/" target="_blank" rel="noopener noreferrer">
-          <div class="hc-card-icon green">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="8 17 12 13 16 17"/>
-              <polyline points="8 11 12 7 16 11"/>
-            </svg>
+        <a class="md-card md-card--secondary" href="https://ebalderasr.github.io/ysi-processor/" target="_blank" rel="noopener noreferrer" aria-label="Abrir YSI Processor">
+          <div class="md-state-layer" aria-hidden="true"></div>
+          <div class="md-card__media">
+            <div class="md-card__icon-container md-card__icon-container--secondary">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <polyline points="8 17 12 13 16 17"/>
+                <polyline points="8 11 12 7 16 11"/>
+              </svg>
+            </div>
           </div>
-          <div class="hc-card-name">YSI Processor</div>
-          <p class="hc-card-desc">
-            Procesa y visualiza mediciones de analitos del YSI 2950: glucosa,
-            lactato, glutamina y más, con normalización y comparación entre lotes.
-          </p>
-          <span class="hc-card-cta green">
-            Abrir
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </span>
+          <div class="md-card__body">
+            <div class="md-card__title">YSI Processor</div>
+            <p class="md-card__supporting">Procesa y visualiza mediciones de analitos del YSI 2950: glucosa, lactato, glutamina y más, con normalización y comparación entre lotes.</p>
+          </div>
+          <div class="md-card__actions">
+            <span class="md-card__action-btn">
+              Abrir
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </span>
+          </div>
         </a>
 
         <!-- Clonalyzer 2 -->
-        <a class="hc-card green" href="https://ebalderasr.github.io/Clonalyzer-2/" target="_blank" rel="noopener noreferrer">
-          <div class="hc-card-icon green">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/>
-            </svg>
+        <a class="md-card md-card--secondary" href="https://ebalderasr.github.io/Clonalyzer-2/" target="_blank" rel="noopener noreferrer" aria-label="Abrir Clonalyzer 2">
+          <div class="md-state-layer" aria-hidden="true"></div>
+          <div class="md-card__media">
+            <div class="md-card__icon-container md-card__icon-container--secondary">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/>
+              </svg>
+            </div>
           </div>
-          <div class="hc-card-name">Clonalyzer 2</div>
-          <p class="hc-card-desc">
-            Compara y clasifica clones celulares por su perfil de productividad,
-            crecimiento y eficiencia biosintética para la selección de candidatos.
-          </p>
-          <span class="hc-card-cta green">
-            Abrir
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </span>
+          <div class="md-card__body">
+            <div class="md-card__title">Clonalyzer 2</div>
+            <p class="md-card__supporting">Compara y clasifica clones celulares por su perfil de productividad, crecimiento y eficiencia biosintética para la selección de candidatos.</p>
+          </div>
+          <div class="md-card__actions">
+            <span class="md-card__action-btn">
+              Abrir
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </span>
+          </div>
         </a>
 
       </div>
     </section>
 
-    <div class="hc-divider"></div>
+    <!-- ── Sección 3: Educación ── -->
+    <section class="hc-section" aria-labelledby="section-edu-title">
 
-    <!-- ══ SECCIÓN 3: Educación ══ -->
-    <section class="hc-section">
-      <div class="hc-section-header">
-        <span class="hc-section-kicker red">Sección 3</span>
-        <h2 class="hc-section-title">Herramientas de Educación</h2>
-        <p class="hc-section-sub">Simuladores y aprendizaje en biotecnología</p>
+      <div class="hc-section__header">
+        <div class="hc-category-chip hc-category-chip--tertiary">
+          <span class="hc-category-chip__num" aria-hidden="true">3</span>
+          Educación
+        </div>
+        <h2 class="hc-section__title" id="section-edu-title">Simuladores y aprendizaje</h2>
+        <p class="hc-section__sub">Explora los fundamentos de la bioingeniería a través de modelos interactivos</p>
       </div>
 
-      <div class="hc-grid">
+      <div class="hc-tool-grid">
 
         <!-- Kinetic Drive -->
-        <a class="hc-card red" href="https://ebalderasr.github.io/Kinetic-Drive/" target="_blank" rel="noopener noreferrer">
-          <div class="hc-card-icon red">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EA4335" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"/>
-              <path d="M12 8v4l3 3"/>
-              <path d="M3.6 9h1.8M18.6 9h1.8M12 3v1.8M12 19.2V21"/>
-            </svg>
+        <a class="md-card md-card--tertiary" href="https://ebalderasr.github.io/Kinetic-Drive/" target="_blank" rel="noopener noreferrer" aria-label="Abrir Kinetic Drive">
+          <div class="md-state-layer" aria-hidden="true"></div>
+          <div class="md-card__media">
+            <div class="md-card__icon-container md-card__icon-container--tertiary">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B3FAB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 8v4l3 3"/>
+              </svg>
+            </div>
           </div>
-          <div class="hc-card-name">Kinetic Drive</div>
-          <p class="hc-card-desc">
-            Simula la cinética de crecimiento microbiano con modelos de Monod en
-            reactores batch, fed-batch y continuo con visualización interactiva de
-            trayectorias y parámetros.
-          </p>
-          <span class="hc-card-cta red">
-            Abrir
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </span>
+          <div class="md-card__body">
+            <div class="md-card__title">Kinetic Drive</div>
+            <p class="md-card__supporting">Simula la cinética de crecimiento microbiano con modelos de Monod en reactores batch, fed-batch y continuo con visualización interactiva.</p>
+          </div>
+          <div class="md-card__actions">
+            <span class="md-card__action-btn">
+              Abrir
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </span>
+          </div>
         </a>
 
         <!-- BioReact Lite -->
-        <a class="hc-card red" href="https://bioreact.streamlit.app/" target="_blank" rel="noopener noreferrer">
-          <div class="hc-card-icon red">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EA4335" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19V8a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v11"/>
-              <line x1="2" y1="19" x2="22" y2="19"/>
-              <line x1="10" y1="8" x2="10" y2="15"/>
-              <line x1="14" y1="8" x2="14" y2="15"/>
-            </svg>
+        <a class="md-card md-card--tertiary" href="https://bioreact.streamlit.app/" target="_blank" rel="noopener noreferrer" aria-label="Abrir BioReact Lite">
+          <div class="md-state-layer" aria-hidden="true"></div>
+          <div class="md-card__media">
+            <div class="md-card__icon-container md-card__icon-container--tertiary">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B3FAB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 19V8a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v11"/>
+                <line x1="2" y1="19" x2="22" y2="19"/>
+                <line x1="10" y1="8" x2="10" y2="15"/>
+                <line x1="14" y1="8" x2="14" y2="15"/>
+              </svg>
+            </div>
           </div>
-          <div class="hc-card-name">BioReact Lite</div>
-          <p class="hc-card-desc">
-            Explora de forma interactiva la dinámica de quimiostatos y el análisis
-            de estabilidad local con cinética de Monod, eigenvalores y plano de fase.
-          </p>
-          <span class="hc-card-cta red">
-            Abrir
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </span>
+          <div class="md-card__body">
+            <div class="md-card__title">BioReact Lite</div>
+            <p class="md-card__supporting">Explora de forma interactiva la dinámica de quimiostatos y el análisis de estabilidad local con cinética de Monod, eigenvalores y plano de fase.</p>
+          </div>
+          <div class="md-card__actions">
+            <span class="md-card__action-btn">
+              Abrir
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </span>
+          </div>
         </a>
 
       </div>
     </section>
 
-  </main>
+  </div><!-- /.hc-content -->
 
   <!-- ══ FOOTER ══ -->
   <footer class="hc-footer">
-    <div class="hc-footer-inner">
-      <div class="hc-footer-suite">
-        <span class="hc-footer-name">HostCell Lab Suite</span>
-        <span class="hc-footer-slogan">Practical tools for high-performance biotechnology</span>
+    <div class="hc-footer__inner">
+      <div class="hc-footer__brand">
+        <span class="hc-footer__name">HostCell Lab Suite</span>
+        <span class="hc-footer__slogan">Practical tools for high-performance biotechnology</span>
       </div>
-      <span class="hc-footer-author">© Emiliano Balderas Ramírez</span>
+      <span class="hc-footer__author">© Emiliano Balderas Ramírez</span>
       <a href="https://github.com/ebalderasr"
          target="_blank" rel="noopener noreferrer"
-         class="hc-footer-github">
+         class="hc-footer__github">
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
-             viewBox="0 0 24 24" fill="currentColor" aria-label="GitHub">
+             viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839
           9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605
           -3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62
@@ -317,10 +408,11 @@
           0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2
           12 2Z"/>
         </svg>
-        GitHub
+        <span>GitHub</span>
       </a>
     </div>
   </footer>
 
+  <script src="app.js"></script>
 </body>
 </html>
