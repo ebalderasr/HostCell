@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Emiliano Balderas Ramírez — Bioengineer & Data Scientist, PhD Candidate UNAM, creador de Host Cell Lab Suite." />
+  <title>Acerca de · Host Cell Lab Suite</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ── About page ─────────────────────────────────────────── */
+
+    /* Profile hero */
+    .ab-hero {
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+      padding: 4.5rem 2rem 3.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ab-hero__bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .ab-hero__bg-blob { position: absolute; border-radius: 50%; opacity: 0.35; }
+    .ab-hero__bg-blob:nth-child(1) {
+      width: 340px; height: 340px; top: -100px; right: -60px;
+      background: radial-gradient(circle, #A0B9FF 0%, transparent 70%);
+    }
+    .ab-hero__bg-blob:nth-child(2) {
+      width: 260px; height: 260px; bottom: -90px; left: -50px;
+      background: radial-gradient(circle, #7FF8D2 0%, transparent 70%);
+    }
+    .ab-hero__bg-blob:nth-child(3) {
+      width: 180px; height: 180px; top: 25%; left: 8%;
+      background: radial-gradient(circle, #ECDDFF 0%, transparent 70%); opacity: 0.5;
+    }
+
+    .ab-hero__content {
+      position: relative; z-index: 1;
+      max-width: 640px; margin: 0 auto;
+    }
+
+    /* Profile photo */
+    .ab-avatar {
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      border: 4px solid var(--md-surface-container-lowest);
+      box-shadow: var(--md-elevation-3);
+      margin: 0 auto 1.5rem;
+      display: block;
+    }
+
+    /* MD3 Display Small */
+    .ab-hero__name {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: clamp(1.7rem, 4vw, 2.4rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      color: var(--md-on-primary-container);
+      margin-bottom: 0.5rem;
+    }
+
+    /* MD3 Title Large */
+    .ab-hero__title {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: color-mix(in srgb, var(--md-on-primary-container) 78%, transparent);
+      margin-bottom: 1.75rem;
+      line-height: 1.5;
+    }
+
+    .ab-hero__chips {
+      display: flex; justify-content: center; flex-wrap: wrap;
+      gap: 0.5rem; margin-bottom: 1.75rem;
+    }
+
+    /* Social links */
+    .ab-hero__socials {
+      display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;
+    }
+
+    .ab-social-btn {
+      position: relative;
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 0.55rem 1.25rem;
+      border-radius: var(--md-shape-full);
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.006em;
+      overflow: hidden;
+      transition: box-shadow var(--md-duration-short) var(--md-easing-standard);
+    }
+
+    .ab-social-btn--linkedin {
+      background: #0A66C2; color: #FFFFFF;
+      box-shadow: var(--md-elevation-1);
+    }
+
+    .ab-social-btn--github {
+      background: #1e2330; color: #FFFFFF;
+      box-shadow: var(--md-elevation-1);
+    }
+
+    .ab-social-btn::before {
+      content: ''; position: absolute; inset: 0; background: #FFFFFF; opacity: 0;
+      transition: opacity var(--md-duration-short) var(--md-easing-standard);
+    }
+    .ab-social-btn:hover::before { opacity: 0.1; }
+    .ab-social-btn:hover { box-shadow: var(--md-elevation-2); }
+    .ab-social-btn svg, .ab-social-btn span { position: relative; z-index: 1; }
+
+    /* ── Content ─────────────────────────────────────────────── */
+    .ab-content {
+      max-width: 800px; margin: 0 auto;
+      padding: 3rem 1.5rem 3rem;
+    }
+
+    /* Section block */
+    .ab-section { margin-bottom: 3.5rem; }
+
+    .ab-section__label {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 0.35rem 1rem 0.35rem 0.5rem;
+      border-radius: var(--md-shape-full);
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.006em;
+      margin-bottom: 1.25rem;
+    }
+
+    .ab-section__label-dot {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--md-primary); color: var(--md-on-primary);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* MD3 Headline Medium */
+    .ab-section__title {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 1.5rem; font-weight: 400; letter-spacing: 0;
+      color: var(--md-on-surface); line-height: 1.3;
+      margin-bottom: 1rem;
+    }
+
+    /* About text */
+    .ab-bio p {
+      font-size: 0.9375rem; line-height: 1.7;
+      letter-spacing: 0.02em;
+      color: var(--md-on-surface-variant);
+      margin-bottom: 1rem;
+    }
+    .ab-bio p:last-child { margin-bottom: 0; }
+
+    /* Expertise chips */
+    .ab-expertise-grid {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem;
+    }
+
+    .ab-expertise-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 0.45rem 1rem;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.02em;
+      color: var(--md-on-surface-variant);
+    }
+
+    .ab-expertise-chip svg { opacity: 0.65; flex-shrink: 0; }
+
+    /* ── Education Timeline ───────────────────────────────────── */
+    .ab-timeline { display: flex; flex-direction: column; gap: 0; }
+
+    .ab-timeline-item {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 0 1rem;
+      position: relative;
+    }
+
+    /* Vertical line */
+    .ab-timeline-item:not(:last-child) .ab-tl-left::after {
+      content: '';
+      position: absolute;
+      left: 23px;
+      top: 48px;
+      bottom: 0;
+      width: 2px;
+      background: var(--md-outline-variant);
+    }
+
+    .ab-tl-left {
+      display: flex; flex-direction: column; align-items: center;
+      padding-top: 4px;
+      position: relative;
+    }
+
+    .ab-tl-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      border: 2px solid var(--md-outline-variant);
+      background: var(--md-surface-container-lowest);
+      overflow: hidden;
+    }
+
+    .ab-tl-icon--active {
+      border-color: var(--md-primary);
+      background: var(--md-primary-container);
+    }
+
+    /* Logo inside icon */
+    .ab-tl-icon img { width: 28px; height: 28px; object-fit: contain; border-radius: 4px; }
+
+    .ab-tl-right { padding-bottom: 2.25rem; }
+
+    .ab-tl-card {
+      background: var(--md-surface-container-low);
+      border-radius: var(--md-shape-lg);
+      border: 1px solid var(--md-outline-variant);
+      padding: 1.1rem 1.25rem;
+      box-shadow: var(--md-elevation-1);
+    }
+
+    .ab-tl-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 0.75rem; margin-bottom: 0.4rem; flex-wrap: wrap;
+    }
+
+    .ab-tl-degree {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 0.9375rem; font-weight: 500; letter-spacing: 0.009em;
+      color: var(--md-on-surface); line-height: 1.3;
+    }
+
+    .ab-tl-badge {
+      display: inline-flex; align-items: center;
+      padding: 0.2rem 0.65rem;
+      border-radius: var(--md-shape-full);
+      font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.03em;
+      flex-shrink: 0;
+    }
+
+    .ab-tl-badge--active {
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+    }
+
+    .ab-tl-badge--done {
+      background: var(--md-surface-container);
+      color: var(--md-on-surface-variant);
+    }
+
+    .ab-tl-institution {
+      font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.01em;
+      color: var(--md-primary); margin-bottom: 0.25rem;
+    }
+
+    .ab-tl-dates {
+      font-size: 0.75rem; letter-spacing: 0.02em;
+      color: var(--md-on-surface-variant); margin-bottom: 0.75rem;
+    }
+
+    .ab-tl-details {
+      font-size: 0.8125rem; line-height: 1.6; letter-spacing: 0.02em;
+      color: var(--md-on-surface-variant);
+    }
+
+    .ab-tl-details ul {
+      list-style: none; padding: 0; margin: 0.35rem 0 0;
+      display: flex; flex-direction: column; gap: 0.25rem;
+    }
+
+    .ab-tl-details li {
+      display: flex; align-items: flex-start; gap: 0.5rem;
+    }
+
+    .ab-tl-details li::before {
+      content: '';
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--md-primary); flex-shrink: 0; margin-top: 0.45em;
+    }
+
+    /* ── Certification card ───────────────────────────────────── */
+    .ab-cert-card {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--md-surface-container-low);
+      border-radius: var(--md-shape-lg);
+      border: 1px solid var(--md-outline-variant);
+      padding: 1.1rem 1.25rem;
+      box-shadow: var(--md-elevation-1);
+    }
+
+    .ab-cert-icon {
+      width: 48px; height: 48px; border-radius: var(--md-shape-md);
+      background: var(--md-primary-container);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ab-cert-body { min-width: 0; }
+
+    .ab-cert-name {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 0.9375rem; font-weight: 500; letter-spacing: 0.009em;
+      color: var(--md-on-surface); margin-bottom: 0.2rem;
+    }
+
+    .ab-cert-issuer {
+      font-size: 0.8125rem; font-weight: 500;
+      color: var(--md-primary); margin-bottom: 0.2rem;
+    }
+
+    .ab-cert-meta {
+      font-size: 0.75rem; letter-spacing: 0.02em;
+      color: var(--md-on-surface-variant);
+    }
+
+    /* ── Skills ──────────────────────────────────────────────── */
+    .ab-skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .ab-skill-chip {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0.75rem 1rem;
+      background: var(--md-surface-container-low);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-md);
+      box-shadow: var(--md-elevation-1);
+    }
+
+    .ab-skill-icon {
+      width: 32px; height: 32px; border-radius: var(--md-shape-sm);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ab-skill-icon--blue   { background: var(--md-primary-container); }
+    .ab-skill-icon--teal   { background: var(--md-secondary-container); }
+    .ab-skill-icon--violet { background: var(--md-tertiary-container); }
+    .ab-skill-icon--amber  { background: #FFF3E0; }
+
+    .ab-skill-name {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.009em;
+      color: var(--md-on-surface);
+    }
+
+    /* Back link */
+    .ab-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 0.5rem 1rem;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container);
+      color: var(--md-on-surface-variant);
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.006em;
+      border: 1px solid var(--md-outline-variant);
+      transition: box-shadow var(--md-duration-short) var(--md-easing-standard);
+      margin-bottom: 2rem;
+    }
+
+    .ab-back:hover { box-shadow: var(--md-elevation-1); }
+
+    /* Responsive */
+    @media (max-width: 680px) {
+      .ab-hero { padding: 3rem 1.25rem 2.5rem; }
+      .ab-avatar { width: 110px; height: 110px; }
+      .ab-content { padding: 2rem 1rem; }
+      .ab-timeline-item { grid-template-columns: 36px 1fr; }
+      .ab-tl-icon { width: 36px; height: 36px; }
+      .ab-timeline-item:not(:last-child) .ab-tl-left::after { left: 17px; top: 40px; }
+      .ab-skills-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 400px) {
+      .ab-skills-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ MD3 TOP APP BAR ══ -->
+  <header class="md-top-app-bar" id="app-bar">
+    <div class="md-top-app-bar__row">
+
+      <div class="md-top-app-bar__leading">
+        <a href="index.html" class="hc-logo-mark" aria-label="Ir al inicio" style="text-decoration:none">
+          <div class="hc-logo-dot" style="background:#1558D6"></div>
+          <div class="hc-logo-dot" style="background:#B3261E"></div>
+          <div class="hc-logo-dot" style="background:#FBBC04"></div>
+          <div class="hc-logo-dot" style="background:#006B53"></div>
+        </a>
+        <div class="hc-brand">
+          <span class="hc-brand__name">Host Cell Lab Suite</span>
+          <span class="hc-brand__tagline">Practical tools for high-performance biotechnology</span>
+        </div>
+      </div>
+
+      <a class="md-button-tonal" href="index.html#tools">Herramientas</a>
+
+    </div>
+  </header>
+
+  <!-- ══ PROFILE HERO ══ -->
+  <section class="ab-hero" aria-label="Perfil">
+
+    <div class="ab-hero__bg" aria-hidden="true">
+      <div class="ab-hero__bg-blob"></div>
+      <div class="ab-hero__bg-blob"></div>
+      <div class="ab-hero__bg-blob"></div>
+    </div>
+
+    <div class="ab-hero__content">
+
+      <img
+        class="ab-avatar"
+        src="assets/profile.jpg"
+        alt="Emiliano Balderas Ramírez frente al Instituto de Biotecnología, UNAM"
+        loading="eager"
+      />
+
+      <h1 class="ab-hero__name">Emiliano Balderas Ramírez</h1>
+
+      <p class="ab-hero__title">
+        Bioengineer &amp; Data Scientist<br>
+        Bioprocess Engineering · Bioinformatics · Machine Learning
+      </p>
+
+      <div class="ab-hero__chips" role="list">
+        <div class="hc-assist-chip" role="listitem">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          PhD Candidate
+        </div>
+        <div class="hc-assist-chip" role="listitem">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          UNAM · IBt
+        </div>
+        <div class="hc-assist-chip" role="listitem">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
+          Data Scientist Associate
+        </div>
+      </div>
+
+      <div class="ab-hero__socials">
+        <a class="ab-social-btn ab-social-btn--linkedin"
+           href="https://www.linkedin.com/in/emilianobalderas/"
+           target="_blank" rel="noopener noreferrer"
+           aria-label="LinkedIn de Emiliano Balderas">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+          <span>LinkedIn</span>
+        </a>
+        <a class="ab-social-btn ab-social-btn--github"
+           href="https://github.com/ebalderasr"
+           target="_blank" rel="noopener noreferrer"
+           aria-label="GitHub de Emiliano Balderas">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ CONTENT ══ -->
+  <div class="ab-content">
+
+    <!-- Back link -->
+    <a class="ab-back" href="index.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+      </svg>
+      Volver a las herramientas
+    </a>
+
+    <!-- ── About ── -->
+    <section class="ab-section" aria-labelledby="about-title">
+      <div class="ab-section__label">
+        <div class="ab-section__label-dot">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        Acerca de mí
+      </div>
+
+      <div class="ab-bio">
+        <p>
+          Soy Ingeniero en Biotecnología y Científico de Datos con maestría por la UNAM,
+          combinando experiencia profunda en ingeniería de bioprocesos con sólidas habilidades
+          en programación y análisis de datos.
+        </p>
+        <p>
+          Desarrollo pipelines de datos, modelos predictivos y algoritmos científicos aplicados
+          a sistemas biológicos — desde modelado de cultivos celulares continuos hasta análisis
+          de literatura científica sobre COVID-19 con NLP.
+        </p>
+        <p>
+          Me apasiona tender puentes entre la biología y la computación para resolver problemas
+          reales en salud y biotecnología. Estoy abierto a colaboraciones de investigación,
+          roles en la industria y proyectos de biotech basados en datos.
+        </p>
+      </div>
+
+      <div class="ab-expertise-grid" role="list">
+        <div class="ab-expertise-chip" role="listitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg>
+          Ingeniería de Bioprocesos
+        </div>
+        <div class="ab-expertise-chip" role="listitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          Cultivo de Células de Mamífero
+        </div>
+        <div class="ab-expertise-chip" role="listitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Data Science &amp; ML
+        </div>
+        <div class="ab-expertise-chip" role="listitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          Bioinformática
+        </div>
+        <div class="ab-expertise-chip" role="listitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Publicación Científica
+        </div>
+        <div class="ab-expertise-chip" role="listitem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8M12 8v8"/></svg>
+          Ingeniería Metabólica
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Skills ── -->
+    <section class="ab-section" aria-labelledby="skills-title">
+      <div class="ab-section__label">
+        <div class="ab-section__label-dot">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        Habilidades
+      </div>
+
+      <div class="ab-skills-grid">
+        <div class="ab-skill-chip">
+          <div class="ab-skill-icon ab-skill-icon--amber">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <span class="ab-skill-name">Python</span>
+        </div>
+        <div class="ab-skill-chip">
+          <div class="ab-skill-icon ab-skill-icon--blue">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
+          <span class="ab-skill-name">SQL</span>
+        </div>
+        <div class="ab-skill-chip">
+          <div class="ab-skill-icon ab-skill-icon--blue">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </div>
+          <span class="ab-skill-name">Scikit-learn</span>
+        </div>
+        <div class="ab-skill-chip">
+          <div class="ab-skill-icon ab-skill-icon--teal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <span class="ab-skill-name">Pandas</span>
+        </div>
+        <div class="ab-skill-chip">
+          <div class="ab-skill-icon ab-skill-icon--teal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="12" r="4.5"/><circle cx="16" cy="12" r="4.5"/><line x1="12" y1="7.5" x2="12" y2="16.5"/></svg>
+          </div>
+          <span class="ab-skill-name">Bioprocesamiento</span>
+        </div>
+        <div class="ab-skill-chip">
+          <div class="ab-skill-icon ab-skill-icon--violet">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B3FAB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="8 17 12 13 16 17"/><polyline points="8 11 12 7 16 11"/></svg>
+          </div>
+          <span class="ab-skill-name">Bioinformática</span>
+        </div>
+        <div class="ab-skill-chip">
+          <div class="ab-skill-icon ab-skill-icon--amber">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          </div>
+          <span class="ab-skill-name">JavaScript</span>
+        </div>
+        <div class="ab-skill-chip">
+          <div class="ab-skill-icon ab-skill-icon--violet">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B3FAB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <span class="ab-skill-name">Publicación Científica</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Education ── -->
+    <section class="ab-section" aria-labelledby="edu-title">
+      <div class="ab-section__label">
+        <div class="ab-section__label-dot">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        Formación académica
+      </div>
+
+      <div class="ab-timeline">
+
+        <!-- PhD UNAM — en curso -->
+        <div class="ab-timeline-item">
+          <div class="ab-tl-left">
+            <div class="ab-tl-icon ab-tl-icon--active" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+              </svg>
+            </div>
+          </div>
+          <div class="ab-tl-right">
+            <div class="ab-tl-card">
+              <div class="ab-tl-header">
+                <span class="ab-tl-degree">Doctor en Bioquímica (PhD)</span>
+                <span class="ab-tl-badge ab-tl-badge--active">En curso</span>
+              </div>
+              <div class="ab-tl-institution">Universidad Nacional Autónoma de México</div>
+              <div class="ab-tl-dates">Jul 2023 – May 2027</div>
+              <div class="ab-tl-details">
+                Instituto de Biotecnología — Departamento de Ingeniería Celular y Biocatálisis.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MSc UNAM -->
+        <div class="ab-timeline-item">
+          <div class="ab-tl-left">
+            <div class="ab-tl-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#44474F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+              </svg>
+            </div>
+          </div>
+          <div class="ab-tl-right">
+            <div class="ab-tl-card">
+              <div class="ab-tl-header">
+                <span class="ab-tl-degree">Maestría en Ciencias Bioquímicas (MSc)</span>
+                <span class="ab-tl-badge ab-tl-badge--done">Titulado</span>
+              </div>
+              <div class="ab-tl-institution">Universidad Nacional Autónoma de México</div>
+              <div class="ab-tl-dates">Ago 2018 – Dic 2021</div>
+              <div class="ab-tl-details">
+                Calificación: 95/100 · Graduado con Honores · Beca CONACyT
+                <ul>
+                  <li>Tesis: Conversión de xilosa a etanol en levaduras termotolerantes (<em>Saccharomyces cerevisiae</em>)</li>
+                  <li>Laboratorio de Ingeniería de Rutas Metabólicas — grupo del Dr. Alfredo Martínez Jiménez</li>
+                  <li>Cursos: Biología Molecular, Bioquímica, Ingeniería de Rutas Metabólicas, Perl para Biociencias</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BSc Tec de Monterrey -->
+        <div class="ab-timeline-item">
+          <div class="ab-tl-left">
+            <div class="ab-tl-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#44474F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+              </svg>
+            </div>
+          </div>
+          <div class="ab-tl-right">
+            <div class="ab-tl-card">
+              <div class="ab-tl-header">
+                <span class="ab-tl-degree">Ingeniería en Biotecnología (BSc)</span>
+                <span class="ab-tl-badge ab-tl-badge--done">Titulado</span>
+              </div>
+              <div class="ab-tl-institution">Tecnológico de Monterrey</div>
+              <div class="ab-tl-dates">Ago 2012 – May 2017</div>
+              <div class="ab-tl-details">
+                Calificación: 91/100 · Beca completa SEDENA
+                <ul>
+                  <li>Cursos: Diagnóstico Molecular I y II, Mejoramiento Genético, Procesos Biotecnológicos</li>
+                  <li>Desarrollo profesional en Biología Molecular</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DataCamp -->
+        <div class="ab-timeline-item">
+          <div class="ab-tl-left">
+            <div class="ab-tl-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#44474F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/>
+              </svg>
+            </div>
+          </div>
+          <div class="ab-tl-right">
+            <div class="ab-tl-card">
+              <div class="ab-tl-header">
+                <span class="ab-tl-degree">Data Science Professional Track</span>
+                <span class="ab-tl-badge ab-tl-badge--done">Completado</span>
+              </div>
+              <div class="ab-tl-institution">DataCamp</div>
+              <div class="ab-tl-dates">Jun 2020 – Jul 2023</div>
+              <div class="ab-tl-details">
+                Python, JavaScript y herramientas de Data Science. Incluye certificación Data Scientist Associate (Jul 2023).
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Certification ── -->
+    <section class="ab-section" aria-labelledby="cert-title">
+      <div class="ab-section__label">
+        <div class="ab-section__label-dot">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+          </svg>
+        </div>
+        Certificación
+      </div>
+
+      <div class="ab-cert-card">
+        <div class="ab-cert-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+          </svg>
+        </div>
+        <div class="ab-cert-body">
+          <div class="ab-cert-name">Data Scientist Associate</div>
+          <div class="ab-cert-issuer">DataCamp</div>
+          <div class="ab-cert-meta">Expedida: Jul 2023 · ID: DSA0012626645377</div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /.ab-content -->
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="hc-footer">
+    <div class="hc-footer__inner">
+      <div class="hc-footer__brand">
+        <span class="hc-footer__name">HostCell Lab Suite</span>
+        <span class="hc-footer__slogan">Practical tools for high-performance biotechnology</span>
+      </div>
+      <span class="hc-footer__author">© Emiliano Balderas Ramírez</span>
+      <a href="https://github.com/ebalderasr"
+         target="_blank" rel="noopener noreferrer"
+         class="hc-footer__github">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+             viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839
+          9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605
+          -3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62
+          .069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341
+          1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113
+          -4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098
+          -2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59
+          0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202
+          2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695
+          -4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747
+          0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2
+          12 2Z"/>
+        </svg>
+        <span>GitHub</span>
+      </a>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
