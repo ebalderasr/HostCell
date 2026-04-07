@@ -118,8 +118,7 @@ HostCell/
 
 **Emiliano Balderas Ramírez**  
 Bioengineer · Programmer · PhD Candidate in Biochemical Sciences  
-Instituto de Biotecnología (IBt), UNAM · Lab of Cellular Engineering and Biocatalysis  
-Supervisor: [Dr. Tonatiuh Ramírez](https://orcid.org/0000-0001-9005-3496)
+Instituto de Biotecnología (IBt), UNAM
 
 [![Portfolio](https://img.shields.io/badge/🌐_Portfolio-ebalderasr.github.io-007AFF?style=flat-square)](https://ebalderasr.github.io/ebalderasr/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-emilianobalderas-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/emilianobalderas/)
@@ -132,6 +131,16 @@ Supervisor: [Dr. Tonatiuh Ramírez](https://orcid.org/0000-0001-9005-3496)
 Each tool in the suite has its own repository with full documentation:
 
 [**CellSplit**](https://github.com/ebalderasr/CellSplit) · [**PulseGrowth**](https://github.com/ebalderasr/PulseGrowth) · [**MolarPrep**](https://github.com/ebalderasr/MolarPrep) · [**DiluteIt**](https://github.com/ebalderasr/DiluteIt) · [**Flowjo Sweetspot Web**](https://github.com/ebalderasr/flowjo-sweetspot-web) · [**Clonalyzer 2**](https://github.com/ebalderasr/Clonalyzer-2) · [**Kinetic Drive**](https://github.com/ebalderasr/Kinetic-Drive) · [**BioReact**](https://github.com/ebalderasr/BioReact)
+
+---
+
+## Acknowledgements
+
+This work was supported by:
+
+- **SECIHTI** — Secretaría de Ciencia, Humanidades, Tecnología e Innovación (doctoral fellowship)
+- **PAPIIT IT201524** — Programa de Apoyo a Proyectos de Investigación e Innovación Tecnológica, UNAM
+- **Instituto de Biotecnología, UNAM** — host institution and research infrastructure
 
 ---
 

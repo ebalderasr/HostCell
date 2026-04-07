@@ -420,6 +420,40 @@
 
     .ab-skill-sub em { font-style: italic; }
 
+    /* ── Funding cards ──────────────────────────────────────── */
+    .ab-funding-grid {
+      display: flex; flex-direction: column; gap: 0.75rem;
+    }
+
+    .ab-funding-card {
+      display: flex; align-items: flex-start; gap: 1rem;
+      background: var(--md-surface-container-low);
+      border-radius: var(--md-shape-lg);
+      border: 1px solid var(--md-outline-variant);
+      padding: 1.1rem 1.25rem;
+      box-shadow: var(--md-elevation-1);
+    }
+
+    .ab-funding-icon {
+      width: 44px; height: 44px; border-radius: var(--md-shape-md);
+      background: var(--md-primary-container);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+
+    .ab-funding-body { min-width: 0; }
+
+    .ab-funding-name {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 0.9375rem; font-weight: 500; letter-spacing: 0.009em;
+      color: var(--md-on-surface); margin-bottom: 0.2rem;
+    }
+
+    .ab-funding-desc {
+      font-size: 0.8125rem; line-height: 1.55; letter-spacing: 0.02em;
+      color: var(--md-on-surface-variant);
+    }
+
     /* Back link */
     .ab-back {
       display: inline-flex; align-items: center; gap: 6px;
@@ -1066,6 +1100,62 @@
           <div class="ab-cert-issuer">DataCamp</div>
           <div class="ab-cert-meta">Expedida: Jul 2023 · ID: DSA0012626645377</div>
         </div>
+      </div>
+    </section>
+
+    <!-- ── Funding ── -->
+    <section class="ab-section" aria-labelledby="funding-title">
+      <div class="ab-section__label">
+        <div class="ab-section__label-dot">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+            <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+          </svg>
+        </div>
+        Funding &amp; Support
+      </div>
+
+      <h2 class="ab-section__title" id="funding-title">Acknowledgements</h2>
+
+      <div class="ab-funding-grid">
+
+        <div class="ab-funding-card">
+          <div class="ab-funding-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <div class="ab-funding-body">
+            <div class="ab-funding-name">SECIHTI</div>
+            <div class="ab-funding-desc">Secretaría de Ciencia, Humanidades, Tecnología e Innovación — doctoral fellowship supporting this research.</div>
+          </div>
+        </div>
+
+        <div class="ab-funding-card">
+          <div class="ab-funding-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+              <line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
+            </svg>
+          </div>
+          <div class="ab-funding-body">
+            <div class="ab-funding-name">PAPIIT IT201524</div>
+            <div class="ab-funding-desc">Programa de Apoyo a Proyectos de Investigación e Innovación Tecnológica, UNAM — project grant funding the experimental and computational work of this thesis.</div>
+          </div>
+        </div>
+
+        <div class="ab-funding-card">
+          <div class="ab-funding-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <div class="ab-funding-body">
+            <div class="ab-funding-name">Instituto de Biotecnología, UNAM</div>
+            <div class="ab-funding-desc">Host institution providing research infrastructure, laboratory facilities, and the academic environment in which this project was conceived and developed.</div>
+          </div>
+        </div>
+
       </div>
     </section>
 
