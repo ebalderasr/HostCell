@@ -454,6 +454,39 @@
       color: var(--md-on-surface-variant);
     }
 
+    /* ── Tab navigation ──────────────────────────────────────── */
+    .ab-tab-bar {
+      display: flex;
+      border-bottom: 1px solid var(--md-outline-variant);
+      margin-bottom: 2.5rem;
+    }
+
+    .ab-tab {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      padding: 0.875rem 1rem;
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 0.875rem; font-weight: 500; letter-spacing: 0.006em;
+      color: var(--md-on-surface-variant);
+      background: none; border: none; cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.2s, border-color 0.2s, background 0.15s;
+    }
+
+    .ab-tab:hover:not(.ab-tab--active) {
+      background: var(--md-surface-container);
+      color: var(--md-on-surface);
+    }
+
+    .ab-tab--active {
+      color: var(--md-primary);
+      border-bottom-color: var(--md-primary);
+    }
+
+    .ab-tab-panel { display: none; }
+    .ab-tab-panel--active { display: block; }
+
     /* Back link */
     .ab-back {
       display: inline-flex; align-items: center; gap: 6px;
@@ -584,6 +617,27 @@
       </svg>
       Volver a las herramientas
     </a>
+
+    <!-- Tab bar -->
+    <div class="ab-tab-bar" role="tablist">
+      <button class="ab-tab ab-tab--active" role="tab" aria-selected="true"
+              data-panel="panel-profile" id="tab-btn-profile">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+        Profile
+      </button>
+      <button class="ab-tab" role="tab" aria-selected="false"
+              data-panel="panel-funding" id="tab-btn-funding">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        Acknowledgements
+      </button>
+    </div>
+
+    <!-- ── Panel: Profile ── -->
+    <div id="panel-profile" class="ab-tab-panel ab-tab-panel--active" role="tabpanel" aria-labelledby="tab-btn-profile">
 
     <!-- ── About ── -->
     <section class="ab-section" aria-labelledby="about-title">
@@ -1103,6 +1157,11 @@
       </div>
     </section>
 
+    </div><!-- /.panel-profile -->
+
+    <!-- ── Panel: Acknowledgements ── -->
+    <div id="panel-funding" class="ab-tab-panel" role="tabpanel" aria-labelledby="tab-btn-funding">
+
     <!-- ── Funding ── -->
     <section class="ab-section" aria-labelledby="funding-title">
       <div class="ab-section__label">
@@ -1159,6 +1218,8 @@
       </div>
     </section>
 
+    </div><!-- /.panel-funding -->
+
   </div><!-- /.ab-content -->
 
   <!-- ══ FOOTER ══ -->
@@ -1193,5 +1254,21 @@
   </footer>
 
   <script src="app.js"></script>
+  <script>
+    // Tab switching
+    const abTabs   = document.querySelectorAll('.ab-tab');
+    const abPanels = document.querySelectorAll('.ab-tab-panel');
+
+    abTabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        abTabs.forEach(b => { b.classList.remove('ab-tab--active'); b.setAttribute('aria-selected', 'false'); });
+        abPanels.forEach(p => p.classList.remove('ab-tab-panel--active'));
+        btn.classList.add('ab-tab--active');
+        btn.setAttribute('aria-selected', 'true');
+        document.getElementById(btn.dataset.panel).classList.add('ab-tab-panel--active');
+        window.scrollTo({ top: document.querySelector('.ab-tab-bar').offsetTop - 80, behavior: 'smooth' });
+      });
+    });
+  </script>
 </body>
 </html>
