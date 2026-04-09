@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flowjo Sweetspot Web — Análisis de Citometría de Flujo | Host Cell Lab Suite</title>
-  <meta name="description" content="Flowjo Sweetspot Web analiza distribuciones de fluorescencia de citometría de flujo y determina el punto óptimo de expresión proteica para la selección de clones celulares productores." />
+  <title>FlowJo SweetSpot Web — Optimización de Paneles de Colorantes Fisiológicos para CHO | Host Cell Lab Suite</title>
+  <meta name="description" content="FlowJo SweetSpot Web optimiza concentraciones de colorantes fisiológicos (TMRM, Bodipy, CellRox) para citometría de flujo funcional en CHO. Usa una métrica Score propia porque los colorantes no generan bimodalidad y el Stain Index clásico no aplica." />
   <link rel="canonical" href="https://hostcell.app/tools/flowjo-sweetspot.html" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,7 +24,7 @@
           </svg>
         </a>
         <div class="hc-brand">
-          <span class="hc-brand__name">Flowjo Sweetspot Web</span>
+          <span class="hc-brand__name">FlowJo SweetSpot Web</span>
           <span class="hc-brand__tagline">Host Cell Lab Suite</span>
         </div>
       </div>
@@ -56,56 +56,70 @@
           <line x1="19" y1="12" x2="22" y2="12"/>
         </svg>
       </div>
-      <h1 class="tool-hero__title">Flowjo Sweetspot Web</h1>
-      <p class="tool-hero__tagline">Identifica el punto óptimo de expresión proteica en tus clones candidatos usando datos de citometría de flujo, directamente en el navegador.</p>
+      <h1 class="tool-hero__title">FlowJo SweetSpot Web</h1>
+      <p class="tool-hero__tagline">Optimización de concentraciones para paneles de colorantes fisiológicos en CHO. El Stain Index clásico no funciona con colorantes — esta herramienta usa una métrica diseñada para ellos.</p>
     </div>
   </section>
 
   <!-- ══ CONTENT ══ -->
   <div class="tool-content">
+
+    <!-- Feature chips -->
+    <div class="tool-feature-row" aria-label="Características principales">
+      <span class="tool-feature-chip">TMRM · Bodipy · CellRox · GFP</span>
+      <span class="tool-feature-chip">Score propio (no SI clásico)</span>
+      <span class="tool-feature-chip">Detección de saturación</span>
+      <span class="tool-feature-chip">Soporte multi-clon</span>
+      <span class="tool-feature-chip">Plotly interactivo</span>
+      <span class="tool-feature-chip">CSV / XLSX · Sin datos al servidor</span>
+    </div>
+
     <div class="tool-info-grid">
 
       <div class="tool-info-card tool-info-card--secondary">
         <div class="tool-info-card__label">Qué es</div>
-        <div class="tool-info-card__title">Herramienta de análisis de citometría de flujo para selección de clones expresores</div>
+        <div class="tool-info-card__title">Optimizador de paneles de citometría funcional para cultivos CHO</div>
         <div class="tool-info-card__body">
-          Flowjo Sweetspot Web es una herramienta de análisis especializada para el procesamiento de datos de citometría de flujo en el contexto del desarrollo de líneas celulares productoras de proteínas recombinantes.
+          FlowJo SweetSpot Web determina la concentración óptima de cada colorante fisiológico en un panel de citometría de flujo funcional. Carga un export de titulación de FlowJo en formato CSV o XLSX e identifica la concentración que maximiza la fracción de células detectadas en el canal correcto mientras minimiza la contaminación espectral de los demás canales.
           <br><br>
-          El concepto de "sweetspot" se refiere a la región de la distribución de fluorescencia donde se concentra la mayor cantidad de células altamente expresoras y homogéneas: el punto ideal para seleccionar la subpoblación más productiva.
+          Corre enteramente en el navegador con JavaScript puro (Plotly.js + XLSX.js). Ningún dato sale de tu máquina.
+        </div>
+      </div>
+
+      <div class="tool-info-card tool-info-card--secondary">
+        <div class="tool-info-card__label">Por qué el SI clásico no aplica</div>
+        <div class="tool-info-card__title">Los colorantes fisiológicos cargan todas las células — no hay población negativa</div>
+        <div class="tool-info-card__body">
+          El Stain Index (SI) estándar mide la separación entre una población positiva y una negativa: funciona porque los anticuerpos conjugados <em>sí</em> crean bimodalidad (células que expresan el marcador vs. células que no).
+          <br><br>
+          Los colorantes fisiológicos —TMRM (potencial mitocondrial), Bodipy (lípidos), CellRox Deep Red (estrés oxidativo), GFP reportero— cargan <strong>todas las células</strong> según su estado metabólico actual. El resultado es una distribución continua sin subpoblación negativa biológica. Aumentar la concentración desplaza toda la distribución hacia arriba, infla artificialmente el SI y genera saturación del detector — ocultando la heterogeneidad que se quiere medir.
         </div>
       </div>
 
       <div class="tool-info-card tool-info-card--secondary">
         <div class="tool-info-card__label">Qué hace</div>
-        <div class="tool-info-card__title">Genera histogramas comparativos y estadísticas de expresión por clon</div>
+        <div class="tool-info-card__title">Calcula Score, detecta saturación y recomienda la concentración óptima para cada colorante</div>
         <div class="tool-info-card__body">
-          El usuario carga datos de fluorescencia exportados de FlowJo o archivos compatibles. La herramienta:
+          Para cada muestra (colorante × concentración × clon), el motor calcula:
           <ul>
-            <li>Genera histogramas interactivos de la distribución de fluorescencia</li>
-            <li>Calcula media, mediana, CV e intensidad relativa por clon</li>
-            <li>Compara múltiples clones en una sola vista</li>
-            <li>Resalta visualmente el sweetspot en la distribución de cada clon</li>
+            <li><strong>Freq_Signal</strong>: fracción de células capturadas en el canal objetivo</li>
+            <li><strong>Invasion_Total</strong>: fracción de células que aparecen en los canales vecinos por spillover espectral</li>
+            <li><strong>SI_factor</strong>: corrección por calidad mínima de señal (umbral configurable)</li>
+            <li><strong>Saturación</strong>: envolvente superior vs. límite del detector (Clip_Risk / Near_Clip)</li>
           </ul>
+          GFP se marca como <em>informational_only</em>: participa en el cálculo de invasión pero no se titrula concentración para él.
         </div>
       </div>
 
       <div class="tool-info-card tool-info-card--secondary">
-        <div class="tool-info-card__label">Por qué es importante</div>
-        <div class="tool-info-card__title">La selección del clon correcto define la productividad de todo el proceso biofarmacéutico</div>
+        <div class="tool-info-card__label">Cómo lo hace — la métrica Score</div>
+        <div class="tool-info-card__title">Frecuencia en canal correcto vs. invasión a canales vecinos, ponderada por calidad de señal</div>
         <div class="tool-info-card__body">
-          En el desarrollo de biofármacos, la selección del clon productor es el paso más estratégico: una diferencia de 2× en el titer del clon seleccionado puede significar millones de dólares en costos de producción downstream.
-          <br><br>
-          La citometría de flujo permite analizar miles de células individuales, pero interpretar esas distribuciones comparativamente es difícil sin herramientas visuales adecuadas. Flowjo Sweetspot Web llena ese vacío sin requerir licencias de software costosas.
-        </div>
-      </div>
-
-      <div class="tool-info-card tool-info-card--secondary">
-        <div class="tool-info-card__label">Cómo lo hace</div>
-        <div class="tool-info-card__title">Kernel density estimation y análisis comparativo de distribuciones de fluorescencia</div>
-        <div class="tool-info-card__body">
-          La herramienta procesa los datos de fluorescencia crudos y aplica kernel density estimation (KDE) para generar histogramas suavizados que revelan la estructura real de la distribución, libre de artefactos de binning.
-          <br><br>
-          El sweetspot se identifica como la región de mayor densidad relativa en el cuartil superior de expresión. El análisis comparativo normaliza las intensidades entre clones para permitir comparaciones directas independientemente de la calibración del citómetro.
+          El Score captura el balance real del experimento:
+          <code class="tool-formula">Score = Freq_Signal / (1 + Invasion_Total) × SI_factor</code>
+          <code class="tool-formula">SI_factor = clamp(SI / SI_mín, 0, 1)</code>
+          <code class="tool-formula">UpperEnvelope = MFI+ + 2 × rSD+  → Clip_Risk si ≥ detector_max</code>
+          El algoritmo de selección filtra primero las concentraciones con riesgo de saturación, luego restringe al pool donde SI ≥ SI_mín, y elige arg max(Score). La concentración ganadora es la que pone más células en el canal correcto con el menor spillover posible, dado que la señal supera el piso de calidad mínimo.
         </div>
       </div>
 
@@ -113,9 +127,9 @@
 
     <!-- CTA -->
     <div class="tool-cta">
-      <p class="tool-cta__label">Análisis de citometría en el navegador, sin FlowJo, sin R, sin instalación</p>
+      <p class="tool-cta__label">Carga tu export de titulación de FlowJo y encuentra el sweet spot.</p>
       <a class="md-button-filled md-button-filled--large md-button-filled--secondary" href="https://ebalderasr.github.io/flowjo-sweetspot-web/" target="_blank" rel="noopener noreferrer">
-        Ir a Flowjo Sweetspot Web
+        Ir a FlowJo SweetSpot Web
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
           <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>

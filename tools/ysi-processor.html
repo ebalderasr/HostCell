@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YSI Processor — Procesador de Datos del Analizador YSI 2950 | Host Cell Lab Suite</title>
-  <meta name="description" content="YSI Processor transforma los archivos CSV del analizador metabólico YSI 2950 en gráficas limpias y tablas de metabolitos (glucosa, lactato, glutamina) con tasas específicas de consumo y producción." />
+  <title>YSI Processor — QC de Réplicas para Exports del YSI 2950 BioSample | Host Cell Lab Suite</title>
+  <meta name="description" content="YSI Processor agrupa réplicas, detecta outliers con tres métodos independientes (Z-Score modificado, IQR, Leave-One-Out CV) y etiqueta cada lectura como PASS, CLEANED, REVIEW o FAIL. La pregunta que responde: ¿puedo confiar en esta lectura?" />
   <link rel="canonical" href="https://hostcell.app/tools/ysi-processor.html" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -54,59 +54,92 @@
         </svg>
       </div>
       <h1 class="tool-hero__title">YSI Processor</h1>
-      <p class="tool-hero__tagline">Convierte los archivos crudos del YSI 2950 en visualizaciones claras de metabolitos y tasas específicas de consumo y producción para tus cultivos celulares.</p>
+      <p class="tool-hero__tagline">¿Puedo confiar en esta lectura? Carga los exports BioSample del YSI 2950 y obtén QC de réplicas con etiquetas PASS · CLEANED · REVIEW · FAIL.</p>
     </div>
   </section>
 
   <!-- ══ CONTENT ══ -->
   <div class="tool-content">
+
+    <!-- Feature chips -->
+    <div class="tool-feature-row" aria-label="Características principales">
+      <span class="tool-feature-chip">3 métodos de detección de outliers</span>
+      <span class="tool-feature-chip">PASS · CLEANED · REVIEW · FAIL</span>
+      <span class="tool-feature-chip">Tabla pivote por pozo y analito</span>
+      <span class="tool-feature-chip">Multi-archivo · multi-secuencia</span>
+      <span class="tool-feature-chip">4 exports CSV</span>
+      <span class="tool-feature-chip">Python CLI disponible</span>
+    </div>
+
     <div class="tool-info-grid">
 
       <div class="tool-info-card tool-info-card--secondary">
         <div class="tool-info-card__label">Qué es</div>
-        <div class="tool-info-card__title">Un procesador y visualizador de datos del analizador metabólico YSI 2950</div>
+        <div class="tool-info-card__title">QC automatizado de réplicas para exports BioSample del analizador YSI 2950</div>
         <div class="tool-info-card__body">
-          YSI Processor es una herramienta web especializada para transformar los archivos de exportación del analizador de bioanálisis YSI 2950 en datos listos para análisis e interpretación. El YSI 2950 es el equipo estándar en laboratorios de cultivo celular para medir concentraciones de glucosa, lactato, glutamina y amonio.
-          <br><br>
-          La herramienta elimina el trabajo manual de formatear y graficar los datos exportados por el equipo, que en su formato crudo son difíciles de procesar directamente.
-        </div>
-      </div>
-
-      <div class="tool-info-card tool-info-card--secondary">
-        <div class="tool-info-card__label">Qué hace</div>
-        <div class="tool-info-card__title">Parsea, normaliza, visualiza y calcula tasas metabólicas específicas</div>
-        <div class="tool-info-card__body">
-          Al cargar el CSV del YSI 2950, la herramienta:
+          YSI Processor es una herramienta web para revisar la calidad de mediciones del analizador metabólico YSI 2950. Carga uno o más archivos <code>BioSample*.csv</code> exportados directamente del equipo y obtén:
           <ul>
-            <li>Identifica automáticamente los analitos medidos y sus unidades</li>
-            <li>Grafica la concentración de cada metabolito vs. tiempo de cultivo</li>
-            <li>Calcula tasas específicas de consumo (qGluc, qGln) y producción (qLac, qNH₄)</li>
-            <li>Permite comparar múltiples lotes o condiciones en la misma gráfica</li>
-            <li>Exporta los datos procesados a CSV para análisis posterior</li>
+            <li>Grupos de réplicas con media, SD y CV por pozo y analito</li>
+            <li>Detección automatizada de outliers con recomendación de descarte</li>
+            <li>Tabla pivote con una fila por pozo y grupos de columnas por analito</li>
+            <li>Exports CSV listos para reportes o análisis posterior</li>
           </ul>
+          Todo corre localmente en el navegador. Ningún dato sale de tu máquina.
         </div>
       </div>
 
       <div class="tool-info-card tool-info-card--secondary">
         <div class="tool-info-card__label">Por qué es importante</div>
-        <div class="tool-info-card__title">El monitoreo metabólico es la señal más sensible del estado fisiológico del cultivo</div>
+        <div class="tool-info-card__title">La revisión manual de réplicas del YSI consume tiempo y produce decisiones inconsistentes</div>
         <div class="tool-info-card__body">
-          Las tasas de consumo de glucosa y glutamina, y la producción de lactato y amonio, son los indicadores más sensibles y rápidos del estado metabólico de las células en un biorreactor. Detectar cambios en estos perfiles permite:
+          El flujo de trabajo típico con el YSI 2950 implica revisar manualmente cada sesión:
           <ul>
-            <li>Ajustar estrategias de alimentación en tiempo real</li>
-            <li>Detectar problemas de cultivo antes de que afecten la productividad</li>
-            <li>Comparar la eficiencia metabólica entre clones o condiciones</li>
+            <li>Exportar CSVs crudos y abrirlos en hoja de cálculo</li>
+            <li>Verificar si réplicas de diferentes secuencias de placa pertenecen a la misma muestra</li>
+            <li>Calcular media, SD y CV manualmente</li>
+            <li>Adivinar cuál réplica causó un CV alto</li>
+            <li>Reformatear todo para el reporte final</li>
           </ul>
+          YSI Processor reduce toda esa fricción a un solo drop de archivo. La pregunta central que responde: <strong>¿puedo confiar en esta lectura, y si no, cuál réplica debo re-inspeccionar?</strong>
         </div>
       </div>
 
       <div class="tool-info-card tool-info-card--secondary">
-        <div class="tool-info-card__label">Cómo lo hace</div>
-        <div class="tool-info-card__title">Parseo del formato YSI, alineación temporal e integración con datos de VCD</div>
+        <div class="tool-info-card__label">Cómo agrupa y evalúa réplicas</div>
+        <div class="tool-info-card__title">Agrupación por Batch + Pozo + Analito con tres pruebas independientes de outlier</div>
         <div class="tool-info-card__body">
-          YSI Processor parsea el formato específico de exportación del YSI 2950, que incluye múltiples encabezados, identificadores de muestra y variaciones de unidades entre mediciones. Alinea las mediciones de analitos con los puntos de muestreo del cultivo para calcular deltas de concentración entre tiempos consecutivos.
+          Las filas se agrupan por <strong>BatchName + WellId + ChemistryId</strong>. Esto une correctamente las mediciones del mismo pozo físico aunque provengan de diferentes secuencias de placa dentro del mismo batch.
           <br><br>
-          Las tasas específicas (q, en mmol/10⁹ células/h) se obtienen normalizando los deltas de concentración por el IVCD entre puntos de muestreo, que el usuario puede cargar junto con los datos del YSI.
+          Sobre cada grupo (mínimo 3 réplicas) se aplican tres pruebas independientes:
+
+          <div class="tool-module-title">Z-Score Modificado</div>
+          Usa mediana y MAD — robusto a distribuciones no normales.
+          <code class="tool-formula">|0.6745 × (valor − mediana) / MAD| &gt; umbral</code>
+
+          <div class="tool-module-title">IQR Fence</div>
+          Marca valores fuera de Q1 − k×IQR o Q3 + k×IQR.
+
+          <div class="tool-module-title">Leave-One-Out CV</div>
+          Prueba si eliminar cada réplica reduce el CV del grupo por debajo del umbral. Solo se marca el candidato que produce la mayor mejora.
+        </div>
+      </div>
+
+      <div class="tool-info-card tool-info-card--secondary">
+        <div class="tool-info-card__label">Estados y salidas</div>
+        <div class="tool-info-card__title">Etiquetas de calidad por pozo/analito y tabla pivote lista para copiar a Excel</div>
+        <div class="tool-info-card__body">
+          Cada grupo pozo+analito recibe uno de cuatro estados:
+
+          <div class="tool-module-title">PASS</div>
+          CV bajo el umbral, sin flags.
+          <div class="tool-module-title">CLEANED</div>
+          Outlier descartado; el CV limpio ahora pasa.
+          <div class="tool-module-title">REVIEW</div>
+          CV sobre umbral pero sin un outlier identificable.
+          <div class="tool-module-title">FAIL</div>
+          CV sobre umbral incluso después de eliminar la peor réplica.
+
+          La tabla pivote muestra una fila por pozo con columnas de Media, SD, CV% y estado por analito. Las filas FAIL y REVIEW aparecen primero. Se exportan cuatro archivos CSV: resumen, detalle por réplica, outliers y manifiesto de archivos.
         </div>
       </div>
 
@@ -114,7 +147,7 @@
 
     <!-- CTA -->
     <div class="tool-cta">
-      <p class="tool-cta__label">Procesa tus datos del YSI 2950 en segundos, sin Excel, sin Python</p>
+      <p class="tool-cta__label">Carga tus archivos BioSample CSV — obtén tu QC de réplicas al instante.</p>
       <a class="md-button-filled md-button-filled--large md-button-filled--secondary" href="https://ebalderasr.github.io/ysi-processor/" target="_blank" rel="noopener noreferrer">
         Ir a YSI Processor
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -135,7 +168,7 @@
       <span class="hc-footer__author">© Emiliano Balderas Ramírez</span>
       <a href="https://github.com/ebalderasr" target="_blank" rel="noopener noreferrer" class="hc-footer__github">
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"/>
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"/>
         </svg>
         <span>GitHub</span>
       </a>

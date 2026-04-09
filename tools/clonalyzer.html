@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Clonalyzer 2 — Comparación y Selección de Clones Celulares | Host Cell Lab Suite</title>
-  <meta name="description" content="Clonalyzer 2 compara clones celulares por productividad, crecimiento y eficiencia metabólica. Genera rankings objetivos y visualizaciones comparativas para seleccionar el candidato óptimo en desarrollo de biofármacos." />
+  <title>Clonalyzer 2 — Análisis de Cinética de Fed-batch para Cultivos CHO | Host Cell Lab Suite</title>
+  <meta name="description" content="Clonalyzer 2 calcula más de 20 parámetros cinéticos (µ, qGlc, qLac, qP, rendimientos, IVCD) de cultivos fed-batch CHO. Corre Python real vía Pyodide/WebAssembly en el navegador. Sin instalación. Exporta ZIP y PDF listo para el cuaderno de laboratorio." />
   <link rel="canonical" href="https://hostcell.app/tools/clonalyzer.html" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,55 +52,77 @@
         </svg>
       </div>
       <h1 class="tool-hero__title">Clonalyzer 2</h1>
-      <p class="tool-hero__tagline">Compara clones celulares de forma objetiva e identifica el candidato más prometedor para producción de proteínas recombinantes.</p>
+      <p class="tool-hero__tagline">De CSV crudo a cinética completa de fed-batch en segundos. 20+ parámetros, gráficas publicables y reporte PDF — todo sin instalación, vía Python en el navegador.</p>
     </div>
   </section>
 
   <!-- ══ CONTENT ══ -->
   <div class="tool-content">
+
+    <!-- Feature chips -->
+    <div class="tool-feature-row" aria-label="Características principales">
+      <span class="tool-feature-chip">Python vía Pyodide · WebAssembly</span>
+      <span class="tool-feature-chip">20+ parámetros cinéticos</span>
+      <span class="tool-feature-chip">Modo lote y lote alimentado</span>
+      <span class="tool-feature-chip">4 familias de gráficas interactivas</span>
+      <span class="tool-feature-chip">Reporte PDF · ZIP descargable</span>
+      <span class="tool-feature-chip">Sin datos al servidor</span>
+    </div>
+
     <div class="tool-info-grid">
 
       <div class="tool-info-card tool-info-card--secondary">
         <div class="tool-info-card__label">Qué es</div>
-        <div class="tool-info-card__title">Plataforma de análisis multivariado para selección de clones productores</div>
+        <div class="tool-info-card__title">Análisis de cinética fed-batch para CHO — Python completo en el navegador vía WebAssembly</div>
         <div class="tool-info-card__body">
-          Clonalyzer 2 es una herramienta de decisión multiparámetro para el paso de selección de clones en el desarrollo de líneas celulares productoras de proteínas recombinantes (anticuerpos monoclonales, proteínas de fusión, enzimas terapéuticas).
+          Clonalyzer 2 es una herramienta de análisis cinético para cultivos fed-batch de CHO. Carga un CSV de mediciones y calcula más de 20 parámetros: tasas específicas (µ, qGlc, qLac, qP, qGln, qGlu), rendimientos metabólicos e integrales celulares (IVCD/ITVC). Genera gráficas interactivas con Plotly y empaqueta todo en un ZIP descargable o un reporte PDF listo para pegar en el cuaderno de laboratorio.
           <br><br>
-          Integra datos de productividad, crecimiento y metabolismo en un análisis visual y cuantitativo que reduce el sesgo en la selección y acelera la toma de decisiones.
-        </div>
-      </div>
-
-      <div class="tool-info-card tool-info-card--secondary">
-        <div class="tool-info-card__label">Qué hace</div>
-        <div class="tool-info-card__title">Genera rankings, diagramas de radar y gráficas comparativas de múltiples clones</div>
-        <div class="tool-info-card__body">
-          El usuario ingresa datos de los clones candidatos (VCD, viabilidad, titer de proteína, metabolitos). Clonalyzer 2:
-          <ul>
-            <li>Genera diagramas de radar para comparar perfiles completos clon a clon</li>
-            <li>Calcula una puntuación global ponderada y configurable por el usuario</li>
-            <li>Produce gráficas de dispersión productividad vs. crecimiento</li>
-            <li>Exporta el ranking y los datos procesados</li>
-          </ul>
+          Corre el stack científico de Python completo (Pandas, NumPy, SciPy, Plotly) a través de <strong>Pyodide</strong>, compilado a WebAssembly. Sin Python instalado. Sin pip. Sin servidor. Ningún dato sale de tu máquina.
         </div>
       </div>
 
       <div class="tool-info-card tool-info-card--secondary">
         <div class="tool-info-card__label">Por qué es importante</div>
-        <div class="tool-info-card__title">El clon seleccionado define el éxito o fracaso económico de todo el proceso</div>
+        <div class="tool-info-card__title">Extraer tasas específicas de un fed-batch solía ser horas de trabajo en hoja de cálculo</div>
         <div class="tool-info-card__body">
-          En el desarrollo de biofármacos, la selección del clon productor es irreversible una vez que el proceso entra en las etapas de escalado. Un clon con 30 % más de titer puede equivaler a una reducción significativa del costo de biomanufactura.
-          <br><br>
-          Sin embargo, la selección basada solo en titer puede ignorar clones con mejor estabilidad genética, menor consumo de glucosa o perfil de glicosilación más favorable. Clonalyzer 2 hace visible esta complejidad.
+          Después de cada corrida fed-batch, extraer parámetros cinéticos de datos del contador de viabilidad y el analizador de metabolitos típicamente significa horas de trabajo manual en spreadsheet — repetido para cada clon y réplica. Sin una herramienta dedicada:
+          <ul>
+            <li>Las tasas específicas deben calcularse intervalo por intervalo desde datos crudos de concentración y volumen</li>
+            <li>Los eventos de alimentación requieren corrección manual para no confundir dilución con actividad celular</li>
+            <li>Las comparaciones entre clones y estadísticas de réplicas se ensamblan a mano desde archivos separados</li>
+          </ul>
+          Clonalyzer 2 automatiza todo el pipeline en un solo drop de CSV. Lo que antes tomaba una tarde ahora toma menos de un minuto.
         </div>
       </div>
 
       <div class="tool-info-card tool-info-card--secondary">
-        <div class="tool-info-card__label">Cómo lo hace</div>
-        <div class="tool-info-card__title">Normalización multiparámetro y scoring ponderado con visualización interactiva</div>
+        <div class="tool-info-card__label">Dos modos de cálculo</div>
+        <div class="tool-info-card__title">Lote (concentraciones) y Lote alimentado (balance de masas híbrido)</div>
         <div class="tool-info-card__body">
-          Clonalyzer 2 normaliza cada parámetro al rango [0, 1] dentro del dataset para permitir comparaciones entre variables con distintas unidades. Aplica pesos configurables por el usuario (p. ej. 40 % titer, 30 % crecimiento, 30 % eficiencia metabólica) para calcular una puntuación compuesta.
-          <br><br>
-          Las visualizaciones (radar, dispersión, barras) se generan con gráficas interactivas directamente en el navegador, sin necesidad de software estadístico externo.
+          <div class="tool-module-title">Modo Lote — basado en concentraciones</div>
+          Normaliza por IVCD trapezoidal. No requiere datos de volumen.
+          <code class="tool-formula">ΔIVCD = (VCD₁ + VCD₂)/2 × Δt</code>
+          <code class="tool-formula">qᵢ = ΔCᵢ / ΔIVCD  [pg o pmol/célula/día]</code>
+
+          <div class="tool-module-title">Modo Lote alimentado — balance de masas híbrido</div>
+          Antes del primer evento de alimentación: usa concentraciones (igual que modo Lote). Desde el primer evento: cambia automáticamente a masas totales para aislar la actividad celular de la dilución por el bolo de alimentación.
+          <code class="tool-formula">Mᵢ = Cᵢ × V/1000   TC = VCD × V</code>
+          <code class="tool-formula">qᵢ = ΔMᵢ / ΔITVC  [pg o pmol/célula/día]</code>
+          Los intervalos de transición (FALSE → TRUE en <code>is_post_feed</code>) se excluyen completamente: el cambio aparente de concentración en ese punto refleja adición de medio, no metabolismo celular.
+        </div>
+      </div>
+
+      <div class="tool-info-card tool-info-card--secondary">
+        <div class="tool-info-card__label">Parámetros y salidas</div>
+        <div class="tool-info-card__title">20+ parámetros, 4 familias de gráficas, PDF y ZIP en un clic</div>
+        <div class="tool-info-card__body">
+          Parámetros calculados por intervalo y por clon:
+          <ul>
+            <li>µ (h⁻¹), qGlc, qLac, qP, qGln, qGlu (pmol/célula/día)</li>
+            <li>Rendimientos: Y<sub>Lac/Glc</sub>, Y<sub>Glu/Gln</sub></li>
+            <li>IVCD / ITVC, fluorescencia (GFP, TMRM, Bodipy, CellROX)</li>
+          </ul>
+          Gráficas interactivas: dispersión · media ± SD · barras de fase exponencial · correlaciones por pares configurables. Ventana de fase exponencial configurable (por defecto 0–96 h). El reporte PDF sale en formato compacto (8 gráficas/página, Letter portrait) o completo (1 gráfica/página, A4 landscape) con el logo de Clonalyzer.
         </div>
       </div>
 
@@ -108,7 +130,7 @@
 
     <!-- CTA -->
     <div class="tool-cta">
-      <p class="tool-cta__label">Selección de clones basada en datos, no en intuición</p>
+      <p class="tool-cta__label">Carga un CSV — obtén tu cinética. Sin instalación, sin scripts.</p>
       <a class="md-button-filled md-button-filled--large md-button-filled--secondary" href="https://ebalderasr.github.io/Clonalyzer-2/" target="_blank" rel="noopener noreferrer">
         Ir a Clonalyzer 2
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
