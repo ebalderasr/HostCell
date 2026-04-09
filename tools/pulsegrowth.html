@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PulseGrowth — Analizador de Curvas de Crecimiento Celular | Host Cell Lab Suite</title>
-  <meta name="description" content="PulseGrowth visualiza y analiza curvas de crecimiento celular: calcula µmax, IVCD, tiempo de duplicación e identifica las fases lag, exponencial y estacionaria de tus cultivos." />
+  <title>PulseGrowth — Cinética de Crecimiento y Tasas Metabólicas para Cultivo Celular | Host Cell Lab Suite</title>
+  <meta name="description" content="PulseGrowth convierte dos puntos de muestreo en métricas cinéticas completas: μ, tiempo de duplicación, IVCD, qGlc, qGln y volumen de corrección de alimentación. Tres módulos para el monitoreo diario de cultivos CHO." />
   <link rel="canonical" href="https://hostcell.app/tools/pulsegrowth.html" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,60 +52,88 @@
         </svg>
       </div>
       <h1 class="tool-hero__title">PulseGrowth</h1>
-      <p class="tool-hero__tagline">Analiza tus curvas de crecimiento celular y extrae parámetros cinéticos clave en segundos, directamente desde el navegador.</p>
+      <p class="tool-hero__tagline">Dos puntos de muestreo. Cinética completa: μ, t<sub>d</sub>, IVCD, qGlc, qGln y volumen de corrección de alimentación.</p>
     </div>
   </section>
 
   <!-- ══ CONTENT ══ -->
   <div class="tool-content">
+
+    <!-- Feature chips -->
+    <div class="tool-feature-row" aria-label="Características principales">
+      <span class="tool-feature-chip">3 módulos integrados</span>
+      <span class="tool-feature-chip">q normalizada por IVCD</span>
+      <span class="tool-feature-chip">Entradas en g/L o mM</span>
+      <span class="tool-feature-chip">Δt manual o por fecha</span>
+      <span class="tool-feature-chip">Bilingüe ES / EN</span>
+      <span class="tool-feature-chip">Offline-first PWA</span>
+    </div>
+
     <div class="tool-info-grid">
 
       <div class="tool-info-card">
         <div class="tool-info-card__label">Qué es</div>
-        <div class="tool-info-card__title">Un analizador de cinética de crecimiento para cultivos batch</div>
+        <div class="tool-info-card__title">Calculadora de cinética y tasas metabólicas para monitoreo de cultivos</div>
         <div class="tool-info-card__body">
-          PulseGrowth es una herramienta web para procesar datos de recuento celular y convertirlos en métricas cinéticas significativas. Está diseñada para cultivos batch de células de mamífero, aunque también es útil para levaduras y bacterias.
+          PulseGrowth convierte los datos de dos puntos de muestreo consecutivos en las métricas cinéticas y metabólicas necesarias para decisiones de pase, comparación de clones y correcciones de alimentación.
           <br><br>
-          No requiere instalación ni conocimientos de programación: el usuario carga sus datos y obtiene sus resultados de forma inmediata con visualizaciones interactivas.
-        </div>
-      </div>
-
-      <div class="tool-info-card">
-        <div class="tool-info-card__label">Qué hace</div>
-        <div class="tool-info-card__title">Genera gráficas, identifica fases de crecimiento y calcula µmax e IVCD</div>
-        <div class="tool-info-card__body">
-          A partir de datos de tiempo y densidad celular viable (VCD), PulseGrowth:
-          <ul>
-            <li>Visualiza la curva de crecimiento y viabilidad</li>
-            <li>Identifica y delimita las fases lag, exponencial y estacionaria</li>
-            <li>Calcula la tasa de crecimiento específica máxima (µmax) y el tiempo de duplicación (t<sub>d</sub>)</li>
-            <li>Integra la curva para obtener el IVCD (Integral Viable Cell Density)</li>
-          </ul>
+          Está organizado en tres módulos: <strong>Bio-Kinetics</strong> (μ, t<sub>d</sub>, IVCD), <strong>Metabolics</strong> (qGlc, qGln normalizadas por IVCD) y <strong>Feed Control</strong> (volumen de corrección en una sola adición). Los tres están diseñados para uso rápido en bancada durante operaciones de cultivo.
         </div>
       </div>
 
       <div class="tool-info-card">
         <div class="tool-info-card__label">Por qué es importante</div>
-        <div class="tool-info-card__title">Los parámetros cinéticos son la base del diseño racional de bioprocesos</div>
+        <div class="tool-info-card__title">Extraer métricas accionables de un muestreo rutinario requiere cálculos no triviales</div>
         <div class="tool-info-card__body">
-          Conocer µmax y el IVCD de un cultivo es indispensable para:
+          Cada muestreo genera un conteo celular y concentraciones de metabolitos. Sin una herramienta dedicada:
           <ul>
-            <li>Diseñar estrategias de alimentación (fed-batch)</li>
-            <li>Escalar el proceso de frascos a biorreactores</li>
-            <li>Comparar condiciones experimentales de forma objetiva</li>
-            <li>Correlacionar el IVCD con el titer de proteína recombinante</li>
+            <li>μ y t<sub>d</sub> deben derivarse manualmente de una expresión logarítmica</li>
+            <li>Las tasas específicas requieren normalización por IVCD, que raramente se calcula en bancada</li>
+            <li>Las conversiones de unidades (g/L → mM) se aplican de forma inconsistente, haciendo los valores de q incomparables entre corridas</li>
+            <li>Los volúmenes de corrección de alimentación se calculan por separado con otra fórmula</li>
           </ul>
-          Sin estas métricas, las decisiones de proceso se basan en intuición en lugar de datos cuantitativos.
+        </div>
+      </div>
+
+      <div class="tool-info-card">
+        <div class="tool-info-card__label">Módulo 1 — Bio-Kinetics</div>
+        <div class="tool-info-card__title">μ, tiempo de duplicación, factor de expansión e IVCD desde dos puntos</div>
+        <div class="tool-info-card__body">
+          Entradas: X₀, X₁ y Δt (en horas o días, o seleccionando fecha/hora de inicio y fin).
+          <code class="tool-formula">μ = ln(X₁ / X₀) / Δt</code>
+          <code class="tool-formula">t_d = ln(2) / μ</code>
+          <code class="tool-formula">IVCD = ((X₁ − X₀) / ln(X₁/X₀)) × Δt</code>
+          El IVCD (aproximación exponencial entre dos puntos) se transfiere automáticamente al Módulo 2 para el cálculo de tasas específicas.
+        </div>
+      </div>
+
+      <div class="tool-info-card">
+        <div class="tool-info-card__label">Módulo 2 — Metabolics</div>
+        <div class="tool-info-card__title">qGlc y qGln normalizadas por IVCD, con conversión automática de unidades</div>
+        <div class="tool-info-card__body">
+          Entradas: concentraciones de glucosa y/o glutamina como C₀ → C₁, en g/L o mM. La app convierte g/L a mM internamente (Glc: PM 180.156 g/mol; Gln: PM 146.145 g/mol) antes de calcular:
+          <code class="tool-formula">q = (ΔC / IVCD) × 24  [pmol/célula/día]</code>
+          Un valor positivo de q indica consumo neto (C₀ &gt; C₁). Ingresar los valores en g/L o mM produce resultados equivalentes porque las unidades se normalizan antes del cálculo.
+        </div>
+      </div>
+
+      <div class="tool-info-card">
+        <div class="tool-info-card__label">Módulo 3 — Feed Control</div>
+        <div class="tool-info-card__title">Volumen de corrección para restaurar la concentración objetivo en una sola adición</div>
+        <div class="tool-info-card__body">
+          Entradas: volumen del cultivo, concentración del stock, concentración actual y concentración objetivo.
+          <code class="tool-formula">V_feed = (C_target − C_current) × V_cultivo / (C_stock − C_target)</code>
+          Diseñado como estimador operativo rápido durante la operación del biorreactor, no como modelo dinámico completo de alimentación.
         </div>
       </div>
 
       <div class="tool-info-card">
         <div class="tool-info-card__label">Cómo lo hace</div>
-        <div class="tool-info-card__title">Regresión log-lineal e integración trapezoidal en el navegador</div>
+        <div class="tool-info-card__title">Modelo exponencial de crecimiento, integración analítica entre dos puntos</div>
         <div class="tool-info-card__body">
-          PulseGrowth detecta la fase exponencial aplicando una ventana deslizante sobre el logaritmo de la VCD y seleccionando el segmento con mejor ajuste lineal. De esa pendiente obtiene µmax (h⁻¹) y calcula t<sub>d</sub> = ln(2)/µmax.
+          PulseGrowth aplica el modelo de crecimiento exponencial para calcular μ a partir del cociente logarítmico entre dos densidades. El IVCD se obtiene de la integral analítica exacta de la curva exponencial entre X₀ y X₁ (no integración trapezoidal), que para dos puntos resulta en la expresión de la media logarítmica multiplicada por Δt.
           <br><br>
-          El IVCD se calcula por integración trapezoidal sobre la curva VCD vs. tiempo. Todo el procesamiento ocurre localmente en el navegador, sin necesidad de servidor.
+          Todo el procesamiento ocurre localmente en el navegador con JavaScript puro — sin servidor, sin dependencias externas, funciona sin conexión a internet.
         </div>
       </div>
 
@@ -113,7 +141,7 @@
 
     <!-- CTA -->
     <div class="tool-cta">
-      <p class="tool-cta__label">Disponible como PWA — sin instalación, sin registro</p>
+      <p class="tool-cta__label">Dos puntos de muestreo. Panorama cinético completo.</p>
       <a class="md-button-filled md-button-filled--large" href="https://ebalderasr.github.io/PulseGrowth/" target="_blank" rel="noopener noreferrer">
         Ir a PulseGrowth
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

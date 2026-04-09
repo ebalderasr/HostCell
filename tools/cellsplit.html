@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CellSplit — Calculadora de Subcultivo Celular | Host Cell Lab Suite</title>
-  <meta name="description" content="CellSplit calcula automáticamente los volúmenes de dilución y siembra para subcultivos de células de mamífero (CHO, HEK293, Vero). Mantén tus cultivos en fase exponencial con la densidad correcta." />
+  <title>CellSplit — Conteo Neubauer y Cálculo de Pase para Cultivos CHO | Host Cell Lab Suite</title>
+  <meta name="description" content="CellSplit convierte el conteo en cámara de Neubauer en densidad celular viable y calcula automáticamente el volumen de inóculo para el siguiente pase. Dos módulos enlazados para el mantenimiento diario de cultivos CHO." />
   <link rel="canonical" href="https://hostcell.app/tools/cellsplit.html" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -53,65 +53,76 @@
         </svg>
       </div>
       <h1 class="tool-hero__title">CellSplit</h1>
-      <p class="tool-hero__tagline">Calculadora de subcultivo para líneas celulares de mamífero. Siempre la densidad correcta, siempre en fase exponencial.</p>
+      <p class="tool-hero__tagline">Conteo en cámara de Neubauer y planificación de pase: dos módulos enlazados para el mantenimiento diario de cultivos CHO.</p>
     </div>
   </section>
 
   <!-- ══ CONTENT ══ -->
   <div class="tool-content">
+
+    <!-- Feature chips -->
+    <div class="tool-feature-row" aria-label="Características principales">
+      <span class="tool-feature-chip">2 módulos enlazados</span>
+      <span class="tool-feature-chip">Diagnóstico de conteo</span>
+      <span class="tool-feature-chip">Bilingüe ES / EN</span>
+      <span class="tool-feature-chip">Dark mode</span>
+      <span class="tool-feature-chip">Offline-first PWA</span>
+    </div>
+
     <div class="tool-info-grid">
 
       <div class="tool-info-card">
         <div class="tool-info-card__label">Qué es</div>
-        <div class="tool-info-card__title">Una calculadora de pase diseñada para el laboratorio de cultivo celular</div>
+        <div class="tool-info-card__title">Calculadora de conteo Neubauer y pase para cultivos de mamífero</div>
         <div class="tool-info-card__body">
-          CellSplit es una PWA (Progressive Web App) que determina los volúmenes exactos de células y medio fresco necesarios para cada subcultivo. Está optimizada para líneas celulares comunes en bioprocesos: CHO, HEK293, Vero y otras líneas de mamífero en suspensión o adherentes.
+          CellSplit cubre las dos operaciones aritméticas que se realizan en cada pase: convertir un conteo en cámara de Neubauer en densidad celular viable, y calcular el volumen de inóculo necesario para sembrar el siguiente frasco a la densidad objetivo.
           <br><br>
-          Funciona directamente en el navegador, sin instalación, y puede guardarse en la pantalla de inicio del dispositivo para acceso rápido desde bancada.
-        </div>
-      </div>
-
-      <div class="tool-info-card">
-        <div class="tool-info-card__label">Qué hace</div>
-        <div class="tool-info-card__title">Calcula volúmenes de transferencia, medio fresco y densidad proyectada</div>
-        <div class="tool-info-card__body">
-          Con unos pocos datos de entrada, CellSplit calcula automáticamente:
-          <ul>
-            <li>Volumen de suspensión a transferir al nuevo flask</li>
-            <li>Volumen de medio fresco a agregar</li>
-            <li>Densidad celular viable esperada al sembrar</li>
-            <li>Factor de dilución real aplicado</li>
-          </ul>
-          Los resultados se muestran de forma inmediata y se pueden copiar directamente al cuaderno de laboratorio.
+          Los dos módulos están enlazados: la concentración calculada en el Módulo 1 se transfiere automáticamente al Módulo 2, eliminando la transcripción entre pasos. Instalable como PWA para uso sin conexión dentro de la campana de bioseguridad.
         </div>
       </div>
 
       <div class="tool-info-card">
         <div class="tool-info-card__label">Por qué es importante</div>
-        <div class="tool-info-card__title">El control de la densidad de siembra es crítico para la reproducibilidad</div>
+        <div class="tool-info-card__title">Aritmética de pase bajo presión de tiempo, dentro de la campana</div>
         <div class="tool-info-card__body">
-          Las células CHO, por ejemplo, deben mantenerse típicamente entre 3 × 10⁵ y 1 × 10⁶ células viables/mL para permanecer en fase exponencial. Sembrar fuera de ese rango genera:
+          El mantenimiento de cultivos requiere cálculos repetitivos hechos a contrarreloj, a menudo sin acceso a una computadora. Sin una herramienta dedicada:
           <ul>
-            <li>Saturación o dilución excesiva del cultivo</li>
-            <li>Caída en viabilidad y acumulación de metabolitos</li>
-            <li>Resultados irreproducibles entre experimentos</li>
+            <li>Los cálculos se hacen a mano, introduciendo errores de transcripción</li>
+            <li>El volumen de inóculo se calcula por separado, a partir de valores recién anotados</li>
+            <li>No hay retroalimentación cuando el conteo cae fuera del rango estadísticamente confiable</li>
           </ul>
-          Errores de cálculo manual en subcultivos son una de las causas más frecuentes de variabilidad experimental en el laboratorio de cultivo celular.
+          CellSplit resuelve los tres problemas: valida el rango del conteo, calcula ambos resultados en un paso y lleva el resultado al siguiente módulo automáticamente.
         </div>
       </div>
 
       <div class="tool-info-card">
-        <div class="tool-info-card__label">Cómo lo hace</div>
-        <div class="tool-info-card__title">Ecuación de dilución aplicada a cultivo celular, al instante</div>
+        <div class="tool-info-card__label">Módulo 1 — Conteo celular</div>
+        <div class="tool-info-card__title">De cuadro Neubauer a VCD y viabilidad, con diagnóstico de calidad</div>
         <div class="tool-info-card__body">
-          CellSplit implementa la ecuación de dilución C₁V₁ = C₂V₂ ajustada para cultivo celular, considerando:
+          Entradas: células vivas, células muertas, número de cuadros contados y factor de dilución. CellSplit calcula:
           <ul>
-            <li>Densidad celular viable actual (VCD)</li>
-            <li>Viabilidad del cultivo (%)</li>
-            <li>Densidad de siembra objetivo</li>
-            <li>Volumen final del cultivo</li>
+            <li>Concentración viable (×10⁶ células/mL)</li>
+            <li>Viabilidad (%)</li>
+            <li>Diagnóstico de conteo: <em>Bajo</em> / <em>Óptimo</em> / <em>Alto</em></li>
           </ul>
-          Todo el cálculo ocurre en el cliente (navegador). No hay servidor, no hay red: funciona sin conexión a internet una vez cargada la página.
+          <code class="tool-formula">VCD = (Vivas / Cuadros) × Dilución × 10,000</code>
+          <code class="tool-formula">Viabilidad = Vivas / (Vivas + Muertas) × 100</code>
+          El factor 10,000 proviene de la geometría de la cámara Neubauer: 1 mm² × 0.1 mm de profundidad = 10⁻⁴ mL por cuadro. El rango óptimo es 10–50 células por cuadro.
+        </div>
+      </div>
+
+      <div class="tool-info-card">
+        <div class="tool-info-card__label">Módulo 2 — Planificación de pase</div>
+        <div class="tool-info-card__title">Volumen de inóculo y medio fresco para sembrar a la densidad objetivo</div>
+        <div class="tool-info-card__body">
+          La concentración del Módulo 1 se pre-llena automáticamente. El usuario define el volumen total del cultivo y la densidad de siembra objetivo. CellSplit devuelve:
+          <ul>
+            <li>Volumen de inóculo a transferir (V₁)</li>
+            <li>Volumen de medio fresco a agregar (V_fresco)</li>
+          </ul>
+          <code class="tool-formula">V₁ = (C₂ × V₂) / C₁</code>
+          <code class="tool-formula">V_fresco = V₂ − V₁</code>
+          La app devuelve error si la densidad objetivo es mayor que la densidad actual del cultivo (C₂ &gt; C₁), evitando diluciones inversa imposibles.
         </div>
       </div>
 
@@ -119,7 +130,7 @@
 
     <!-- CTA -->
     <div class="tool-cta">
-      <p class="tool-cta__label">Disponible como PWA — ábrela desde cualquier dispositivo</p>
+      <p class="tool-cta__label">PWA instalable — funciona sin conexión dentro de la campana de bioseguridad</p>
       <a class="md-button-filled md-button-filled--large" href="https://ebalderasr.github.io/CellSplit/" target="_blank" rel="noopener noreferrer">
         Ir a CellSplit
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

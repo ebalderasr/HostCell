@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MolarPrep — Calculadora de Soluciones Molares | Host Cell Lab Suite</title>
-  <meta name="description" content="MolarPrep calcula masas, volúmenes y concentraciones molares para preparar reactivos, buffers y medios de cultivo en el laboratorio. Rápido, preciso, sin instalación." />
+  <title>MolarPrep — Calculadora de Preparación de Soluciones Stock | Host Cell Lab Suite</title>
+  <meta name="description" content="MolarPrep calcula la masa a pesar para soluciones molares (reactivos sólidos) y el volumen a pipetear de stocks líquidos definidos por densidad y pureza. Dos módulos con escalado automático de unidades." />
   <link rel="canonical" href="https://hostcell.app/tools/molarprep.html" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -54,55 +54,71 @@
         </svg>
       </div>
       <h1 class="tool-hero__title">MolarPrep</h1>
-      <p class="tool-hero__tagline">Preparación de reactivos y buffers sin errores. Convierte entre unidades de concentración y calcula masas y volúmenes al instante.</p>
+      <p class="tool-hero__tagline">Ingresa tu objetivo de concentración, obtén la masa a pesar o el volumen a pipetear — con escalado automático de unidades.</p>
     </div>
   </section>
 
   <!-- ══ CONTENT ══ -->
   <div class="tool-content">
+
+    <!-- Feature chips -->
+    <div class="tool-feature-row" aria-label="Características principales">
+      <span class="tool-feature-chip">Módulo sólido y módulo líquido</span>
+      <span class="tool-feature-chip">Escalado auto g/mg/µg · L/mL/µL</span>
+      <span class="tool-feature-chip">M · mM · µM · nM</span>
+      <span class="tool-feature-chip">Validación de entradas</span>
+      <span class="tool-feature-chip">Bilingüe ES / EN</span>
+      <span class="tool-feature-chip">Offline-first PWA</span>
+    </div>
+
     <div class="tool-info-grid">
 
       <div class="tool-info-card">
         <div class="tool-info-card__label">Qué es</div>
-        <div class="tool-info-card__title">Una calculadora de soluciones molares para el laboratorio bioquímico</div>
+        <div class="tool-info-card__title">Calculadora de preparación de soluciones para los dos escenarios más comunes de laboratorio</div>
         <div class="tool-info-card__body">
-          MolarPrep es una PWA enfocada en las conversiones más comunes al preparar reactivos de laboratorio: de molaridad a gramos, de stock concentrado a solución de trabajo, y entre unidades de concentración (M, mM, µM, g/L, %, w/v).
+          MolarPrep cubre las dos situaciones de preparación de reactivos más frecuentes: pesar un sólido para alcanzar una molaridad objetivo, y pipetear el volumen correcto de un reactivo líquido definido por densidad y pureza (como ácidos concentrados o solventes orgánicos).
           <br><br>
-          Incluye una base de datos de compuestos comunes en bioprocesos para autocompletar el peso molecular, acelerando el flujo de trabajo en bancada.
-        </div>
-      </div>
-
-      <div class="tool-info-card">
-        <div class="tool-info-card__label">Qué hace</div>
-        <div class="tool-info-card__title">Calcula masas, volúmenes y concentraciones para preparar cualquier solución</div>
-        <div class="tool-info-card__body">
-          MolarPrep cubre los escenarios más frecuentes en laboratorio:
-          <ul>
-            <li>¿Cuántos gramos pesar para preparar X mL de solución Y molar?</li>
-            <li>¿Cuánto volumen de stock tomar para obtener la concentración deseada?</li>
-            <li>Conversión entre M, mM, µM, g/L y porcentaje (w/v)</li>
-            <li>Preparación de buffers con múltiples componentes</li>
-          </ul>
+          Ambos módulos manejan el escalado de unidades internamente y seleccionan automáticamente el prefijo más práctico para el resultado (g, mg o µg; L, mL o µL). Los valores no válidos o vacíos devuelven <code>ERR</code> sin calcular.
         </div>
       </div>
 
       <div class="tool-info-card">
         <div class="tool-info-card__label">Por qué es importante</div>
-        <div class="tool-info-card__title">La correcta preparación de reactivos es la base de todo experimento reproducible</div>
+        <div class="tool-info-card__title">Preparar stocks requiere conversiones multi-paso que se colapsan frecuentemente bajo presión de tiempo</div>
         <div class="tool-info-card__body">
-          Un error en la concentración de un buffer o reactivo propaga incertidumbre a todas las mediciones del experimento. Errores de unidades (confundir mM con µM, o g/L con %) son comunes cuando se hacen los cálculos de forma manual o con una calculadora genérica.
-          <br><br>
-          MolarPrep reduce este riesgo al ofrecer una interfaz específica para química de soluciones, con validación de unidades integrada.
+          Preparar soluciones stock involucra conversiones de unidades en cascada que son fuente frecuente de errores, especialmente cuando se trabaja a través de escalas de concentración (M, mM, µM, nM). Sin una herramienta dedicada:
+          <ul>
+            <li>El cálculo de masa requiere convertir molaridad y volumen a unidades consistentes antes de aplicar m = M × V × MW</li>
+            <li>La preparación de reactivos líquidos involucra dos pasos (densidad + pureza → molaridad del stock, luego C₁V₁=C₂V₂) que frecuentemente se colapsan o calculan incorrectamente</li>
+            <li>La unidad de salida adecuada (g, mg, µg) debe elegirla el usuario, agregando otra decisión propensa a error</li>
+          </ul>
         </div>
       </div>
 
       <div class="tool-info-card">
-        <div class="tool-info-card__label">Cómo lo hace</div>
-        <div class="tool-info-card__title">Fórmulas fundamentales de química de soluciones con base de datos integrada</div>
+        <div class="tool-info-card__label">Módulo 1 — Reactivo sólido</div>
+        <div class="tool-info-card__title">Masa a pesar para alcanzar la molaridad y volumen objetivo</div>
         <div class="tool-info-card__body">
-          MolarPrep implementa las ecuaciones fundamentales: n = m/MM, C = n/V y C₁V₁ = C₂V₂. La base de datos de compuestos incluye pesos moleculares de reactivos comunes (glucosa, glutamina, NaCl, HEPES, PBS, entre otros) con autocompletado al escribir el nombre.
-          <br><br>
-          La interfaz detecta qué variable el usuario quiere calcular y despeja automáticamente la ecuación correcta, minimizando la posibilidad de error.
+          Entradas: molaridad objetivo, volumen final y peso molecular (PM). MolarPrep calcula la masa a pesar:
+          <code class="tool-formula">m = M × V × PM</code>
+          Unidades de molaridad soportadas: M, mM, µM, nM. Unidades de volumen: L, mL. La salida se escala automáticamente a g, mg o µg según la magnitud del resultado.
+        </div>
+      </div>
+
+      <div class="tool-info-card">
+        <div class="tool-info-card__label">Módulo 2 — Reactivo líquido</div>
+        <div class="tool-info-card__title">Volumen a pipetear de un stock concentrado definido por densidad y pureza</div>
+        <div class="tool-info-card__body">
+          Para reactivos líquidos (ácidos, solventes) sin molaridad declarada. Entradas: densidad (g/mL), pureza (fracción), PM, molaridad objetivo y volumen final.
+
+          <div class="tool-module-title">Paso A — Estimar molaridad del stock</div>
+          <code class="tool-formula">M₁ = (P × ρ × 1000) / PM</code>
+          donde P = fracción de pureza (ej. 0.98), ρ = densidad en g/mL.
+
+          <div class="tool-module-title">Paso B — Ecuación de dilución</div>
+          <code class="tool-formula">V₁ = (M₂ × V₂) / M₁</code>
+          La salida se escala automáticamente a L, mL o µL.
         </div>
       </div>
 
@@ -110,7 +126,7 @@
 
     <!-- CTA -->
     <div class="tool-cta">
-      <p class="tool-cta__label">Disponible como PWA — guárdala en tu teléfono para acceso rápido</p>
+      <p class="tool-cta__label">Ingresa tu objetivo, obtén tu masa o volumen.</p>
       <a class="md-button-filled md-button-filled--large" href="https://ebalderasr.github.io/MolarPrep/" target="_blank" rel="noopener noreferrer">
         Ir a MolarPrep
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

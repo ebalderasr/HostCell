@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DiluteIt — Generador de Diluciones Seriales | Host Cell Lab Suite</title>
-  <meta name="description" content="DiluteIt genera esquemas de dilución serial completos: concentraciones, volúmenes y factores de dilución para cada paso. Ideal para curvas de calibración, ELISA y preparación de estándares." />
+  <title>DiluteIt — Solver Universal de Diluciones C₁V₁=C₂V₂ | Host Cell Lab Suite</title>
+  <meta name="description" content="DiluteIt despeja cualquiera de las cuatro variables de la ecuación de dilución (C1, V1, C2, V2) con conversión automática de unidades entre M, mM, µM, mg/mL y %. Un solo cálculo, sin confusión de unidades." />
   <link rel="canonical" href="https://hostcell.app/tools/diluteit.html" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -53,56 +53,78 @@
         </svg>
       </div>
       <h1 class="tool-hero__title">DiluteIt</h1>
-      <p class="tool-hero__tagline">Genera esquemas de dilución serial completos en segundos. Sin errores de cálculo, listo para copiar al cuaderno de laboratorio.</p>
+      <p class="tool-hero__tagline">Elige la incógnita — C₁, V₁, C₂ o V₂ — ingresa las otras tres y obtén el resultado con conversión de unidades automática.</p>
     </div>
   </section>
 
   <!-- ══ CONTENT ══ -->
   <div class="tool-content">
+
+    <!-- Feature chips -->
+    <div class="tool-feature-row" aria-label="Características principales">
+      <span class="tool-feature-chip">Solver universal (C1, V1, C2, V2)</span>
+      <span class="tool-feature-chip">M · mM · µM · mg/mL · %</span>
+      <span class="tool-feature-chip">Validación de bases de concentración</span>
+      <span class="tool-feature-chip">Bilingüe ES / EN</span>
+      <span class="tool-feature-chip">Offline-first PWA</span>
+    </div>
+
     <div class="tool-info-grid">
 
       <div class="tool-info-card">
         <div class="tool-info-card__label">Qué es</div>
-        <div class="tool-info-card__title">Un planificador de diluciones seriales para uso en bancada</div>
+        <div class="tool-info-card__title">Solver universal para cualquiera de las cuatro variables de la ecuación de dilución</div>
         <div class="tool-info-card__body">
-          DiluteIt es una PWA que permite diseñar y documentar esquemas de dilución serial de forma rápida e intuitiva. Está pensada para el uso diario en el laboratorio: desde la preparación de estándares de proteína para un BCA hasta curvas de calibración para ELISA o citometría.
+          DiluteIt resuelve la ecuación de dilución C₁V₁ = C₂V₂ despejando cualquiera de sus cuatro variables. El usuario elige la incógnita, ingresa las otras tres con sus unidades, y la app calcula el resultado de forma inmediata.
           <br><br>
-          El resultado es una tabla lista para imprimir o trasladar directamente al cuaderno de experimentos, con todos los volúmenes calculados paso a paso.
-        </div>
-      </div>
-
-      <div class="tool-info-card">
-        <div class="tool-info-card__label">Qué hace</div>
-        <div class="tool-info-card__title">Genera la tabla completa de diluciones con concentraciones y volúmenes</div>
-        <div class="tool-info-card__body">
-          El usuario especifica la concentración inicial, el factor de dilución y el número de pasos. DiluteIt genera automáticamente:
-          <ul>
-            <li>Concentración resultante en cada punto</li>
-            <li>Volumen de muestra a tomar por paso</li>
-            <li>Volumen de diluyente a agregar en cada tubo</li>
-            <li>Volumen total de cada preparación</li>
-          </ul>
-          Compatible con factores de dilución enteros y no enteros (p. ej. 1:2.5, 1:3.16).
+          Maneja conversión de unidades dentro de bases de concentración compatibles (M · mM · µM, mg/mL, %) y valida que las entradas sean físicamente consistentes antes de calcular. No requiere instalación ni servidor: corre enteramente en el navegador.
         </div>
       </div>
 
       <div class="tool-info-card">
         <div class="tool-info-card__label">Por qué es importante</div>
-        <div class="tool-info-card__title">Los errores en diluciones son una fuente subvalorada de variabilidad experimental</div>
+        <div class="tool-info-card__title">Cuatro reorganizaciones de la misma ecuación, más conversión de unidades, es fuente constante de errores</div>
         <div class="tool-info-card__body">
-          Las diluciones seriales propagan errores multiplicativamente: un error del 5 % en el paso 1 puede convertirse en un error &gt;30 % en el paso 5. Además, las discrepancias entre cómo cada persona calcula "cuánto tomar" generan inconsistencias entre experimentos.
-          <br><br>
-          DiluteIt estandariza el proceso y documenta exactamente cómo se preparó cada dilución, facilitando la reproducibilidad y la revisión de datos.
+          Los cálculos de dilución están entre las operaciones más frecuentes en bancada, pero también son una fuente común de errores de pipeteo y transcripción. Sin una herramienta dedicada:
+          <ul>
+            <li>Las cuatro variantes de C₁V₁ = C₂V₂ deben recordarse o derivarse sobre la marcha</li>
+            <li>El escalado de unidades (M → mM → µM) agrega un paso manual propenso a error</li>
+            <li>No hay validación de que C₁ y C₂ usen bases de concentración compatibles</li>
+            <li>Los resultados en papel se pierden o mal leen bajo condiciones de laboratorio</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tool-info-card">
+        <div class="tool-info-card__label">Qué hace — casos de uso</div>
+        <div class="tool-info-card__title">Cuatro incógnitas, cuatro situaciones de laboratorio</div>
+        <div class="tool-info-card__body">
+          Según qué variable se desconoce, DiluteIt cubre los escenarios más frecuentes:
+
+          <div class="tool-module-title">¿Cuánto stock pipetear? → resuelve V₁</div>
+          Dado C₁ (stock), C₂ (concentración deseada) y V₂ (volumen final): <em>¿cuánto tomar?</em>
+
+          <div class="tool-module-title">¿Cuál es la concentración del stock? → resuelve C₁</div>
+          Retrocálculo de la concentración de una solución de partida desconocida.
+
+          <div class="tool-module-title">¿Qué concentración obtengo? → resuelve C₂</div>
+          Verifica qué concentración resulta de agregar un volumen conocido a un volumen total.
+
+          <div class="tool-module-title">¿A qué volumen llevar? → resuelve V₂</div>
+          Determina el volumen máximo al que puede diluirse un alícuota para alcanzar una densidad objetivo.
         </div>
       </div>
 
       <div class="tool-info-card">
         <div class="tool-info-card__label">Cómo lo hace</div>
-        <div class="tool-info-card__title">Aplicación iterativa de C₁V₁ = C₂V₂ con validación de volúmenes</div>
+        <div class="tool-info-card__title">Conservación del soluto con conversión de unidades y validación de bases</div>
         <div class="tool-info-card__body">
-          DiluteIt aplica la fórmula de dilución C₁V₁ = C₂V₂ de forma iterativa para cada paso de la serie. A partir del volumen final deseado en cada tubo y el factor de dilución, calcula cuánto se transfiere al siguiente paso.
-          <br><br>
-          La interfaz valida que los volúmenes sean pipeteables (p. ej. &gt;2 µL para micropipetas estándar) y alerta cuando los valores resultantes son imprácticos, evitando errores antes de empezar el experimento.
+          DiluteIt aplica la conservación de la cantidad de soluto y despeja la variable seleccionada:
+          <code class="tool-formula">V₁ = (C₂ × V₂) / C₁</code>
+          <code class="tool-formula">C₁ = (C₂ × V₂) / V₁</code>
+          <code class="tool-formula">C₂ = (C₁ × V₁) / V₂</code>
+          <code class="tool-formula">V₂ = (C₁ × V₁) / C₂</code>
+          C₁ y C₂ deben compartir la misma base de concentración; la app alerta si no es así. Las conversiones entre prefijos (M ↔ mM ↔ µM) se aplican internamente. Las unidades de volumen (L, mL, µL) se manejan independientemente y pueden diferir entre V₁ y V₂.
         </div>
       </div>
 
@@ -110,7 +132,7 @@
 
     <!-- CTA -->
     <div class="tool-cta">
-      <p class="tool-cta__label">Disponible como PWA — funciona sin conexión una vez cargada</p>
+      <p class="tool-cta__label">Elige tu incógnita, obtén tu respuesta.</p>
       <a class="md-button-filled md-button-filled--large" href="https://ebalderasr.github.io/DiluteIt/" target="_blank" rel="noopener noreferrer">
         Ir a DiluteIt
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

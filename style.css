@@ -801,6 +801,78 @@ a { text-decoration: none; color: inherit; }
 
 .tool-info-card__body li { margin-bottom: 0.3rem; }
 
+/* Formula block inside tool-info-card */
+.tool-formula {
+  display: block;
+  font-family: 'Roboto Mono', 'Courier New', monospace;
+  font-size: 0.8125rem;
+  background: var(--md-surface-container);
+  border-left: 3px solid var(--md-primary);
+  padding: 0.45rem 0.7rem;
+  border-radius: 0 var(--md-shape-sm) var(--md-shape-sm) 0;
+  margin: 0.45rem 0;
+  color: var(--md-on-surface);
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+.tool-info-card--secondary .tool-formula { border-left-color: var(--md-secondary); }
+.tool-info-card--tertiary  .tool-formula { border-left-color: var(--md-tertiary); }
+
+/* Module header inside card body */
+.tool-module-title {
+  font-family: 'Google Sans', 'Roboto', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--md-on-surface);
+  margin: 0.85rem 0 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tool-module-title:first-child { margin-top: 0; }
+
+.tool-module-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--md-shape-full);
+}
+
+.tool-info-card--secondary .tool-module-badge {
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+}
+
+/* Feature chips row */
+.tool-feature-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 2.5rem;
+}
+
+.tool-feature-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--md-shape-full);
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  color: var(--md-on-surface-variant);
+  box-shadow: var(--md-elevation-1);
+}
+
 /* CTA block */
 .tool-cta {
   text-align: center;
