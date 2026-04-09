@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DiluteIt — Generador de Diluciones Seriales | Host Cell Lab Suite</title>
+  <meta name="description" content="DiluteIt genera esquemas de dilución serial completos: concentraciones, volúmenes y factores de dilución para cada paso. Ideal para curvas de calibración, ELISA y preparación de estándares." />
+  <link rel="canonical" href="https://hostcell.app/tools/diluteit.html" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <!-- ══ TOP APP BAR ══ -->
+  <header class="md-top-app-bar" id="app-bar">
+    <div class="md-top-app-bar__row">
+      <div class="md-top-app-bar__leading">
+        <a class="md-icon-button" href="../index.html" aria-label="Volver al inicio">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </a>
+        <div class="hc-brand">
+          <span class="hc-brand__name">DiluteIt</span>
+          <span class="hc-brand__tagline">Host Cell Lab Suite</span>
+        </div>
+      </div>
+      <a class="md-button-tonal" href="https://ebalderasr.github.io/DiluteIt/" target="_blank" rel="noopener noreferrer">
+        Lanzar app
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- ══ HERO ══ -->
+  <section class="tool-hero tool-hero--primary">
+    <div class="tool-hero__bg" aria-hidden="true">
+      <div class="tool-hero__bg-blob"></div>
+      <div class="tool-hero__bg-blob"></div>
+    </div>
+    <div class="tool-hero__content">
+      <div class="tool-hero__badge">PWA · Bioprocesos</div>
+      <div class="tool-hero__icon" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 3h6l1 9H8L9 3z"/>
+          <path d="M8 12c0 0-2 2-2 5a6 6 0 0 0 12 0c0-3-2-5-2-5"/>
+        </svg>
+      </div>
+      <h1 class="tool-hero__title">DiluteIt</h1>
+      <p class="tool-hero__tagline">Genera esquemas de dilución serial completos en segundos. Sin errores de cálculo, listo para copiar al cuaderno de laboratorio.</p>
+    </div>
+  </section>
+
+  <!-- ══ CONTENT ══ -->
+  <div class="tool-content">
+    <div class="tool-info-grid">
+
+      <div class="tool-info-card">
+        <div class="tool-info-card__label">Qué es</div>
+        <div class="tool-info-card__title">Un planificador de diluciones seriales para uso en bancada</div>
+        <div class="tool-info-card__body">
+          DiluteIt es una PWA que permite diseñar y documentar esquemas de dilución serial de forma rápida e intuitiva. Está pensada para el uso diario en el laboratorio: desde la preparación de estándares de proteína para un BCA hasta curvas de calibración para ELISA o citometría.
+          <br><br>
+          El resultado es una tabla lista para imprimir o trasladar directamente al cuaderno de experimentos, con todos los volúmenes calculados paso a paso.
+        </div>
+      </div>
+
+      <div class="tool-info-card">
+        <div class="tool-info-card__label">Qué hace</div>
+        <div class="tool-info-card__title">Genera la tabla completa de diluciones con concentraciones y volúmenes</div>
+        <div class="tool-info-card__body">
+          El usuario especifica la concentración inicial, el factor de dilución y el número de pasos. DiluteIt genera automáticamente:
+          <ul>
+            <li>Concentración resultante en cada punto</li>
+            <li>Volumen de muestra a tomar por paso</li>
+            <li>Volumen de diluyente a agregar en cada tubo</li>
+            <li>Volumen total de cada preparación</li>
+          </ul>
+          Compatible con factores de dilución enteros y no enteros (p. ej. 1:2.5, 1:3.16).
+        </div>
+      </div>
+
+      <div class="tool-info-card">
+        <div class="tool-info-card__label">Por qué es importante</div>
+        <div class="tool-info-card__title">Los errores en diluciones son una fuente subvalorada de variabilidad experimental</div>
+        <div class="tool-info-card__body">
+          Las diluciones seriales propagan errores multiplicativamente: un error del 5 % en el paso 1 puede convertirse en un error &gt;30 % en el paso 5. Además, las discrepancias entre cómo cada persona calcula "cuánto tomar" generan inconsistencias entre experimentos.
+          <br><br>
+          DiluteIt estandariza el proceso y documenta exactamente cómo se preparó cada dilución, facilitando la reproducibilidad y la revisión de datos.
+        </div>
+      </div>
+
+      <div class="tool-info-card">
+        <div class="tool-info-card__label">Cómo lo hace</div>
+        <div class="tool-info-card__title">Aplicación iterativa de C₁V₁ = C₂V₂ con validación de volúmenes</div>
+        <div class="tool-info-card__body">
+          DiluteIt aplica la fórmula de dilución C₁V₁ = C₂V₂ de forma iterativa para cada paso de la serie. A partir del volumen final deseado en cada tubo y el factor de dilución, calcula cuánto se transfiere al siguiente paso.
+          <br><br>
+          La interfaz valida que los volúmenes sean pipeteables (p. ej. &gt;2 µL para micropipetas estándar) y alerta cuando los valores resultantes son imprácticos, evitando errores antes de empezar el experimento.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA -->
+    <div class="tool-cta">
+      <p class="tool-cta__label">Disponible como PWA — funciona sin conexión una vez cargada</p>
+      <a class="md-button-filled md-button-filled--large" href="https://ebalderasr.github.io/DiluteIt/" target="_blank" rel="noopener noreferrer">
+        Ir a DiluteIt
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="hc-footer">
+    <div class="hc-footer__inner">
+      <div class="hc-footer__brand">
+        <span class="hc-footer__name">Host Cell Lab Suite</span>
+        <span class="hc-footer__slogan">Practical tools for high-performance biotechnology</span>
+      </div>
+      <span class="hc-footer__author">© Emiliano Balderas Ramírez</span>
+      <a href="https://github.com/ebalderasr" target="_blank" rel="noopener noreferrer" class="hc-footer__github">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"/>
+        </svg>
+        <span>GitHub</span>
+      </a>
+    </div>
+  </footer>
+
+  <script src="../app.js"></script>
+</body>
+</html>

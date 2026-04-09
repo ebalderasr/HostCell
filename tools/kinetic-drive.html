@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kinetic Drive — Simulador de Cinética de Crecimiento Microbiano | Host Cell Lab Suite</title>
+  <meta name="description" content="Kinetic Drive simula la cinética de crecimiento microbiano con el modelo de Monod en reactores batch, fed-batch y continuo. Explora el efecto de µmax, Ks y Yxs con visualizaciones interactivas en tiempo real." />
+  <link rel="canonical" href="https://hostcell.app/tools/kinetic-drive.html" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <!-- ══ TOP APP BAR ══ -->
+  <header class="md-top-app-bar" id="app-bar">
+    <div class="md-top-app-bar__row">
+      <div class="md-top-app-bar__leading">
+        <a class="md-icon-button" href="../index.html" aria-label="Volver al inicio">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </a>
+        <div class="hc-brand">
+          <span class="hc-brand__name">Kinetic Drive</span>
+          <span class="hc-brand__tagline">Host Cell Lab Suite</span>
+        </div>
+      </div>
+      <a class="md-button-tonal" href="https://ebalderasr.github.io/Kinetic-Drive/" target="_blank" rel="noopener noreferrer">
+        Lanzar app
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- ══ HERO ══ -->
+  <section class="tool-hero tool-hero--tertiary">
+    <div class="tool-hero__bg" aria-hidden="true">
+      <div class="tool-hero__bg-blob"></div>
+      <div class="tool-hero__bg-blob"></div>
+    </div>
+    <div class="tool-hero__content">
+      <div class="tool-hero__badge">Educación · Simulador</div>
+      <div class="tool-hero__icon" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6B3FAB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 8v4l3 3"/>
+        </svg>
+      </div>
+      <h1 class="tool-hero__title">Kinetic Drive</h1>
+      <p class="tool-hero__tagline">Explora la cinética de crecimiento microbiano con el modelo de Monod en batch, fed-batch y quimiostato. Sin ecuaciones en papel, con visualizaciones en tiempo real.</p>
+    </div>
+  </section>
+
+  <!-- ══ CONTENT ══ -->
+  <div class="tool-content">
+    <div class="tool-info-grid">
+
+      <div class="tool-info-card tool-info-card--tertiary">
+        <div class="tool-info-card__label">Qué es</div>
+        <div class="tool-info-card__title">Un simulador interactivo de cinética microbiana basado en el modelo de Monod</div>
+        <div class="tool-info-card__body">
+          Kinetic Drive es un simulador educativo que permite explorar el comportamiento dinámico de microorganismos (bacterias y levaduras) en biorreactores bajo tres modos de operación: batch, fed-batch y continuo (quimiostato).
+          <br><br>
+          Está diseñado para estudiantes de bioingeniería, biotecnología y ciencias afines que quieren desarrollar intuición sobre los parámetros cinéticos antes de realizar experimentos en el laboratorio.
+        </div>
+      </div>
+
+      <div class="tool-info-card tool-info-card--tertiary">
+        <div class="tool-info-card__label">Qué hace</div>
+        <div class="tool-info-card__title">Simula el crecimiento, consumo de sustrato y producción en tiempo real</div>
+        <div class="tool-info-card__body">
+          El usuario ajusta los parámetros cinéticos y condiciones de operación mediante controles interactivos. Kinetic Drive muestra en tiempo real:
+          <ul>
+            <li>Curvas de biomasa (X), sustrato (S) y producto (P) vs. tiempo</li>
+            <li>Tasa de crecimiento específica µ(t) durante la simulación</li>
+            <li>Productividad volumétrica y rendimientos (Y<sub>x/s</sub>, Y<sub>p/s</sub>)</li>
+            <li>Efecto inmediato al modificar cualquier parámetro</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tool-info-card tool-info-card--tertiary">
+        <div class="tool-info-card__label">Por qué es importante</div>
+        <div class="tool-info-card__title">La intuición cinética es insustituible para diseñar bioprocesos eficientes</div>
+        <div class="tool-info-card__body">
+          Comprender qué pasa cuando µmax se duplica, cuando Ks cambia un orden de magnitud, o cuando la tasa de dilución supera la tasa máxima de crecimiento, es fundamental para cualquier bioingeniería de procesos.
+          <br><br>
+          Los simuladores interactivos reducen la brecha entre la teoría matemática y la práctica experimental: permiten explorar el espacio de parámetros sin el costo de experimentos físicos, acelerando significativamente el aprendizaje y el diseño de procesos.
+        </div>
+      </div>
+
+      <div class="tool-info-card tool-info-card--tertiary">
+        <div class="tool-info-card__label">Cómo lo hace</div>
+        <div class="tool-info-card__title">Integración numérica RK4 del modelo de Monod acoplado a balances de masa</div>
+        <div class="tool-info-card__body">
+          Kinetic Drive implementa el modelo de Monod: µ = µmax · S / (Ks + S), acoplado a los balances de masa para biomasa, sustrato y producto en cada configuración de reactor.
+          <br><br>
+          El sistema de ecuaciones diferenciales ordinarias (ODEs) se resuelve numéricamente con el método de Runge-Kutta de 4to orden (RK4), que ofrece una excelente relación entre precisión y velocidad de cómputo. La simulación completa ocurre en el navegador, con respuesta visual instantánea al mover los controles.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA -->
+    <div class="tool-cta">
+      <p class="tool-cta__label">Simula, explora y aprende cinética microbiana directamente en tu navegador</p>
+      <a class="md-button-filled md-button-filled--large md-button-filled--tertiary" href="https://ebalderasr.github.io/Kinetic-Drive/" target="_blank" rel="noopener noreferrer">
+        Ir a Kinetic Drive
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="hc-footer">
+    <div class="hc-footer__inner">
+      <div class="hc-footer__brand">
+        <span class="hc-footer__name">Host Cell Lab Suite</span>
+        <span class="hc-footer__slogan">Practical tools for high-performance biotechnology</span>
+      </div>
+      <span class="hc-footer__author">© Emiliano Balderas Ramírez</span>
+      <a href="https://github.com/ebalderasr" target="_blank" rel="noopener noreferrer" class="hc-footer__github">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"/>
+        </svg>
+        <span>GitHub</span>
+      </a>
+    </div>
+  </footer>
+
+  <script src="../app.js"></script>
+</body>
+</html>
