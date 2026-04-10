@@ -11,6 +11,604 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
+
+  <style>
+    /* ══ MolarPrep page styles ═════════════════════════════ */
+
+    .mp-section-label {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--md-primary);
+      margin-bottom: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .mp-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--md-outline-variant);
+    }
+
+    .mp-workflow {
+      margin-bottom: 3rem;
+    }
+
+    .mp-workflow__steps {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      overflow: hidden;
+    }
+
+    .mp-step {
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .mp-step__num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--md-primary-container);
+      color: var(--md-primary);
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .mp-step__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      line-height: 1.3;
+    }
+
+    .mp-step__desc {
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.55;
+    }
+
+    .mp-step__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 0.25rem;
+    }
+
+    .mp-tag {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container-high);
+      border: 1px solid var(--md-outline-variant);
+      color: var(--md-on-surface-variant);
+      font-style: italic;
+    }
+
+    .mp-tag--out {
+      background: rgba(92,214,233,0.10);
+      border-color: rgba(92,214,233,0.25);
+      color: var(--md-primary);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .mp-tag--liq {
+      background: rgba(150,203,174,0.10);
+      border-color: rgba(150,203,174,0.25);
+      color: var(--md-secondary);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .mp-workflow__arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0.5rem;
+      color: var(--md-primary);
+      opacity: 0.5;
+      border-left: 1px solid var(--md-outline-variant);
+      border-right: 1px solid var(--md-outline-variant);
+      font-size: 1.25rem;
+    }
+
+    .mp-overview {
+      margin-bottom: 3rem;
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      overflow: hidden;
+    }
+
+    .mp-overview__header {
+      padding: 1rem 1.5rem;
+      background: var(--md-surface-container-high);
+      border-bottom: 1px solid var(--md-outline-variant);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .mp-overview__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+    }
+
+    .mp-overview__sub {
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      margin-top: 0.2rem;
+    }
+
+    .mp-overview__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.25rem 0.7rem;
+      border-radius: var(--md-shape-full);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: rgba(203,158,255,0.10);
+      border: 1px solid rgba(203,158,255,0.22);
+      color: var(--md-tertiary);
+    }
+
+    .mp-overview__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    .mp-overview__cell {
+      padding: 1rem 1.25rem;
+      border-right: 1px solid var(--md-outline-variant);
+      background: var(--md-surface-container);
+    }
+
+    .mp-overview__cell:last-child {
+      border-right: none;
+    }
+
+    .mp-overview__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      margin-bottom: 0.35rem;
+    }
+
+    .mp-overview__value {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--md-on-surface);
+    }
+
+    .mp-module {
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .mp-module__header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.125rem 1.5rem;
+      background: var(--md-surface-container-high);
+      border-bottom: 1px solid var(--md-outline-variant);
+      flex-wrap: wrap;
+    }
+
+    .mp-module__num {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--md-primary);
+      color: var(--md-on-primary);
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.0625rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .mp-module__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.0625rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      line-height: 1.2;
+    }
+
+    .mp-module__sub {
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      margin-top: 1px;
+    }
+
+    .mp-module__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0.2rem 0.65rem;
+      border-radius: var(--md-shape-full);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .mp-module__badge--solid {
+      background: rgba(92,214,233,0.10);
+      border: 1px solid rgba(92,214,233,0.22);
+      color: var(--md-primary);
+    }
+
+    .mp-module__badge--liquid {
+      background: rgba(150,203,174,0.10);
+      border: 1px solid rgba(150,203,174,0.22);
+      color: var(--md-secondary);
+    }
+
+    .mp-module__body {
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1.45fr;
+      gap: 1.5rem;
+    }
+
+    .mp-io {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .mp-io__group-title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      margin-bottom: 0.4rem;
+    }
+
+    .mp-io__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .mp-io__item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.525rem 0.75rem;
+      border-radius: var(--md-shape-sm);
+      background: var(--md-surface-container-low);
+      border: 1px solid var(--md-outline-variant);
+    }
+
+    .mp-io__item--out {
+      background: rgba(92,214,233,0.06);
+      border-color: rgba(92,214,233,0.20);
+    }
+
+    .mp-io__item--key {
+      background: rgba(150,203,174,0.07);
+      border-color: rgba(150,203,174,0.22);
+    }
+
+    .mp-io__dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--md-outline-variant);
+    }
+
+    .mp-io__item--out .mp-io__dot { background: var(--md-primary); }
+    .mp-io__item--key .mp-io__dot { background: var(--md-secondary); }
+
+    .mp-io__text {
+      flex: 1;
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.3;
+    }
+
+    .mp-io__item--out .mp-io__text {
+      color: var(--md-on-surface);
+      font-weight: 500;
+    }
+
+    .mp-io__item--key .mp-io__text {
+      color: var(--md-secondary);
+      font-weight: 600;
+    }
+
+    .mp-io__sym {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 0.875rem;
+      color: var(--md-primary);
+      opacity: 0.85;
+      flex-shrink: 0;
+    }
+
+    .mp-io__item--key .mp-io__sym { color: var(--md-secondary); }
+
+    .eq-block {
+      background: var(--md-surface-container-high);
+      border-radius: var(--md-shape-md);
+      border: 1px solid var(--md-outline-variant);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .eq-block__item {
+      padding: 1.125rem 1.375rem;
+      border-bottom: 1px solid var(--md-outline-variant);
+    }
+
+    .eq-block__item:last-child { border-bottom: none; }
+
+    .eq-block__title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      margin-bottom: 0.875rem;
+    }
+
+    .eq {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.35em;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 1.125rem;
+      line-height: 1;
+    }
+
+    .eq-res { font-style: italic; color: var(--md-primary); }
+    .eq-var { font-style: italic; color: var(--md-on-surface); }
+    .eq-var--liq { color: var(--md-secondary); }
+    .eq-fn  { font-style: normal; color: var(--md-on-surface-variant); font-size: 0.95em; }
+    .eq-const { font-style: normal; color: var(--md-tertiary); }
+    .eq-op { font-style: normal; color: var(--md-on-surface-variant); font-size: 0.95em; }
+    .eq-paren { font-style: normal; color: var(--md-on-surface-variant); font-size: 1.2em; line-height: 1; }
+
+    .eq-frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0;
+      line-height: 1.25;
+    }
+
+    .eq-frac__num {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.2em;
+      padding: 0 0.3em 0.18em;
+      border-bottom: 1.5px solid var(--md-on-surface-variant);
+      justify-content: center;
+    }
+
+    .eq-frac__den {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.2em;
+      padding: 0.18em 0.3em 0;
+      justify-content: center;
+    }
+
+    .eq sub, .eq sup {
+      font-size: 0.62em;
+      line-height: 0;
+      vertical-align: baseline;
+      position: relative;
+    }
+
+    .eq sub { top: 0.42em; }
+    .eq sup { top: -0.58em; }
+
+    .eq-note {
+      margin-top: 0.75rem;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      color: var(--md-on-surface-variant);
+    }
+
+    .eq-note strong { color: var(--md-on-surface); font-weight: 500; }
+
+    .mp-derive {
+      border-top: 1px solid var(--md-outline-variant);
+      padding: 1.25rem 1.5rem;
+      background: rgba(150,203,174,0.04);
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .mp-derive__left {
+      flex: 1 1 280px;
+      font-size: 0.8125rem;
+      line-height: 1.7;
+      color: var(--md-on-surface-variant);
+    }
+
+    .mp-derive__left strong {
+      color: var(--md-on-surface);
+      font-weight: 500;
+    }
+
+    .mp-derive__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--md-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .mp-derive__right {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+    }
+
+    .mp-unit-strip {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      border-radius: var(--md-shape-md);
+      overflow: hidden;
+      border: 1px solid var(--md-outline-variant);
+      margin-top: 1rem;
+    }
+
+    .mp-unit-cell {
+      padding: 0.625rem 1rem;
+      background: var(--md-surface-container-low);
+      text-align: center;
+    }
+
+    .mp-unit-cell__label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      margin-bottom: 0.25rem;
+    }
+
+    .mp-unit-cell__value {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 0.9375rem;
+      color: var(--md-on-surface);
+    }
+
+    .mp-unit-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0.75rem;
+      background: var(--md-surface-container);
+      border-left: 1px solid var(--md-outline-variant);
+      border-right: 1px solid var(--md-outline-variant);
+      color: var(--md-primary);
+    }
+
+    .callout {
+      border-radius: var(--md-shape-md);
+      padding: 0.875rem 1.125rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .callout--info  { background: rgba(92,214,233,0.07); border: 1px solid rgba(92,214,233,0.20); }
+    .callout--warn  { background: rgba(255,107,107,0.07); border: 1px solid rgba(255,107,107,0.20); }
+    .callout--link  { background: rgba(150,203,174,0.08); border: 1px solid rgba(150,203,174,0.22); }
+
+    .callout__icon { flex-shrink: 0; margin-top: 1px; color: var(--md-primary); }
+    .callout--warn .callout__icon { color: #FF6B6B; }
+    .callout--link .callout__icon { color: var(--md-secondary); }
+
+    .callout__body {
+      font-size: 0.8125rem;
+      line-height: 1.65;
+      color: var(--md-on-surface-variant);
+    }
+
+    .callout__body strong { color: var(--md-on-surface); font-weight: 500; }
+
+    .mp-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 2.5rem;
+    }
+
+    .mp-feature-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--md-on-surface-variant);
+    }
+
+    .mp-feature-chip svg { color: var(--md-primary); opacity: 0.8; }
+
+    @media (max-width: 760px) {
+      .mp-workflow__steps { grid-template-columns: 1fr; }
+      .mp-workflow__arrow {
+        border: none;
+        border-top: 1px solid var(--md-outline-variant);
+        border-bottom: 1px solid var(--md-outline-variant);
+        padding: 0.5rem;
+        transform: rotate(90deg) scaleX(0.6);
+      }
+      .mp-overview__grid { grid-template-columns: 1fr 1fr; }
+      .mp-overview__cell:nth-child(2) { border-right: none; }
+      .mp-overview__cell:nth-child(-n+2) { border-bottom: 1px solid var(--md-outline-variant); }
+      .mp-module__body { grid-template-columns: 1fr; }
+      .mp-unit-strip { grid-template-columns: 1fr; }
+      .mp-unit-arrow {
+        border: none;
+        border-top: 1px solid var(--md-outline-variant);
+        border-bottom: 1px solid var(--md-outline-variant);
+        padding: 0.4rem;
+      }
+      .mp-derive { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
 
@@ -40,14 +638,10 @@
 
   <!-- ══ HERO ══ -->
   <section class="tool-hero tool-hero--primary">
-    <div class="tool-hero__bg" aria-hidden="true">
-      <div class="tool-hero__bg-blob"></div>
-      <div class="tool-hero__bg-blob"></div>
-    </div>
     <div class="tool-hero__content">
       <div class="tool-hero__badge">PWA · Bioprocesos</div>
       <div class="tool-hero__icon" aria-hidden="true">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 3v11a3 3 0 0 0 6 0V3"/>
           <line x1="6" y1="3" x2="18" y2="3"/>
           <path d="M6 20h12"/>
@@ -61,70 +655,343 @@
   <!-- ══ CONTENT ══ -->
   <div class="tool-content">
 
-    <!-- Feature chips -->
-    <div class="tool-feature-row" aria-label="Características principales">
-      <span class="tool-feature-chip">Módulo sólido y módulo líquido</span>
-      <span class="tool-feature-chip">Escalado auto g/mg/µg · L/mL/µL</span>
-      <span class="tool-feature-chip">M · mM · µM · nM</span>
-      <span class="tool-feature-chip">Validación de entradas</span>
-      <span class="tool-feature-chip">Bilingüe ES / EN</span>
-      <span class="tool-feature-chip">Offline-first PWA</span>
+    <section class="mp-workflow" aria-labelledby="workflow-title">
+      <div class="mp-section-label" id="workflow-title">¿Cómo funciona?</div>
+
+      <div class="mp-workflow__steps">
+        <div class="mp-step">
+          <div class="mp-step__num">1</div>
+          <div class="mp-step__title">Elige el origen del reactivo</div>
+          <div class="mp-step__desc">MolarPrep separa el flujo en dos módulos: uno para sólidos pesables y otro para líquidos concentrados descritos por densidad y pureza.</div>
+          <div class="mp-step__tags">
+            <span class="mp-tag">Reactivo sólido</span>
+            <span class="mp-tag mp-tag--liq">Stock líquido</span>
+          </div>
+        </div>
+
+        <div class="mp-workflow__arrow" aria-hidden="true">→</div>
+
+        <div class="mp-step">
+          <div class="mp-step__num">2</div>
+          <div class="mp-step__title">Normaliza unidades y calcula</div>
+          <div class="mp-step__desc">La app convierte molaridad y volumen a una base consistente, aplica la ecuación correspondiente y elige la escala práctica del resultado.</div>
+          <div class="mp-step__tags">
+            <span class="mp-tag">M ↔ mM ↔ µM</span>
+            <span class="mp-tag">L ↔ mL ↔ µL</span>
+            <span class="mp-tag mp-tag--out">auto g/mg/µg</span>
+          </div>
+        </div>
+
+        <div class="mp-workflow__arrow" aria-hidden="true">→</div>
+
+        <div class="mp-step">
+          <div class="mp-step__num">3</div>
+          <div class="mp-step__title">Entrega una acción de bancada</div>
+          <div class="mp-step__desc">Recibes una masa a pesar o un volumen a pipetear, listo para preparar el stock sin hacer derivaciones o conversiones manuales adicionales.</div>
+          <div class="mp-step__tags">
+            <span class="mp-tag mp-tag--out">masa final</span>
+            <span class="mp-tag mp-tag--liq">volumen final</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="overview-title">
+      <div class="mp-section-label" id="overview-title">Panorama del cálculo</div>
+      <div class="mp-overview">
+        <div class="mp-overview__header">
+          <div>
+            <div class="mp-overview__title">Dos rutas, un mismo objetivo</div>
+            <div class="mp-overview__sub">Traducir una concentración objetivo en una instrucción física de preparación.</div>
+          </div>
+          <div class="mp-overview__badge">Preparación de stocks</div>
+        </div>
+        <div class="mp-overview__grid">
+          <div class="mp-overview__cell">
+            <div class="mp-overview__label">Objetivo</div>
+            <div class="mp-overview__value">M<sub>2</sub> y V<sub>2</sub></div>
+          </div>
+          <div class="mp-overview__cell">
+            <div class="mp-overview__label">Ruta sólida</div>
+            <div class="mp-overview__value">m = M × V × PM</div>
+          </div>
+          <div class="mp-overview__cell">
+            <div class="mp-overview__label">Ruta líquida</div>
+            <div class="mp-overview__value">P, ρ y PM → M<sub>1</sub></div>
+          </div>
+          <div class="mp-overview__cell">
+            <div class="mp-overview__label">Salida</div>
+            <div class="mp-overview__value">masa o V<sub>1</sub></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mp-module" aria-labelledby="solid-module-title">
+      <div class="mp-module__header">
+        <div class="mp-module__num">1</div>
+        <div>
+          <div class="mp-module__title" id="solid-module-title">Módulo sólido</div>
+          <div class="mp-module__sub">Calcula la masa a pesar para preparar una solución molar a partir de un reactivo sólido.</div>
+        </div>
+        <div class="mp-module__badge mp-module__badge--solid">Reactivo pesable</div>
+      </div>
+
+      <div class="mp-module__body">
+        <div class="mp-io">
+          <div>
+            <div class="mp-io__group-title">Entradas</div>
+            <div class="mp-io__list">
+              <div class="mp-io__item">
+                <div class="mp-io__dot"></div>
+                <div class="mp-io__text">Concentración objetivo en M, mM, µM o nM</div>
+                <div class="mp-io__sym">M</div>
+              </div>
+              <div class="mp-io__item">
+                <div class="mp-io__dot"></div>
+                <div class="mp-io__text">Volumen final del stock a preparar</div>
+                <div class="mp-io__sym">V</div>
+              </div>
+              <div class="mp-io__item">
+                <div class="mp-io__dot"></div>
+                <div class="mp-io__text">Peso molecular del compuesto</div>
+                <div class="mp-io__sym">PM</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="mp-io__group-title">Salida</div>
+            <div class="mp-io__list">
+              <div class="mp-io__item mp-io__item--out">
+                <div class="mp-io__dot"></div>
+                <div class="mp-io__text">Masa a pesar escalada automáticamente</div>
+                <div class="mp-io__sym">m</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="mp-io__group-title">Validaciones</div>
+            <div class="mp-io__list">
+              <div class="mp-io__item mp-io__item--key">
+                <div class="mp-io__dot"></div>
+                <div class="mp-io__text">Vacíos o valores no positivos devuelven ERR</div>
+                <div class="mp-io__sym">ERR</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eq-block">
+          <div class="eq-block__item">
+            <div class="eq-block__title">Ecuación principal</div>
+            <div class="eq" aria-label="m igual M por V por PM">
+              <span class="eq-res">m</span>
+              <span class="eq-op">=</span>
+              <span class="eq-var">M</span>
+              <span class="eq-op">×</span>
+              <span class="eq-var">V</span>
+              <span class="eq-op">×</span>
+              <span class="eq-var">PM</span>
+            </div>
+            <div class="eq-note">
+              <strong>Lectura:</strong> convierte primero concentración y volumen a unidades base, luego calcula la masa teórica y finalmente la expresa en la escala más legible para bancada.
+            </div>
+          </div>
+
+          <div class="eq-block__item">
+            <div class="eq-block__title">Escalado de salida</div>
+            <div class="eq" aria-label="g a mg a microgramos">
+              <span class="eq-var">g</span>
+              <span class="eq-op">↔</span>
+              <span class="eq-var">mg</span>
+              <span class="eq-op">↔</span>
+              <span class="eq-var">µg</span>
+            </div>
+            <div class="mp-unit-strip" aria-label="Ejemplo de escalado de masa">
+              <div class="mp-unit-cell">
+                <div class="mp-unit-cell__label">Resultado interno</div>
+                <div class="mp-unit-cell__value">0.000425 g</div>
+              </div>
+              <div class="mp-unit-arrow" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </div>
+              <div class="mp-unit-cell">
+                <div class="mp-unit-cell__label">Salida legible</div>
+                <div class="mp-unit-cell__value">425 µg</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mp-module" aria-labelledby="liquid-module-title">
+      <div class="mp-module__header">
+        <div class="mp-module__num">2</div>
+        <div>
+          <div class="mp-module__title" id="liquid-module-title">Módulo líquido</div>
+          <div class="mp-module__sub">Convierte densidad y pureza en molaridad efectiva del stock y luego calcula el volumen a pipetear.</div>
+        </div>
+        <div class="mp-module__badge mp-module__badge--liquid">Stock concentrado</div>
+      </div>
+
+      <div class="mp-module__body">
+        <div class="mp-io">
+          <div>
+            <div class="mp-io__group-title">Entradas</div>
+            <div class="mp-io__list">
+              <div class="mp-io__item">
+                <div class="mp-io__dot"></div>
+                <div class="mp-io__text">Densidad del reactivo líquido en g/mL</div>
+                <div class="mp-io__sym">ρ</div>
+              </div>
+              <div class="mp-io__item">
+                <div class="mp-io__dot"></div>
+                <div class="mp-io__text">Pureza expresada como fracción decimal</div>
+                <div class="mp-io__sym">P</div>
+              </div>
+              <div class="mp-io__item">
+                <div class="mp-io__dot"></div>
+                <div class="mp-io__text">Peso molecular, concentración objetivo y volumen final</div>
+                <div class="mp-io__sym">PM, M₂, V₂</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="mp-io__group-title">Intermedio y salida</div>
+            <div class="mp-io__list">
+              <div class="mp-io__item mp-io__item--key">
+                <div class="mp-io__dot"></div>
+                <div class="mp-io__text">Molaridad efectiva del stock líquido</div>
+                <div class="mp-io__sym">M₁</div>
+              </div>
+              <div class="mp-io__item mp-io__item--out">
+                <div class="mp-io__dot"></div>
+                <div class="mp-io__text">Volumen a pipetear escalado a L, mL o µL</div>
+                <div class="mp-io__sym">V₁</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eq-block">
+          <div class="eq-block__item">
+            <div class="eq-block__title">Paso A · Estimar M₁ del stock</div>
+            <div class="eq" aria-label="M uno igual P por densidad por mil entre peso molecular">
+              <span class="eq-res">M<sub>1</sub></span>
+              <span class="eq-op">=</span>
+              <div class="eq-frac">
+                <div class="eq-frac__num">
+                  <span class="eq-var eq-var--liq">P</span>
+                  <span class="eq-op">×</span>
+                  <span class="eq-var eq-var--liq">ρ</span>
+                  <span class="eq-op">×</span>
+                  <span class="eq-const">1000</span>
+                </div>
+                <div class="eq-frac__den">
+                  <span class="eq-var">PM</span>
+                </div>
+              </div>
+            </div>
+            <div class="eq-note">
+              <strong>Lectura:</strong> densidad y pureza convierten una especificación comercial del reactivo en una molaridad efectiva utilizable dentro de la ecuación de dilución.
+            </div>
+          </div>
+
+          <div class="eq-block__item">
+            <div class="eq-block__title">Paso B · Volumen a pipetear</div>
+            <div class="eq" aria-label="V uno igual M dos por V dos entre M uno">
+              <span class="eq-res">V<sub>1</sub></span>
+              <span class="eq-op">=</span>
+              <div class="eq-frac">
+                <div class="eq-frac__num">
+                  <span class="eq-var">M<sub>2</sub></span>
+                  <span class="eq-op">×</span>
+                  <span class="eq-var">V<sub>2</sub></span>
+                </div>
+                <div class="eq-frac__den">
+                  <span class="eq-var eq-var--liq">M<sub>1</sub></span>
+                </div>
+              </div>
+            </div>
+            <div class="eq-note">
+              <strong>Resultado:</strong> la app devuelve el volumen del stock concentrado que debes medir antes de completar el volumen final con diluyente.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mp-derive">
+        <div class="mp-derive__left">
+          <div class="mp-derive__label">Pipeline del módulo líquido</div>
+          <strong>No es una sola fórmula.</strong> Primero traduce pureza y densidad a molaridad efectiva; después usa esa molaridad como stock real en una dilución estándar. Ese encadenamiento es justo el paso que más se resuelve mal a mano.
+          <div class="callout callout--link" style="margin-top:1rem;">
+            <svg class="callout__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/>
+            </svg>
+            <div class="callout__body">
+              <strong>Casos típicos:</strong> HCl concentrado, ácido acético glacial, amoníaco y otros reactivos líquidos cuyo stock se describe por porcentaje y densidad, no por molaridad directa.
+            </div>
+          </div>
+        </div>
+        <div class="mp-derive__right">
+          <div class="mp-unit-strip" aria-label="Pipeline del cálculo líquido">
+            <div class="mp-unit-cell">
+              <div class="mp-unit-cell__label">Especificación comercial</div>
+              <div class="mp-unit-cell__value">P + ρ + PM</div>
+            </div>
+            <div class="mp-unit-arrow" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </div>
+            <div class="mp-unit-cell">
+              <div class="mp-unit-cell__label">Volumen accionable</div>
+              <div class="mp-unit-cell__value">M₁ → V₁</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="callout callout--warn" style="margin-bottom:2rem;">
+      <svg class="callout__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      <div class="callout__body">
+        <strong>Supuesto crítico:</strong> el módulo líquido trata la pureza como fracción decimal y la densidad en g/mL. Si esos datos se capturan en otra convención, el volumen calculado deja de ser confiable aunque la fórmula esté bien implementada.
+      </div>
     </div>
 
-    <div class="tool-info-grid">
-
-      <div class="tool-info-card">
-        <div class="tool-info-card__label">Qué es</div>
-        <div class="tool-info-card__title">Calculadora de preparación de soluciones para los dos escenarios más comunes de laboratorio</div>
-        <div class="tool-info-card__body">
-          MolarPrep cubre las dos situaciones de preparación de reactivos más frecuentes: pesar un sólido para alcanzar una molaridad objetivo, y pipetear el volumen correcto de un reactivo líquido definido por densidad y pureza (como ácidos concentrados o solventes orgánicos).
-          <br><br>
-          Ambos módulos manejan el escalado de unidades internamente y seleccionan automáticamente el prefijo más práctico para el resultado (g, mg o µg; L, mL o µL). Los valores no válidos o vacíos devuelven <code>ERR</code> sin calcular.
-        </div>
+    <div class="mp-features" aria-label="Características técnicas">
+      <div class="mp-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Sólido y líquido en una sola PWA
       </div>
-
-      <div class="tool-info-card">
-        <div class="tool-info-card__label">Por qué es importante</div>
-        <div class="tool-info-card__title">Preparar stocks requiere conversiones multi-paso que se colapsan frecuentemente bajo presión de tiempo</div>
-        <div class="tool-info-card__body">
-          Preparar soluciones stock involucra conversiones de unidades en cascada que son fuente frecuente de errores, especialmente cuando se trabaja a través de escalas de concentración (M, mM, µM, nM). Sin una herramienta dedicada:
-          <ul>
-            <li>El cálculo de masa requiere convertir molaridad y volumen a unidades consistentes antes de aplicar m = M × V × MW</li>
-            <li>La preparación de reactivos líquidos involucra dos pasos (densidad + pureza → molaridad del stock, luego C₁V₁=C₂V₂) que frecuentemente se colapsan o calculan incorrectamente</li>
-            <li>La unidad de salida adecuada (g, mg, µg) debe elegirla el usuario, agregando otra decisión propensa a error</li>
-          </ul>
-        </div>
+      <div class="mp-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Escalado auto g/mg/µg y L/mL/µL
       </div>
-
-      <div class="tool-info-card">
-        <div class="tool-info-card__label">Módulo 1 — Reactivo sólido</div>
-        <div class="tool-info-card__title">Masa a pesar para alcanzar la molaridad y volumen objetivo</div>
-        <div class="tool-info-card__body">
-          Entradas: molaridad objetivo, volumen final y peso molecular (PM). MolarPrep calcula la masa a pesar:
-          <code class="tool-formula">m = M × V × PM</code>
-          Unidades de molaridad soportadas: M, mM, µM, nM. Unidades de volumen: L, mL. La salida se escala automáticamente a g, mg o µg según la magnitud del resultado.
-        </div>
+      <div class="mp-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        M, mM, µM y nM
       </div>
-
-      <div class="tool-info-card">
-        <div class="tool-info-card__label">Módulo 2 — Reactivo líquido</div>
-        <div class="tool-info-card__title">Volumen a pipetear de un stock concentrado definido por densidad y pureza</div>
-        <div class="tool-info-card__body">
-          Para reactivos líquidos (ácidos, solventes) sin molaridad declarada. Entradas: densidad (g/mL), pureza (fracción), PM, molaridad objetivo y volumen final.
-
-          <div class="tool-module-title">Paso A — Estimar molaridad del stock</div>
-          <code class="tool-formula">M₁ = (P × ρ × 1000) / PM</code>
-          donde P = fracción de pureza (ej. 0.98), ρ = densidad en g/mL.
-
-          <div class="tool-module-title">Paso B — Ecuación de dilución</div>
-          <code class="tool-formula">V₁ = (M₂ × V₂) / M₁</code>
-          La salida se escala automáticamente a L, mL o µL.
-        </div>
+      <div class="mp-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Validación y ERR en entradas no válidas
       </div>
-
+      <div class="mp-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        Offline-first PWA
+      </div>
     </div>
 
-    <!-- CTA -->
     <div class="tool-cta">
       <p class="tool-cta__label">Ingresa tu objetivo, obtén tu masa o volumen.</p>
       <a class="md-button-filled md-button-filled--large" href="https://ebalderasr.github.io/MolarPrep/" target="_blank" rel="noopener noreferrer">
@@ -135,7 +1002,7 @@
         </svg>
       </a>
     </div>
-  </div>
+  </div><!-- /.tool-content -->
 
   <!-- ══ FOOTER ══ -->
   <footer class="hc-footer">
