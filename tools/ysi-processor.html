@@ -564,6 +564,12 @@
 
     .yp-feature-chip svg { color: var(--md-secondary); opacity: 0.85; }
 
+    .yp-module__footer {
+      border-top: 1px solid var(--md-outline-variant);
+      padding: 1rem 1.5rem 1.25rem;
+      background: var(--md-surface-container);
+    }
+
     @media (max-width: 760px) {
       .yp-workflow__steps { grid-template-columns: 1fr; }
       .yp-workflow__arrow {
@@ -943,29 +949,19 @@
             <div class="yp-io__list">
               <div class="yp-io__item yp-io__item--out">
                 <div class="yp-io__dot"></div>
-                <span class="yp-io__text">Tabla pivote con una fila por well y grupos por analito</span>
+                <span class="yp-io__text">Tabla pivote por well y analito</span>
                 <span class="yp-io__sym">pivot</span>
               </div>
               <div class="yp-io__item yp-io__item--out">
                 <div class="yp-io__dot"></div>
-                <span class="yp-io__text">Rows con REVIEW y FAIL priorizadas al inicio</span>
+                <span class="yp-io__text">REVIEW y FAIL primero</span>
                 <span class="yp-io__sym">triage</span>
               </div>
               <div class="yp-io__item yp-io__item--key">
                 <div class="yp-io__dot"></div>
-                <span class="yp-io__text">Detalle de flags para rastrear por qué se marcó una réplica</span>
+                <span class="yp-io__text">Flags auditables por réplica</span>
                 <span class="yp-io__sym">audit</span>
               </div>
-            </div>
-          </div>
-
-          <div class="callout callout--warn" style="margin-top:0;">
-            <svg class="callout__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-              <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-            </svg>
-            <div class="callout__body">
-              <strong>PASS no significa verdad absoluta:</strong> significa que, bajo los umbrales elegidos y con las señales disponibles, no hay evidencia suficiente para objetar el grupo. La herramienta estandariza el juicio, no reemplaza criterio experimental.
             </div>
           </div>
         </div>
@@ -1015,6 +1011,18 @@
                 <div class="yp-export__desc">Trazabilidad de archivos cargados y metadatos de sesión.</div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="yp-module__footer">
+        <div class="callout callout--warn" style="margin-top:0;">
+          <svg class="callout__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          <div class="callout__body">
+            <strong>PASS no significa verdad absoluta:</strong> significa que, bajo los umbrales elegidos y con las señales disponibles, no hay evidencia suficiente para objetar el grupo. La herramienta estandariza el juicio, no reemplaza criterio experimental.
           </div>
         </div>
       </div>
