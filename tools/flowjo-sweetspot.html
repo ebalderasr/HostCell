@@ -4,13 +4,549 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FlowJo SweetSpot Web — Optimización de Paneles de Colorantes Fisiológicos para CHO | Host Cell Lab Suite</title>
-  <meta name="description" content="FlowJo SweetSpot Web optimiza concentraciones de colorantes fisiológicos (TMRM, Bodipy, CellRox) para citometría de flujo funcional en CHO. Usa una métrica Score propia porque los colorantes no generan bimodalidad y el Stain Index clásico no aplica." />
+  <meta name="description" content="FlowJo SweetSpot Web optimiza concentraciones de colorantes fisiológicos para citometría funcional en CHO. Reemplaza la lógica del Stain Index clásico con una métrica de score centrada en señal útil, invasión espectral y saturación." />
   <link rel="canonical" href="https://hostcell.app/tools/flowjo-sweetspot.html" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
+
+  <style>
+    /* ══ FlowJo SweetSpot page styles ══════════════════════ */
+
+    .fs-section-label {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--md-secondary);
+      margin-bottom: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .fs-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--md-outline-variant);
+    }
+
+    .fs-workflow {
+      margin-bottom: 3rem;
+    }
+
+    .fs-workflow__steps {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      overflow: hidden;
+    }
+
+    .fs-step {
+      padding: 1.25rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .fs-step__num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--md-secondary-container);
+      color: var(--md-secondary);
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .fs-step__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      line-height: 1.3;
+    }
+
+    .fs-step__desc {
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.55;
+    }
+
+    .fs-step__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 0.25rem;
+    }
+
+    .fs-tag {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container-high);
+      border: 1px solid var(--md-outline-variant);
+      color: var(--md-on-surface-variant);
+      font-style: italic;
+    }
+
+    .fs-tag--out {
+      background: rgba(150,203,174,0.10);
+      border-color: rgba(150,203,174,0.24);
+      color: var(--md-secondary);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .fs-tag--key {
+      background: rgba(203,158,255,0.10);
+      border-color: rgba(203,158,255,0.24);
+      color: var(--md-tertiary);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .fs-workflow__arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0.5rem;
+      color: var(--md-secondary);
+      opacity: 0.55;
+      border-left: 1px solid var(--md-outline-variant);
+      border-right: 1px solid var(--md-outline-variant);
+      font-size: 1.25rem;
+    }
+
+    .fs-importance {
+      margin-bottom: 3rem;
+    }
+
+    .fs-importance__lead {
+      background: linear-gradient(180deg, rgba(150,203,174,0.07), rgba(150,203,174,0.02));
+      border: 1px solid rgba(150,203,174,0.18);
+      border-radius: var(--md-shape-lg);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 0.875rem;
+    }
+
+    .fs-importance__lead-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      margin-bottom: 0.45rem;
+    }
+
+    .fs-importance__lead-body {
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: var(--md-on-surface-variant);
+    }
+
+    .fs-importance__lead-body strong {
+      color: var(--md-on-surface);
+      font-weight: 500;
+    }
+
+    .fs-importance__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .fs-risk {
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      padding: 1rem 1.1rem;
+    }
+
+    .fs-risk__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--md-secondary);
+      margin-bottom: 0.45rem;
+    }
+
+    .fs-risk__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      line-height: 1.35;
+      margin-bottom: 0.35rem;
+    }
+
+    .fs-risk__body {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      color: var(--md-on-surface-variant);
+    }
+
+    .fs-module {
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .fs-module__header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.125rem 1.5rem;
+      background: var(--md-surface-container-high);
+      border-bottom: 1px solid var(--md-outline-variant);
+      flex-wrap: wrap;
+    }
+
+    .fs-module__num {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--md-secondary);
+      color: var(--md-on-secondary);
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.0625rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .fs-module__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.0625rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      line-height: 1.2;
+    }
+
+    .fs-module__sub {
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      margin-top: 1px;
+    }
+
+    .fs-module__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0.2rem 0.65rem;
+      border-radius: var(--md-shape-full);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .fs-module__badge--secondary {
+      background: rgba(150,203,174,0.10);
+      border: 1px solid rgba(150,203,174,0.24);
+      color: var(--md-secondary);
+    }
+
+    .fs-module__badge--tertiary {
+      background: rgba(203,158,255,0.10);
+      border: 1px solid rgba(203,158,255,0.24);
+      color: var(--md-tertiary);
+    }
+
+    .fs-module__body {
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1.45fr;
+      gap: 1.5rem;
+    }
+
+    .fs-io {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .fs-io__group-title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      margin-bottom: 0.4rem;
+    }
+
+    .fs-io__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .fs-io__item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.525rem 0.75rem;
+      border-radius: var(--md-shape-sm);
+      background: var(--md-surface-container-low);
+      border: 1px solid var(--md-outline-variant);
+    }
+
+    .fs-io__item--out {
+      background: rgba(150,203,174,0.06);
+      border-color: rgba(150,203,174,0.20);
+    }
+
+    .fs-io__item--key {
+      background: rgba(203,158,255,0.07);
+      border-color: rgba(203,158,255,0.22);
+    }
+
+    .fs-io__dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--md-outline-variant);
+    }
+
+    .fs-io__item--out .fs-io__dot { background: var(--md-secondary); }
+    .fs-io__item--key .fs-io__dot { background: var(--md-tertiary); }
+
+    .fs-io__text {
+      flex: 1;
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.3;
+    }
+
+    .fs-io__item--out .fs-io__text {
+      color: var(--md-on-surface);
+      font-weight: 500;
+    }
+
+    .fs-io__item--key .fs-io__text {
+      color: var(--md-tertiary);
+      font-weight: 600;
+    }
+
+    .fs-io__sym {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 0.875rem;
+      color: var(--md-secondary);
+      opacity: 0.9;
+      flex-shrink: 0;
+    }
+
+    .fs-io__item--key .fs-io__sym { color: var(--md-tertiary); }
+
+    .eq-block {
+      background: var(--md-surface-container-high);
+      border-radius: var(--md-shape-md);
+      border: 1px solid var(--md-outline-variant);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .eq-block__item {
+      padding: 1.125rem 1.375rem;
+      border-bottom: 1px solid var(--md-outline-variant);
+    }
+
+    .eq-block__item:last-child { border-bottom: none; }
+
+    .eq-block__title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      margin-bottom: 0.875rem;
+    }
+
+    .eq {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.35em;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 1.125rem;
+      line-height: 1;
+    }
+
+    .eq-res { font-style: italic; color: var(--md-secondary); }
+    .eq-var { font-style: italic; color: var(--md-on-surface); }
+    .eq-var--key { color: var(--md-tertiary); }
+    .eq-fn { font-style: normal; color: var(--md-on-surface-variant); font-size: 0.95em; }
+    .eq-const { font-style: normal; color: var(--md-tertiary); }
+    .eq-op { font-style: normal; color: var(--md-on-surface-variant); font-size: 0.95em; }
+    .eq-paren { font-style: normal; color: var(--md-on-surface-variant); font-size: 1.2em; line-height: 1; }
+
+    .eq-frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0;
+      line-height: 1.25;
+    }
+
+    .eq-frac__num {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.2em;
+      padding: 0 0.3em 0.18em;
+      border-bottom: 1.5px solid var(--md-on-surface-variant);
+      justify-content: center;
+    }
+
+    .eq-frac__den {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.2em;
+      padding: 0.18em 0.3em 0;
+      justify-content: center;
+    }
+
+    .eq sub, .eq sup {
+      font-size: 0.62em;
+      line-height: 0;
+      vertical-align: baseline;
+      position: relative;
+    }
+
+    .eq sub { top: 0.42em; }
+    .eq sup { top: -0.58em; }
+
+    .eq-note {
+      margin-top: 0.75rem;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      color: var(--md-on-surface-variant);
+    }
+
+    .eq-note strong { color: var(--md-on-surface); font-weight: 500; }
+
+    .callout {
+      border-radius: var(--md-shape-md);
+      padding: 0.875rem 1.125rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .callout--info { background: rgba(150,203,174,0.07); border: 1px solid rgba(150,203,174,0.20); }
+    .callout--warn { background: rgba(255,107,107,0.07); border: 1px solid rgba(255,107,107,0.20); }
+    .callout--idea { background: rgba(203,158,255,0.07); border: 1px solid rgba(203,158,255,0.22); }
+
+    .callout__icon { flex-shrink: 0; margin-top: 1px; color: var(--md-secondary); }
+    .callout--warn .callout__icon { color: #FF6B6B; }
+    .callout--idea .callout__icon { color: var(--md-tertiary); }
+
+    .callout__body {
+      font-size: 0.8125rem;
+      line-height: 1.65;
+      color: var(--md-on-surface-variant);
+    }
+
+    .callout__body strong { color: var(--md-on-surface); font-weight: 500; }
+
+    .fs-output-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-radius: var(--md-shape-md);
+      overflow: hidden;
+      border: 1px solid var(--md-outline-variant);
+      margin-top: 1rem;
+    }
+
+    .fs-output {
+      padding: 0.875rem 1rem;
+      background: var(--md-surface-container-low);
+      border-right: 1px solid var(--md-outline-variant);
+    }
+
+    .fs-output:last-child { border-right: none; }
+
+    .fs-output__name {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--md-on-surface);
+      margin-bottom: 0.3rem;
+    }
+
+    .fs-output__desc {
+      font-size: 0.75rem;
+      line-height: 1.55;
+      color: var(--md-on-surface-variant);
+    }
+
+    .fs-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 2.5rem;
+    }
+
+    .fs-feature-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--md-on-surface-variant);
+    }
+
+    .fs-feature-chip svg { color: var(--md-secondary); opacity: 0.85; }
+
+    @media (max-width: 760px) {
+      .fs-workflow__steps { grid-template-columns: 1fr; }
+      .fs-workflow__arrow {
+        border: none;
+        border-top: 1px solid var(--md-outline-variant);
+        border-bottom: 1px solid var(--md-outline-variant);
+        padding: 0.5rem;
+        transform: rotate(90deg) scaleX(0.6);
+      }
+      .fs-importance__grid { grid-template-columns: 1fr; }
+      .fs-module__body { grid-template-columns: 1fr; }
+      .fs-output-strip { grid-template-columns: 1fr; }
+      .fs-output {
+        border-right: none;
+        border-bottom: 1px solid var(--md-outline-variant);
+      }
+      .fs-output:last-child { border-bottom: none; }
+    }
+  </style>
 </head>
 <body>
 
@@ -40,14 +576,10 @@
 
   <!-- ══ HERO ══ -->
   <section class="tool-hero tool-hero--secondary">
-    <div class="tool-hero__bg" aria-hidden="true">
-      <div class="tool-hero__bg-blob"></div>
-      <div class="tool-hero__bg-blob"></div>
-    </div>
     <div class="tool-hero__content">
       <div class="tool-hero__badge">Herramienta Avanzada · Células de Mamífero</div>
       <div class="tool-hero__icon" aria-hidden="true">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="3"/>
           <circle cx="12" cy="12" r="7" stroke-dasharray="2 2"/>
           <line x1="12" y1="2" x2="12" y2="5"/>
@@ -57,77 +589,418 @@
         </svg>
       </div>
       <h1 class="tool-hero__title">FlowJo SweetSpot Web</h1>
-      <p class="tool-hero__tagline">Optimización de concentraciones para paneles de colorantes fisiológicos en CHO. El Stain Index clásico no funciona con colorantes — esta herramienta usa una métrica diseñada para ellos.</p>
+      <p class="tool-hero__tagline">Optimiza colorantes fisiológicos en CHO sin caer en la trampa de “más brillo = mejor panel”. La app encuentra el sweet spot entre señal útil, spillover y riesgo de saturación.</p>
     </div>
   </section>
 
   <!-- ══ CONTENT ══ -->
   <div class="tool-content">
 
-    <!-- Feature chips -->
-    <div class="tool-feature-row" aria-label="Características principales">
-      <span class="tool-feature-chip">TMRM · Bodipy · CellRox · GFP</span>
-      <span class="tool-feature-chip">Score propio (no SI clásico)</span>
-      <span class="tool-feature-chip">Detección de saturación</span>
-      <span class="tool-feature-chip">Soporte multi-clon</span>
-      <span class="tool-feature-chip">Plotly interactivo</span>
-      <span class="tool-feature-chip">CSV / XLSX · Sin datos al servidor</span>
+    <section class="fs-workflow" aria-label="Pipeline de optimización">
+      <div class="fs-section-label">¿Cómo funciona?</div>
+
+      <div class="fs-workflow__steps">
+        <div class="fs-step">
+          <div class="fs-step__num">1</div>
+          <div class="fs-step__title">Exporta la titulación desde FlowJo</div>
+          <div class="fs-step__desc">Usa gates positivos y negativos por canal, añade metadata de colorante y concentración, y carga el resultado en CSV o XLSX.</div>
+          <div class="fs-step__tags">
+            <span class="fs-tag">Freq. of Parent</span>
+            <span class="fs-tag">Median</span>
+            <span class="fs-tag">Robust SD</span>
+          </div>
+        </div>
+
+        <div class="fs-workflow__arrow" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <div class="fs-step">
+          <div class="fs-step__num">2</div>
+          <div class="fs-step__title">Configura el panel</div>
+          <div class="fs-step__desc">Defines gate base, detector máximo, SI mínimo aceptable y el canal objetivo de cada colorante en el panel.</div>
+          <div class="fs-step__tags">
+            <span class="fs-tag">Population base</span>
+            <span class="fs-tag">detector_max</span>
+            <span class="fs-tag fs-tag--key">SI_min</span>
+          </div>
+        </div>
+
+        <div class="fs-workflow__arrow" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <div class="fs-step">
+          <div class="fs-step__num">3</div>
+          <div class="fs-step__title">Calcula score e invasión</div>
+          <div class="fs-step__desc">Para cada colorante × concentración × clon, estima señal útil, contaminación a vecinos y riesgo de saturación del detector.</div>
+          <div class="fs-step__tags">
+            <span class="fs-tag fs-tag--out">Freq_Signal</span>
+            <span class="fs-tag fs-tag--out">Invasion_Total</span>
+            <span class="fs-tag fs-tag--key">Clip_Risk</span>
+          </div>
+        </div>
+
+        <div class="fs-workflow__arrow" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <div class="fs-step">
+          <div class="fs-step__num">4</div>
+          <div class="fs-step__title">Selecciona el sweet spot</div>
+          <div class="fs-step__desc">La app recomienda la concentración que conserva más células en el canal correcto con la menor invasión posible, por encima del piso de señal mínimo.</div>
+          <div class="fs-step__tags">
+            <span class="fs-tag fs-tag--out">best condition</span>
+            <span class="fs-tag fs-tag--out">Score peak</span>
+            <span class="fs-tag fs-tag--key">per dye</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="fs-importance" aria-labelledby="importance-title">
+      <div class="fs-section-label" id="importance-title">Por qué importa</div>
+
+      <div class="fs-importance__lead">
+        <div class="fs-importance__lead-title">El problema no es de software. Es de modelo mental.</div>
+        <div class="fs-importance__lead-body">
+          El Stain Index clásico fue diseñado para anticuerpos que generan una separación real entre población positiva y negativa. Los colorantes fisiológicos no hacen eso: <strong>tiñen a todas las células</strong> según su estado metabólico. Si se optimizan como si fueran anticuerpos, el experimento premia brillo artificial, aumenta spillover y puede destruir la heterogeneidad biológica que se pretendía medir.
+        </div>
+      </div>
+
+      <div class="fs-importance__grid">
+        <div class="fs-risk">
+          <div class="fs-risk__label">Supuesto roto</div>
+          <div class="fs-risk__title">No hay población negativa biológica</div>
+          <div class="fs-risk__body">Con TMRM, Bodipy, CellRox o GFP, todas las células son “positivas”; lo importante es cuánto varían, no si cruzan una frontera binaria.</div>
+        </div>
+
+        <div class="fs-risk">
+          <div class="fs-risk__label">Riesgo</div>
+          <div class="fs-risk__title">Más concentración puede empeorar el panel</div>
+          <div class="fs-risk__body">Subir la dosis eleva brillo aparente, pero también saturación, shot noise y contaminación de los otros canales del panel.</div>
+        </div>
+
+        <div class="fs-risk">
+          <div class="fs-risk__label">Pérdida</div>
+          <div class="fs-risk__title">La heterogeneidad real se aplana</div>
+          <div class="fs-risk__body">Cuando la distribución toca el techo del detector, células fisiológicamente distintas empiezan a verse idénticas.</div>
+        </div>
+
+        <div class="fs-risk">
+          <div class="fs-risk__label">Respuesta</div>
+          <div class="fs-risk__title">SweetSpot optimiza comportamiento poblacional</div>
+          <div class="fs-risk__body">Prioriza cuántas células caen en el canal correcto y cuántas invaden otros, usando SI solo como filtro de calidad mínima.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="fs-module" aria-labelledby="mod1-title">
+      <div class="fs-module__header">
+        <div class="fs-module__num">1</div>
+        <div>
+          <div class="fs-module__title" id="mod1-title">Marco correcto para colorantes fisiológicos</div>
+          <div class="fs-module__sub">Reinterpreta el Stain Index cuando no existe una población negativa biológica real.</div>
+        </div>
+        <div class="fs-module__badge fs-module__badge--secondary">Concepto base</div>
+      </div>
+
+      <div class="fs-module__body">
+        <div class="fs-io">
+          <div>
+            <div class="fs-io__group-title">Qué entra al modelo</div>
+            <div class="fs-io__list">
+              <div class="fs-io__item">
+                <div class="fs-io__dot"></div>
+                <span class="fs-io__text">MFI y robust SD del gate positivo teñido</span>
+                <span class="fs-io__sym">MFI+, rSD+</span>
+              </div>
+              <div class="fs-io__item">
+                <div class="fs-io__dot"></div>
+                <span class="fs-io__text">Control sin teñir como referencia de ruido basal</span>
+                <span class="fs-io__sym">ST-</span>
+              </div>
+              <div class="fs-io__item fs-io__item--key">
+                <div class="fs-io__dot"></div>
+                <span class="fs-io__text">Canal objetivo y canales vecinos del panel</span>
+                <span class="fs-io__sym">target / neighbors</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout--idea" style="margin-top:0;">
+            <svg class="callout__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <div class="callout__body">
+              <strong>Idea clave:</strong> el control unstained sigue siendo útil, pero ya no para definir una población negativa biológica. Aquí funciona como piso instrumental de autofluorescencia y ruido.
+            </div>
+          </div>
+        </div>
+
+        <div class="eq-block">
+          <div class="eq-block__item">
+            <div class="eq-block__title">Stain Index con control unstained</div>
+            <div class="eq" aria-label="SI igual MFI stained positivo menos MFI unstained negativo entre dos por robust SD unstained negativo">
+              <span class="eq-res">SI</span>
+              <span class="eq-op">=</span>
+              <div class="eq-frac">
+                <div class="eq-frac__num">
+                  <span class="eq-var">MFI<sub>stained+</sub></span>
+                  <span class="eq-op">−</span>
+                  <span class="eq-var">MFI<sub>ST-</sub></span>
+                </div>
+                <div class="eq-frac__den">
+                  <span class="eq-const">2</span>
+                  <span class="eq-op">×</span>
+                  <span class="eq-var">rSD<sub>ST-</sub></span>
+                </div>
+              </div>
+            </div>
+            <div class="eq-note">
+              En esta herramienta, el SI no decide por sí solo la concentración óptima. Solo responde si la señal despega razonablemente del ruido basal del sistema.
+            </div>
+          </div>
+
+          <div class="eq-block__item">
+            <div class="eq-block__title">Envoltura de saturación</div>
+            <div class="eq" aria-label="envoltura superior igual MFI mas dos por robust SD">
+              <span class="eq-res">UpperEnvelope</span>
+              <span class="eq-op">=</span>
+              <span class="eq-var">MFI<sub>stained+</sub></span>
+              <span class="eq-op">+</span>
+              <span class="eq-const">2</span>
+              <span class="eq-op">×</span>
+              <span class="eq-var">rSD<sub>stained+</sub></span>
+            </div>
+            <div class="eq-note">
+              Si esta envoltura toca o se acerca al <strong>detector_max</strong>, la condición se marca como <strong>Near_Clip</strong> o <strong>Clip_Risk</strong> y deja de ser una buena candidata aunque sea muy brillante.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="fs-module" aria-labelledby="mod2-title">
+      <div class="fs-module__header">
+        <div class="fs-module__num">2</div>
+        <div>
+          <div class="fs-module__title" id="mod2-title">Score centrado en población</div>
+          <div class="fs-module__sub">Optimiza la fracción correcta de células detectadas y castiga la invasión espectral, en lugar de recompensar brillo sin contexto.</div>
+        </div>
+        <div class="fs-module__badge fs-module__badge--tertiary">Métrica de selección</div>
+      </div>
+
+      <div class="fs-module__body">
+        <div class="fs-io">
+          <div>
+            <div class="fs-io__group-title">Componentes del score</div>
+            <div class="fs-io__list">
+              <div class="fs-io__item fs-io__item--out">
+                <div class="fs-io__dot"></div>
+                <span class="fs-io__text">Fracción de células capturadas en el canal objetivo</span>
+                <span class="fs-io__sym">Freq_Signal</span>
+              </div>
+              <div class="fs-io__item fs-io__item--out">
+                <div class="fs-io__dot"></div>
+                <span class="fs-io__text">Suma de invasión a canales vecinos</span>
+                <span class="fs-io__sym">Invasion_Total</span>
+              </div>
+              <div class="fs-io__item fs-io__item--key">
+                <div class="fs-io__dot"></div>
+                <span class="fs-io__text">Factor suave de calidad mínima de señal</span>
+                <span class="fs-io__sym">SI_factor</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="fs-io__group-title">Interpretación</div>
+            <div class="fs-io__list">
+              <div class="fs-io__item">
+                <div class="fs-io__dot"></div>
+                <span class="fs-io__text">Más células en el canal correcto aumenta score</span>
+              </div>
+              <div class="fs-io__item">
+                <div class="fs-io__dot"></div>
+                <span class="fs-io__text">Más spillover a vecinos reduce score</span>
+              </div>
+              <div class="fs-io__item">
+                <div class="fs-io__dot"></div>
+                <span class="fs-io__text">Brillo extra sobre el mínimo aceptable ya no premia</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eq-block">
+          <div class="eq-block__item">
+            <div class="eq-block__title">Score</div>
+            <div class="eq" aria-label="score igual frecuencia de señal entre uno mas invasión total por factor SI">
+              <span class="eq-res">Score</span>
+              <span class="eq-op">=</span>
+              <div class="eq-frac">
+                <div class="eq-frac__num">
+                  <span class="eq-var">Freq_Signal</span>
+                </div>
+                <div class="eq-frac__den">
+                  <span class="eq-const">1</span>
+                  <span class="eq-op">+</span>
+                  <span class="eq-var">Invasion_Total</span>
+                </div>
+              </div>
+              <span class="eq-op">×</span>
+              <span class="eq-var--key eq-var">SI_factor</span>
+            </div>
+            <div class="eq-note">
+              Esta es la decisión real del experimento: maximizar población útil en el canal correcto mientras se minimiza la corrupción multicanal del panel.
+            </div>
+          </div>
+
+          <div class="eq-block__item">
+            <div class="eq-block__title">Factor suave de SI</div>
+            <div class="eq" aria-label="SI factor igual clamp de SI entre SI minimo">
+              <span class="eq-res">SI_factor</span>
+              <span class="eq-op">=</span>
+              <span class="eq-fn">clamp</span>
+              <span class="eq-paren">(</span>
+              <span class="eq-var">SI</span>
+              <span class="eq-op">/</span>
+              <span class="eq-var">SI<sub>min</sub></span>
+              <span class="eq-paren">, 0, 1)</span>
+            </div>
+            <div class="eq-note">
+              El SI se usa como <strong>gate suave</strong>: penaliza señal insuficiente, pero no sobre-recompensa concentraciones exageradamente brillantes una vez superado el umbral mínimo.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="fs-module" aria-labelledby="mod3-title">
+      <div class="fs-module__header">
+        <div class="fs-module__num">3</div>
+        <div>
+          <div class="fs-module__title" id="mod3-title">Selección final y salidas</div>
+          <div class="fs-module__sub">Entrega recomendaciones por colorante, plots de tendencia y tablas diagnósticas para entender por qué ganó cada concentración.</div>
+        </div>
+        <div class="fs-module__badge fs-module__badge--secondary">Exploración y decisión</div>
+      </div>
+
+      <div class="fs-module__body">
+        <div class="fs-io">
+          <div>
+            <div class="fs-io__group-title">Qué devuelve</div>
+            <div class="fs-io__list">
+              <div class="fs-io__item fs-io__item--out">
+                <div class="fs-io__dot"></div>
+                <span class="fs-io__text">Recomendación de concentración por colorante</span>
+                <span class="fs-io__sym">best dose</span>
+              </div>
+              <div class="fs-io__item fs-io__item--out">
+                <div class="fs-io__dot"></div>
+                <span class="fs-io__text">Curvas de SI, invasión total y score</span>
+                <span class="fs-io__sym">trends</span>
+              </div>
+              <div class="fs-io__item fs-io__item--key">
+                <div class="fs-io__dot"></div>
+                <span class="fs-io__text">Desglose Ws por vecino y tablas finales</span>
+                <span class="fs-io__sym">diagnostic</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout--warn" style="margin-top:0;">
+            <svg class="callout__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <div class="callout__body">
+              <strong>GFP no se titrula:</strong> participa en el cálculo de invasión porque puede contaminar otros canales y recibir spill de ellos, pero no entra a selección de dosis porque su intensidad la determina la biología, no una concentración experimental.
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+          <div class="eq-block">
+            <div class="eq-block__item">
+              <div class="eq-block__title">Algoritmo de selección</div>
+              <div class="eq" aria-label="filtro de seguridad luego SI y luego arg max score">
+                <span class="eq-res">safe</span>
+                <span class="eq-op">→</span>
+                <span class="eq-res">SI ≥ SI<sub>min</sub></span>
+                <span class="eq-op">→</span>
+                <span class="eq-fn">argmax</span>
+                <span class="eq-paren">(</span>
+                <span class="eq-var">Score</span>
+                <span class="eq-paren">)</span>
+              </div>
+              <div class="eq-note">
+                Primero descarta concentraciones con <strong>Clip_Risk</strong> si existen alternativas seguras, luego privilegia las que cumplen el umbral de señal y finalmente elige el máximo score dentro del pool candidato.
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="eq-block__title" style="margin-bottom:0.4rem;">Salidas visibles</div>
+            <div class="fs-output-strip" aria-label="Resultados principales">
+              <div class="fs-output">
+                <div class="fs-output__name">Cards</div>
+                <div class="fs-output__desc">Resumen inmediato de la concentración recomendada por colorante.</div>
+              </div>
+              <div class="fs-output">
+                <div class="fs-output__name">Metric trends</div>
+                <div class="fs-output__desc">SI, invasión total y score a lo largo de la titulación.</div>
+              </div>
+              <div class="fs-output">
+                <div class="fs-output__name">Best conditions</div>
+                <div class="fs-output__desc">Tabla final con score, positivas, invasión y banderas de saturación.</div>
+              </div>
+              <div class="fs-output">
+                <div class="fs-output__name">Ws breakdown</div>
+                <div class="fs-output__desc">Diagnóstico por canal vecino para identificar dónde se está contaminando el panel.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="fs-features" aria-label="Características técnicas">
+      <div class="fs-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7" stroke-dasharray="2 2"/></svg>
+        TMRM, Bodipy, CellRox y GFP
+      </div>
+      <div class="fs-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12h8"/><path d="M12 8v8"/><circle cx="12" cy="12" r="10"/></svg>
+        Score propio para colorantes
+      </div>
+      <div class="fs-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h18"/><path d="M12 3v18"/></svg>
+        Detección de saturación
+      </div>
+      <div class="fs-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/></svg>
+        CSV y XLSX
+      </div>
+      <div class="fs-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        Plotly interactivo
+      </div>
+      <div class="fs-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        Sin datos al servidor
+      </div>
     </div>
 
-    <div class="tool-info-grid">
-
-      <div class="tool-info-card tool-info-card--secondary">
-        <div class="tool-info-card__label">Qué es</div>
-        <div class="tool-info-card__title">Optimizador de paneles de citometría funcional para cultivos CHO</div>
-        <div class="tool-info-card__body">
-          FlowJo SweetSpot Web determina la concentración óptima de cada colorante fisiológico en un panel de citometría de flujo funcional. Carga un export de titulación de FlowJo en formato CSV o XLSX e identifica la concentración que maximiza la fracción de células detectadas en el canal correcto mientras minimiza la contaminación espectral de los demás canales.
-          <br><br>
-          Corre enteramente en el navegador con JavaScript puro (Plotly.js + XLSX.js). Ningún dato sale de tu máquina.
-        </div>
-      </div>
-
-      <div class="tool-info-card tool-info-card--secondary">
-        <div class="tool-info-card__label">Por qué el SI clásico no aplica</div>
-        <div class="tool-info-card__title">Los colorantes fisiológicos cargan todas las células — no hay población negativa</div>
-        <div class="tool-info-card__body">
-          El Stain Index (SI) estándar mide la separación entre una población positiva y una negativa: funciona porque los anticuerpos conjugados <em>sí</em> crean bimodalidad (células que expresan el marcador vs. células que no).
-          <br><br>
-          Los colorantes fisiológicos —TMRM (potencial mitocondrial), Bodipy (lípidos), CellRox Deep Red (estrés oxidativo), GFP reportero— cargan <strong>todas las células</strong> según su estado metabólico actual. El resultado es una distribución continua sin subpoblación negativa biológica. Aumentar la concentración desplaza toda la distribución hacia arriba, infla artificialmente el SI y genera saturación del detector — ocultando la heterogeneidad que se quiere medir.
-        </div>
-      </div>
-
-      <div class="tool-info-card tool-info-card--secondary">
-        <div class="tool-info-card__label">Qué hace</div>
-        <div class="tool-info-card__title">Calcula Score, detecta saturación y recomienda la concentración óptima para cada colorante</div>
-        <div class="tool-info-card__body">
-          Para cada muestra (colorante × concentración × clon), el motor calcula:
-          <ul>
-            <li><strong>Freq_Signal</strong>: fracción de células capturadas en el canal objetivo</li>
-            <li><strong>Invasion_Total</strong>: fracción de células que aparecen en los canales vecinos por spillover espectral</li>
-            <li><strong>SI_factor</strong>: corrección por calidad mínima de señal (umbral configurable)</li>
-            <li><strong>Saturación</strong>: envolvente superior vs. límite del detector (Clip_Risk / Near_Clip)</li>
-          </ul>
-          GFP se marca como <em>informational_only</em>: participa en el cálculo de invasión pero no se titrula concentración para él.
-        </div>
-      </div>
-
-      <div class="tool-info-card tool-info-card--secondary">
-        <div class="tool-info-card__label">Cómo lo hace — la métrica Score</div>
-        <div class="tool-info-card__title">Frecuencia en canal correcto vs. invasión a canales vecinos, ponderada por calidad de señal</div>
-        <div class="tool-info-card__body">
-          El Score captura el balance real del experimento:
-          <code class="tool-formula">Score = Freq_Signal / (1 + Invasion_Total) × SI_factor</code>
-          <code class="tool-formula">SI_factor = clamp(SI / SI_mín, 0, 1)</code>
-          <code class="tool-formula">UpperEnvelope = MFI+ + 2 × rSD+  → Clip_Risk si ≥ detector_max</code>
-          El algoritmo de selección filtra primero las concentraciones con riesgo de saturación, luego restringe al pool donde SI ≥ SI_mín, y elige arg max(Score). La concentración ganadora es la que pone más células en el canal correcto con el menor spillover posible, dado que la señal supera el piso de calidad mínimo.
-        </div>
-      </div>
-
-    </div>
-
-    <!-- CTA -->
     <div class="tool-cta">
-      <p class="tool-cta__label">Carga tu export de titulación de FlowJo y encuentra el sweet spot.</p>
+      <p class="tool-cta__label">Carga tu titulación de FlowJo y encuentra el sweet spot sin sacrificar heterogeneidad biológica.</p>
       <a class="md-button-filled md-button-filled--large md-button-filled--secondary" href="https://ebalderasr.github.io/flowjo-sweetspot-web/" target="_blank" rel="noopener noreferrer">
         Ir a FlowJo SweetSpot Web
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -136,7 +1009,7 @@
         </svg>
       </a>
     </div>
-  </div>
+  </div><!-- /.tool-content -->
 
   <!-- ══ FOOTER ══ -->
   <footer class="hc-footer">
