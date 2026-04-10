@@ -11,6 +11,527 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
+
+  <style>
+    /* ══ CellSplit page styles ══════════════════════════════ */
+
+    /* ── ¿Cómo funciona? — Workflow pipeline ─────────────── */
+    .cs-section-label {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--md-primary);
+      margin-bottom: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .cs-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--md-outline-variant);
+    }
+
+    .cs-workflow {
+      margin-bottom: 3rem;
+    }
+
+    .cs-workflow__steps {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      overflow: hidden;
+    }
+
+    .cs-step {
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .cs-step__num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--md-primary-container);
+      color: var(--md-primary);
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-bottom: 0.25rem;
+    }
+
+    .cs-step__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      line-height: 1.3;
+    }
+
+    .cs-step__desc {
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.55;
+    }
+
+    .cs-step__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 0.25rem;
+    }
+
+    .cs-tag {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container-high);
+      border: 1px solid var(--md-outline-variant);
+      color: var(--md-on-surface-variant);
+      font-style: italic;
+    }
+
+    .cs-tag--out {
+      background: rgba(92,214,233,0.10);
+      border-color: rgba(92,214,233,0.25);
+      color: var(--md-primary);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .cs-workflow__arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0.5rem;
+      color: var(--md-primary);
+      opacity: 0.5;
+      border-left: 1px solid var(--md-outline-variant);
+      border-right: 1px solid var(--md-outline-variant);
+      font-size: 1.25rem;
+    }
+
+    /* ── Module section ──────────────────────────────────── */
+    .cs-module {
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .cs-module__header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.125rem 1.5rem;
+      background: var(--md-surface-container-high);
+      border-bottom: 1px solid var(--md-outline-variant);
+    }
+
+    .cs-module__num {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--md-primary);
+      color: var(--md-on-primary);
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.0625rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cs-module__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.0625rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      line-height: 1.2;
+    }
+
+    .cs-module__sub {
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      margin-top: 1px;
+    }
+
+    .cs-module__body {
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 1.5rem;
+    }
+
+    /* ── IO panel (inputs / outputs list) ────────────────── */
+    .cs-io {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .cs-io__group-title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      margin-bottom: 0.4rem;
+    }
+
+    .cs-io__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .cs-io__item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.525rem 0.75rem;
+      border-radius: var(--md-shape-sm);
+      background: var(--md-surface-container-low);
+      border: 1px solid var(--md-outline-variant);
+    }
+
+    .cs-io__item--out {
+      background: rgba(92,214,233,0.06);
+      border-color: rgba(92,214,233,0.20);
+    }
+
+    .cs-io__dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--md-outline-variant);
+    }
+
+    .cs-io__item--out .cs-io__dot {
+      background: var(--md-primary);
+    }
+
+    .cs-io__text {
+      flex: 1;
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.3;
+    }
+
+    .cs-io__item--out .cs-io__text {
+      color: var(--md-on-surface);
+      font-weight: 500;
+    }
+
+    .cs-io__sym {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 0.875rem;
+      color: var(--md-primary);
+      opacity: 0.85;
+      flex-shrink: 0;
+    }
+
+    /* ── Equation block ──────────────────────────────────── */
+    .eq-block {
+      background: var(--md-surface-container-high);
+      border-radius: var(--md-shape-md);
+      border: 1px solid var(--md-outline-variant);
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .eq-block__item {
+      padding: 1.125rem 1.375rem;
+      border-bottom: 1px solid var(--md-outline-variant);
+    }
+
+    .eq-block__item:last-child {
+      border-bottom: none;
+    }
+
+    .eq-block__title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      margin-bottom: 0.875rem;
+    }
+
+    /* The equation itself */
+    .eq {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.35em;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 1.125rem;
+      line-height: 1;
+    }
+
+    /* LHS result variable — highlighted in cyan */
+    .eq-res {
+      font-style: italic;
+      color: var(--md-primary);
+      font-weight: 400;
+    }
+
+    /* RHS input variables — standard color, italic serif */
+    .eq-var {
+      font-style: italic;
+      color: var(--md-on-surface);
+    }
+
+    /* Constants / numbers — upright, slightly accented */
+    .eq-const {
+      font-style: normal;
+      color: var(--md-tertiary);
+      font-weight: 400;
+    }
+
+    /* Operator symbols */
+    .eq-op {
+      font-style: normal;
+      color: var(--md-on-surface-variant);
+      font-size: 0.95em;
+    }
+
+    /* Parentheses */
+    .eq-paren {
+      font-style: normal;
+      color: var(--md-on-surface-variant);
+      font-size: 1.3em;
+      line-height: 1;
+    }
+
+    /* Fraction (vertical layout) */
+    .eq-frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0;
+      line-height: 1.25;
+    }
+
+    .eq-frac__num {
+      padding: 0 0.3em 0.15em;
+      border-bottom: 1.5px solid var(--md-on-surface-variant);
+    }
+
+    .eq-frac__den {
+      padding: 0.15em 0.3em 0;
+    }
+
+    /* Subscript / Superscript */
+    .eq sub, .eq sup {
+      font-size: 0.65em;
+      line-height: 0;
+      vertical-align: baseline;
+      position: relative;
+    }
+    .eq sub { top: 0.4em; }
+    .eq sup { top: -0.55em; }
+
+    /* Note below an equation */
+    .eq-note {
+      margin-top: 0.75rem;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.8125rem;
+      line-height: 1.55;
+      color: var(--md-on-surface-variant);
+      font-style: normal;
+    }
+
+    .eq-note strong {
+      color: var(--md-on-surface);
+      font-weight: 500;
+    }
+
+    /* ── Diagnostic zones ────────────────────────────────── */
+    .cs-module__diag {
+      border-top: 1px solid var(--md-outline-variant);
+    }
+
+    .cs-diag__header {
+      padding: 0.625rem 1.5rem;
+      background: var(--md-surface-container-high);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      border-bottom: 1px solid var(--md-outline-variant);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .cs-diag__zones {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr 1fr;
+    }
+
+    .cs-diag__zone {
+      padding: 1rem 1.25rem;
+      text-align: center;
+      border-right: 1px solid var(--md-outline-variant);
+    }
+
+    .cs-diag__zone:last-child { border-right: none; }
+
+    .cs-diag__zone--low  { background: rgba(255, 90, 90, 0.08); }
+    .cs-diag__zone--ok   { background: rgba(150,203,174,0.12); }
+    .cs-diag__zone--high { background: rgba(255,193,7,0.09); }
+
+    .cs-diag__range {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .cs-diag__zone--low  .cs-diag__range { color: #FF6B6B; }
+    .cs-diag__zone--ok   .cs-diag__range { color: var(--md-secondary); }
+    .cs-diag__zone--high .cs-diag__range { color: #FFD54F; }
+
+    .cs-diag__name {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--md-on-surface);
+      margin-bottom: 0.25rem;
+    }
+
+    .cs-diag__consequence {
+      font-size: 0.6875rem;
+      color: var(--md-on-surface-variant);
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    /* ── Callout boxes ───────────────────────────────────── */
+    .callout {
+      border-radius: var(--md-shape-md);
+      padding: 0.875rem 1.125rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      margin-top: 1rem;
+    }
+
+    .callout--info {
+      background: rgba(92,214,233,0.07);
+      border: 1px solid rgba(92,214,233,0.20);
+    }
+
+    .callout--warn {
+      background: rgba(255,107,107,0.07);
+      border: 1px solid rgba(255,107,107,0.20);
+    }
+
+    .callout--link {
+      background: rgba(150,203,174,0.08);
+      border: 1px solid rgba(150,203,174,0.22);
+    }
+
+    .callout__icon {
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: var(--md-primary);
+    }
+
+    .callout--warn .callout__icon { color: #FF6B6B; }
+    .callout--link .callout__icon { color: var(--md-secondary); }
+
+    .callout__body {
+      font-size: 0.8125rem;
+      line-height: 1.65;
+      color: var(--md-on-surface-variant);
+    }
+
+    .callout__body strong {
+      color: var(--md-on-surface);
+      font-weight: 500;
+    }
+
+    .callout__body code {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.8em;
+      background: var(--md-surface-container-highest);
+      padding: 0.1em 0.4em;
+      border-radius: 4px;
+      color: var(--md-primary);
+    }
+
+    /* ── Feature badges (at bottom) ──────────────────────── */
+    .cs-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 2.5rem;
+    }
+
+    .cs-feature-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: var(--md-on-surface-variant);
+    }
+
+    .cs-feature-chip svg {
+      color: var(--md-primary);
+      opacity: 0.8;
+    }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 760px) {
+      .cs-workflow__steps {
+        grid-template-columns: 1fr;
+      }
+      .cs-workflow__arrow {
+        border: none;
+        border-top: 1px solid var(--md-outline-variant);
+        border-bottom: 1px solid var(--md-outline-variant);
+        padding: 0.5rem;
+        transform: rotate(90deg) scaleX(0.6);
+      }
+      .cs-module__body {
+        grid-template-columns: 1fr;
+      }
+      .cs-diag__zones {
+        grid-template-columns: 1fr;
+      }
+      .cs-diag__zone {
+        border-right: none;
+        border-bottom: 1px solid var(--md-outline-variant);
+      }
+      .cs-diag__zone:last-child { border-bottom: none; }
+    }
+  </style>
 </head>
 <body>
 
@@ -40,97 +561,368 @@
 
   <!-- ══ HERO ══ -->
   <section class="tool-hero tool-hero--primary">
-    <div class="tool-hero__bg" aria-hidden="true">
-      <div class="tool-hero__bg-blob"></div>
-      <div class="tool-hero__bg-blob"></div>
-    </div>
     <div class="tool-hero__content">
       <div class="tool-hero__badge">PWA · Bioprocesos</div>
       <div class="tool-hero__icon" aria-hidden="true">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="8" cy="12" r="4.5"/><circle cx="16" cy="12" r="4.5"/>
           <line x1="12" y1="7.5" x2="12" y2="16.5"/>
         </svg>
       </div>
       <h1 class="tool-hero__title">CellSplit</h1>
-      <p class="tool-hero__tagline">Conteo en cámara de Neubauer y planificación de pase: dos módulos enlazados para el mantenimiento diario de cultivos CHO.</p>
+      <p class="tool-hero__tagline">Dos módulos enlazados para el mantenimiento diario de cultivos CHO: conteo en cámara de Neubauer y planificación del siguiente pase.</p>
     </div>
   </section>
 
   <!-- ══ CONTENT ══ -->
   <div class="tool-content">
 
-    <!-- Feature chips -->
-    <div class="tool-feature-row" aria-label="Características principales">
-      <span class="tool-feature-chip">2 módulos enlazados</span>
-      <span class="tool-feature-chip">Diagnóstico de conteo</span>
-      <span class="tool-feature-chip">Bilingüe ES / EN</span>
-      <span class="tool-feature-chip">Dark mode</span>
-      <span class="tool-feature-chip">Offline-first PWA</span>
+    <!-- ── ¿Cómo funciona? ── -->
+    <section class="cs-workflow" aria-label="Pipeline de uso">
+      <div class="cs-section-label">¿Cómo funciona?</div>
+
+      <div class="cs-workflow__steps">
+
+        <div class="cs-step">
+          <div class="cs-step__num">1</div>
+          <div class="cs-step__title">Introduce el conteo</div>
+          <div class="cs-step__desc">Células vivas, muertas, número de cuadros y factor de dilución desde la cámara de Neubauer.</div>
+          <div class="cs-step__tags">
+            <span class="cs-tag">N<sub>vivas</sub></span>
+            <span class="cs-tag">N<sub>muertas</sub></span>
+            <span class="cs-tag">cuadros</span>
+            <span class="cs-tag">F<sub>dil</sub></span>
+          </div>
+        </div>
+
+        <div class="cs-workflow__arrow" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <div class="cs-step">
+          <div class="cs-step__num">2</div>
+          <div class="cs-step__title">Módulo 1 calcula VCD</div>
+          <div class="cs-step__desc">Obtiene la concentración viable y viabilidad. Emite un diagnóstico de calidad del conteo.</div>
+          <div class="cs-step__tags">
+            <span class="cs-tag cs-tag--out">VCD (×10⁶ cél/mL)</span>
+            <span class="cs-tag cs-tag--out">Viabilidad (%)</span>
+          </div>
+        </div>
+
+        <div class="cs-workflow__arrow" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <div class="cs-step">
+          <div class="cs-step__num">3</div>
+          <div class="cs-step__title">Módulo 2 planifica el pase</div>
+          <div class="cs-step__desc">La VCD se transfiere automáticamente. Define el volumen y densidad objetivo y obtén exactamente cuánto transferir.</div>
+          <div class="cs-step__tags">
+            <span class="cs-tag cs-tag--out">V<sub>inóculo</sub></span>
+            <span class="cs-tag cs-tag--out">V<sub>fresco</sub></span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Módulo 1 ── -->
+    <section class="cs-module" aria-labelledby="mod1-title">
+
+      <div class="cs-module__header">
+        <div class="cs-module__num" aria-hidden="true">1</div>
+        <div>
+          <div class="cs-module__title" id="mod1-title">Conteo celular</div>
+          <div class="cs-module__sub">De cámara de Neubauer a concentración viable y viabilidad</div>
+        </div>
+      </div>
+
+      <div class="cs-module__body">
+
+        <!-- Left: Entradas + Resultados -->
+        <div class="cs-io">
+
+          <div>
+            <div class="cs-io__group-title">Entradas</div>
+            <div class="cs-io__list">
+              <div class="cs-io__item">
+                <div class="cs-io__dot"></div>
+                <span class="cs-io__text">Células vivas contadas</span>
+                <span class="cs-io__sym">N<sub>vivas</sub></span>
+              </div>
+              <div class="cs-io__item">
+                <div class="cs-io__dot"></div>
+                <span class="cs-io__text">Células muertas contadas</span>
+                <span class="cs-io__sym">N<sub>muertas</sub></span>
+              </div>
+              <div class="cs-io__item">
+                <div class="cs-io__dot"></div>
+                <span class="cs-io__text">Número de cuadros contados</span>
+                <span class="cs-io__sym">n</span>
+              </div>
+              <div class="cs-io__item">
+                <div class="cs-io__dot"></div>
+                <span class="cs-io__text">Factor de dilución</span>
+                <span class="cs-io__sym">F<sub>dil</sub></span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="cs-io__group-title">Resultados</div>
+            <div class="cs-io__list">
+              <div class="cs-io__item cs-io__item--out">
+                <div class="cs-io__dot"></div>
+                <span class="cs-io__text">Concentración celular viable</span>
+                <span class="cs-io__sym">VCD</span>
+              </div>
+              <div class="cs-io__item cs-io__item--out">
+                <div class="cs-io__dot"></div>
+                <span class="cs-io__text">Viabilidad</span>
+                <span class="cs-io__sym">Vi</span>
+              </div>
+              <div class="cs-io__item cs-io__item--out">
+                <div class="cs-io__dot"></div>
+                <span class="cs-io__text">Diagnóstico de calidad del conteo</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Equations -->
+        <div>
+          <div class="eq-block">
+
+            <div class="eq-block__item">
+              <div class="eq-block__title">Concentración celular viable</div>
+              <div class="eq" aria-label="VCD igual a la fracción de N-vivas entre n-cuadros, por F-dilución, por 10 elevado a 4">
+                <span class="eq-res">VCD</span>
+                <span class="eq-op">=</span>
+                <div class="eq-frac">
+                  <div class="eq-frac__num"><span class="eq-var">N<sub>vivas</sub></span></div>
+                  <div class="eq-frac__den"><span class="eq-var">n</span></div>
+                </div>
+                <span class="eq-op">×</span>
+                <span class="eq-var">F<sub>dil</sub></span>
+                <span class="eq-op">×</span>
+                <span class="eq-const">10<sup>4</sup></span>
+              </div>
+              <div class="eq-note">
+                El factor <strong style="color:var(--md-tertiary)">10⁴</strong> proviene de la geometría de la cámara:
+                1 mm² × 0.1 mm de profundidad = 10<sup>−4</sup> mL por cuadro.
+                Resultado en <strong>×10⁶ cél/mL</strong>.
+              </div>
+            </div>
+
+            <div class="eq-block__item">
+              <div class="eq-block__title">Viabilidad</div>
+              <div class="eq" aria-label="Viabilidad igual a la fracción de N-vivas entre la suma de N-vivas más N-muertas, por 100">
+                <span class="eq-res">Vi</span>
+                <span class="eq-op">=</span>
+                <div class="eq-frac">
+                  <div class="eq-frac__num"><span class="eq-var">N<sub>vivas</sub></span></div>
+                  <div class="eq-frac__den">
+                    <span class="eq-var">N<sub>vivas</sub></span>
+                    <span class="eq-op">+</span>
+                    <span class="eq-var">N<sub>muertas</sub></span>
+                  </div>
+                </div>
+                <span class="eq-op">×</span>
+                <span class="eq-const">100</span>
+              </div>
+              <div class="eq-note">
+                Resultado en <strong>%</strong>. Una viabilidad &lt; 80 % puede indicar estrés metabólico o contaminación.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Diagnostic strip -->
+      <div class="cs-module__diag">
+        <div class="cs-diag__header">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          Diagnóstico de calidad de conteo — células por cuadro
+        </div>
+        <div class="cs-diag__zones" role="list">
+          <div class="cs-diag__zone cs-diag__zone--low" role="listitem">
+            <div class="cs-diag__range">&lt; 10 cél/cuadro</div>
+            <div class="cs-diag__name">Bajo</div>
+            <div class="cs-diag__consequence">Alta incertidumbre estadística. Redilución o muestra más concentrada.</div>
+          </div>
+          <div class="cs-diag__zone cs-diag__zone--ok" role="listitem">
+            <div class="cs-diag__range">10 – 50 cél/cuadro</div>
+            <div class="cs-diag__name">Óptimo ✓</div>
+            <div class="cs-diag__consequence">Rango estadísticamente confiable. Conteo válido.</div>
+          </div>
+          <div class="cs-diag__zone cs-diag__zone--high" role="listitem">
+            <div class="cs-diag__range">&gt; 50 cél/cuadro</div>
+            <div class="cs-diag__name">Alto</div>
+            <div class="cs-diag__consequence">Solapamiento de células. Mayor dilución recomendada.</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── Módulo 2 ── -->
+    <section class="cs-module" aria-labelledby="mod2-title">
+
+      <div class="cs-module__header">
+        <div class="cs-module__num" aria-hidden="true">2</div>
+        <div>
+          <div class="cs-module__title" id="mod2-title">Planificación de pase</div>
+          <div class="cs-module__sub">Volumen de inóculo y medio fresco para la densidad de siembra objetivo</div>
+        </div>
+      </div>
+
+      <div class="cs-module__body">
+
+        <!-- Left: IO -->
+        <div class="cs-io">
+
+          <div class="callout callout--link" style="margin-top:0">
+            <svg class="callout__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <div class="callout__body">
+              La <strong>VCD calculada en el Módulo 1</strong> (C<sub>1</sub>) se pre-llena automáticamente en este módulo. Solo define el volumen y la densidad objetivo.
+            </div>
+          </div>
+
+          <div>
+            <div class="cs-io__group-title">Entradas</div>
+            <div class="cs-io__list">
+              <div class="cs-io__item">
+                <div class="cs-io__dot" style="background:var(--md-primary);opacity:0.4"></div>
+                <span class="cs-io__text">VCD actual <em>(desde Módulo 1)</em></span>
+                <span class="cs-io__sym">C<sub>1</sub></span>
+              </div>
+              <div class="cs-io__item">
+                <div class="cs-io__dot"></div>
+                <span class="cs-io__text">Densidad de siembra objetivo</span>
+                <span class="cs-io__sym">C<sub>2</sub></span>
+              </div>
+              <div class="cs-io__item">
+                <div class="cs-io__dot"></div>
+                <span class="cs-io__text">Volumen final del cultivo</span>
+                <span class="cs-io__sym">V<sub>2</sub></span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="cs-io__group-title">Resultados</div>
+            <div class="cs-io__list">
+              <div class="cs-io__item cs-io__item--out">
+                <div class="cs-io__dot"></div>
+                <span class="cs-io__text">Volumen de inóculo a transferir</span>
+                <span class="cs-io__sym">V<sub>1</sub></span>
+              </div>
+              <div class="cs-io__item cs-io__item--out">
+                <div class="cs-io__dot"></div>
+                <span class="cs-io__text">Volumen de medio fresco a añadir</span>
+                <span class="cs-io__sym">V<sub>fresco</sub></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Equations -->
+        <div>
+          <div class="eq-block">
+
+            <div class="eq-block__item">
+              <div class="eq-block__title">Volumen de inóculo</div>
+              <div class="eq" aria-label="V1 igual a la fracción de C2 por V2 entre C1">
+                <span class="eq-res">V<sub>1</sub></span>
+                <span class="eq-op">=</span>
+                <div class="eq-frac">
+                  <div class="eq-frac__num">
+                    <span class="eq-var">C<sub>2</sub></span>
+                    <span class="eq-op">×</span>
+                    <span class="eq-var">V<sub>2</sub></span>
+                  </div>
+                  <div class="eq-frac__den">
+                    <span class="eq-var">C<sub>1</sub></span>
+                  </div>
+                </div>
+              </div>
+              <div class="eq-note">
+                Dilución directa por la <strong>ley de conservación de masa</strong>:
+                <em>C₁ · V₁ = C₂ · V₂</em>. Resultado en el mismo volumen que V₂.
+              </div>
+            </div>
+
+            <div class="eq-block__item">
+              <div class="eq-block__title">Volumen de medio fresco</div>
+              <div class="eq" aria-label="V-fresco igual a V2 menos V1">
+                <span class="eq-res">V<sub>fresco</sub></span>
+                <span class="eq-op">=</span>
+                <span class="eq-var">V<sub>2</sub></span>
+                <span class="eq-op">−</span>
+                <span class="eq-var">V<sub>1</sub></span>
+              </div>
+              <div class="eq-note">
+                Complemento para completar el volumen total con medio fresco.
+              </div>
+            </div>
+
+          </div>
+
+          <div class="callout callout--warn" style="margin-top:1rem">
+            <svg class="callout__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <div class="callout__body">
+              <strong>Error de dilución inversa:</strong> si la densidad objetivo C<sub>2</sub> es mayor que la densidad actual C<sub>1</sub>, la app rechaza el cálculo. No es posible concentrar un cultivo diluyéndolo.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── Features ── -->
+    <div class="cs-features" aria-label="Características técnicas">
+      <div class="cs-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        2 módulos enlazados
+      </div>
+      <div class="cs-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Diagnóstico de conteo
+      </div>
+      <div class="cs-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        Bilingüe ES / EN
+      </div>
+      <div class="cs-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        Offline-first PWA
+      </div>
+      <div class="cs-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/></svg>
+        Dark mode
+      </div>
     </div>
 
-    <div class="tool-info-grid">
-
-      <div class="tool-info-card">
-        <div class="tool-info-card__label">Qué es</div>
-        <div class="tool-info-card__title">Calculadora de conteo Neubauer y pase para cultivos de mamífero</div>
-        <div class="tool-info-card__body">
-          CellSplit cubre las dos operaciones aritméticas que se realizan en cada pase: convertir un conteo en cámara de Neubauer en densidad celular viable, y calcular el volumen de inóculo necesario para sembrar el siguiente frasco a la densidad objetivo.
-          <br><br>
-          Los dos módulos están enlazados: la concentración calculada en el Módulo 1 se transfiere automáticamente al Módulo 2, eliminando la transcripción entre pasos. Instalable como PWA para uso sin conexión dentro de la campana de bioseguridad.
-        </div>
-      </div>
-
-      <div class="tool-info-card">
-        <div class="tool-info-card__label">Por qué es importante</div>
-        <div class="tool-info-card__title">Aritmética de pase bajo presión de tiempo, dentro de la campana</div>
-        <div class="tool-info-card__body">
-          El mantenimiento de cultivos requiere cálculos repetitivos hechos a contrarreloj, a menudo sin acceso a una computadora. Sin una herramienta dedicada:
-          <ul>
-            <li>Los cálculos se hacen a mano, introduciendo errores de transcripción</li>
-            <li>El volumen de inóculo se calcula por separado, a partir de valores recién anotados</li>
-            <li>No hay retroalimentación cuando el conteo cae fuera del rango estadísticamente confiable</li>
-          </ul>
-          CellSplit resuelve los tres problemas: valida el rango del conteo, calcula ambos resultados en un paso y lleva el resultado al siguiente módulo automáticamente.
-        </div>
-      </div>
-
-      <div class="tool-info-card">
-        <div class="tool-info-card__label">Módulo 1 — Conteo celular</div>
-        <div class="tool-info-card__title">De cuadro Neubauer a VCD y viabilidad, con diagnóstico de calidad</div>
-        <div class="tool-info-card__body">
-          Entradas: células vivas, células muertas, número de cuadros contados y factor de dilución. CellSplit calcula:
-          <ul>
-            <li>Concentración viable (×10⁶ células/mL)</li>
-            <li>Viabilidad (%)</li>
-            <li>Diagnóstico de conteo: <em>Bajo</em> / <em>Óptimo</em> / <em>Alto</em></li>
-          </ul>
-          <code class="tool-formula">VCD = (Vivas / Cuadros) × Dilución × 10,000</code>
-          <code class="tool-formula">Viabilidad = Vivas / (Vivas + Muertas) × 100</code>
-          El factor 10,000 proviene de la geometría de la cámara Neubauer: 1 mm² × 0.1 mm de profundidad = 10⁻⁴ mL por cuadro. El rango óptimo es 10–50 células por cuadro.
-        </div>
-      </div>
-
-      <div class="tool-info-card">
-        <div class="tool-info-card__label">Módulo 2 — Planificación de pase</div>
-        <div class="tool-info-card__title">Volumen de inóculo y medio fresco para sembrar a la densidad objetivo</div>
-        <div class="tool-info-card__body">
-          La concentración del Módulo 1 se pre-llena automáticamente. El usuario define el volumen total del cultivo y la densidad de siembra objetivo. CellSplit devuelve:
-          <ul>
-            <li>Volumen de inóculo a transferir (V₁)</li>
-            <li>Volumen de medio fresco a agregar (V_fresco)</li>
-          </ul>
-          <code class="tool-formula">V₁ = (C₂ × V₂) / C₁</code>
-          <code class="tool-formula">V_fresco = V₂ − V₁</code>
-          La app devuelve error si la densidad objetivo es mayor que la densidad actual del cultivo (C₂ &gt; C₁), evitando diluciones inversa imposibles.
-        </div>
-      </div>
-
-    </div>
-
-    <!-- CTA -->
+    <!-- ── CTA ── -->
     <div class="tool-cta">
-      <p class="tool-cta__label">PWA instalable — funciona sin conexión dentro de la campana de bioseguridad</p>
+      <p class="tool-cta__label">Instalable como PWA — funciona sin conexión dentro de la campana de bioseguridad</p>
       <a class="md-button-filled md-button-filled--large" href="https://ebalderasr.github.io/CellSplit/" target="_blank" rel="noopener noreferrer">
         Ir a CellSplit
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -139,7 +931,8 @@
         </svg>
       </a>
     </div>
-  </div>
+
+  </div><!-- /.tool-content -->
 
   <!-- ══ FOOTER ══ -->
   <footer class="hc-footer">
