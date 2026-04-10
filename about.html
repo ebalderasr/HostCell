@@ -74,28 +74,31 @@
 
     /* Profile hero */
     .ab-hero {
-      background: var(--md-primary-container);
-      color: var(--md-on-primary-container);
+      background:
+        radial-gradient(ellipse 80% 60% at 80% -15%, rgba(92,214,233,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at -5% 90%, rgba(150,203,174,0.11) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 50% at 50% 50%, rgba(203,158,255,0.07) 0%, transparent 65%),
+        var(--md-surface-container-low);
+      color: var(--md-on-surface);
       padding: 4.5rem 2rem 3.5rem;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
 
-    .ab-hero__bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-    .ab-hero__bg-blob { position: absolute; border-radius: 50%; opacity: 0.35; }
-    .ab-hero__bg-blob:nth-child(1) {
-      width: 340px; height: 340px; top: -100px; right: -60px;
-      background: radial-gradient(circle, #A0B9FF 0%, transparent 70%);
+    .ab-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--md-outline-variant) 1px, transparent 1px),
+        linear-gradient(90deg, var(--md-outline-variant) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.05;
+      pointer-events: none;
     }
-    .ab-hero__bg-blob:nth-child(2) {
-      width: 260px; height: 260px; bottom: -90px; left: -50px;
-      background: radial-gradient(circle, #7FF8D2 0%, transparent 70%);
-    }
-    .ab-hero__bg-blob:nth-child(3) {
-      width: 180px; height: 180px; top: 25%; left: 8%;
-      background: radial-gradient(circle, #ECDDFF 0%, transparent 70%); opacity: 0.5;
-    }
+
+    .ab-hero__bg { display: none; }
+    .ab-hero__bg-blob { display: none; }
 
     .ab-hero__content {
       position: relative; z-index: 1;
@@ -108,8 +111,8 @@
       border-radius: 50%;
       object-fit: cover;
       object-position: center top;
-      border: 4px solid var(--md-surface-container-lowest);
-      box-shadow: var(--md-elevation-3);
+      border: 3px solid var(--md-outline-variant);
+      box-shadow: 0 0 0 6px rgba(92,214,233,0.10), var(--md-elevation-3);
       margin: 0 auto 1.5rem;
       display: block;
     }
@@ -119,9 +122,9 @@
       font-family: 'Google Sans', 'Roboto', sans-serif;
       font-size: clamp(1.7rem, 4vw, 2.4rem);
       font-weight: 400;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
       line-height: 1.2;
-      color: var(--md-on-primary-container);
+      color: var(--md-on-surface);
       margin-bottom: 0.5rem;
     }
 
@@ -131,7 +134,7 @@
       font-size: 1rem;
       font-weight: 400;
       letter-spacing: 0.02em;
-      color: color-mix(in srgb, var(--md-on-primary-container) 78%, transparent);
+      color: var(--md-on-surface-variant);
       margin-bottom: 1.75rem;
       line-height: 1.5;
     }
@@ -188,10 +191,12 @@
       display: inline-flex; align-items: center; gap: 8px;
       padding: 0.35rem 1rem 0.35rem 0.5rem;
       border-radius: var(--md-shape-full);
-      background: var(--md-primary-container);
-      color: var(--md-on-primary-container);
+      background: rgba(92,214,233,0.10);
+      border: 1px solid rgba(92,214,233,0.25);
+      color: var(--md-primary);
       font-family: 'Google Sans', 'Roboto', sans-serif;
-      font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.006em;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase;
       margin-bottom: 1.25rem;
     }
 
@@ -406,10 +411,10 @@
       flex-shrink: 0;
     }
 
-    .ab-skill-icon--blue   { background: var(--md-primary-container); }
-    .ab-skill-icon--teal   { background: var(--md-secondary-container); }
-    .ab-skill-icon--violet { background: var(--md-tertiary-container); }
-    .ab-skill-icon--amber  { background: #FFF3E0; }
+    .ab-skill-icon--blue   { background: var(--md-primary-container); color: var(--md-primary); }
+    .ab-skill-icon--teal   { background: var(--md-secondary-container); color: var(--md-secondary); }
+    .ab-skill-icon--violet { background: var(--md-tertiary-container); color: var(--md-tertiary); }
+    .ab-skill-icon--amber  { background: rgba(255,193,7,0.15); color: #FFD54F; }
 
     .ab-skill-name {
       font-family: 'Google Sans', 'Roboto', sans-serif;
@@ -428,8 +433,8 @@
 
     .ab-skills-group:last-child { margin-bottom: 0; }
 
-    .ab-skills-group--bioprocess { border-left: 3px solid #006B53; }
-    .ab-skills-group--code       { border-left: 3px solid #1558D6; }
+    .ab-skills-group--bioprocess { border-left: 3px solid var(--md-secondary); }
+    .ab-skills-group--code       { border-left: 3px solid var(--md-primary); }
 
     .ab-skills-group__header {
       display: flex; align-items: center; gap: 0.6rem;
@@ -440,8 +445,8 @@
       width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
     }
 
-    .ab-skills-group__dot--bioprocess { background: #006B53; }
-    .ab-skills-group__dot--code       { background: #1558D6; }
+    .ab-skills-group__dot--bioprocess { background: var(--md-secondary); }
+    .ab-skills-group__dot--code       { background: var(--md-primary); }
 
     .ab-skills-group__title {
       font-family: 'Google Sans', 'Roboto', sans-serif;
@@ -584,10 +589,10 @@
 
       <div class="md-top-app-bar__leading">
         <a href="index.html" class="hc-logo-mark" aria-label="Ir al inicio" style="text-decoration:none">
-          <div class="hc-logo-dot" style="background:#1558D6"></div>
-          <div class="hc-logo-dot" style="background:#B3261E"></div>
-          <div class="hc-logo-dot" style="background:#FBBC04"></div>
-          <div class="hc-logo-dot" style="background:#006B53"></div>
+          <div class="hc-logo-dot" style="background:#4B9EFF"></div>
+          <div class="hc-logo-dot" style="background:#FF6B6B"></div>
+          <div class="hc-logo-dot" style="background:#FFD54F"></div>
+          <div class="hc-logo-dot" style="background:#4DD0A5"></div>
         </a>
         <div class="hc-brand">
           <span class="hc-brand__name">Host Cell Lab Suite</span>
@@ -828,7 +833,7 @@
         <div class="ab-skills-grid">
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="12" r="4.5"/><circle cx="16" cy="12" r="4.5"/><line x1="12" y1="7.5" x2="12" y2="16.5"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="12" r="4.5"/><circle cx="16" cy="12" r="4.5"/><line x1="12" y1="7.5" x2="12" y2="16.5"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Mammalian Cell Culture</span>
@@ -837,7 +842,7 @@
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3v11a3 3 0 0 0 6 0V3"/><line x1="6" y1="3" x2="18" y2="3"/><path d="M6 20h12"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3v11a3 3 0 0 0 6 0V3"/><line x1="6" y1="3" x2="18" y2="3"/><path d="M6 20h12"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Yeast Culture</span>
@@ -846,7 +851,7 @@
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="4.5"/><ellipse cx="12" cy="12" rx="9" ry="4.5" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="4.5" transform="rotate(120 12 12)"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="4.5"/><ellipse cx="12" cy="12" rx="9" ry="4.5" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="4.5" transform="rotate(120 12 12)"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Bacteria Culture</span>
@@ -860,7 +865,7 @@
         <div class="ab-skills-grid">
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V8a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v11"/><line x1="2" y1="19" x2="22" y2="19"/><line x1="10" y1="8" x2="10" y2="15"/><line x1="14" y1="8" x2="14" y2="15"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V8a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v11"/><line x1="2" y1="19" x2="22" y2="19"/><line x1="10" y1="8" x2="10" y2="15"/><line x1="14" y1="8" x2="14" y2="15"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Bioreactor Operation</span>
@@ -869,7 +874,7 @@
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Scale-up</span>
@@ -878,7 +883,7 @@
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Purification</span>
@@ -892,7 +897,7 @@
         <div class="ab-skills-grid">
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Targeted Genome Editing</span>
@@ -901,7 +906,7 @@
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-dasharray="3 2"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-dasharray="3 2"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Plasmid Assembly</span>
@@ -915,13 +920,13 @@
         <div class="ab-skills-grid">
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
             </div>
             <span class="ab-skill-name">Metabolic Engineering</span>
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--teal">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006B53" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7" stroke-dasharray="2 2"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7" stroke-dasharray="2 2"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Flow Cytometry</span>
@@ -950,7 +955,7 @@
         <div class="ab-skills-grid">
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--amber">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Python</span>
@@ -959,7 +964,7 @@
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--amber">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">JavaScript</span>
@@ -968,7 +973,7 @@
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--blue">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">SQL</span>
@@ -982,7 +987,7 @@
         <div class="ab-skills-grid">
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--blue">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Data Analysis</span>
@@ -991,7 +996,7 @@
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--blue">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Data Visualization</span>
@@ -1000,7 +1005,7 @@
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--blue">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Machine Learning</span>
@@ -1014,7 +1019,7 @@
         <div class="ab-skills-grid">
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--blue">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Frontend</span>
@@ -1023,7 +1028,7 @@
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--violet">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B3FAB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">PWA &amp; Web Apps</span>
@@ -1032,7 +1037,7 @@
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--violet">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B3FAB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Version Control</span>
@@ -1046,7 +1051,7 @@
         <div class="ab-skills-grid">
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--violet">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B3FAB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">Jupyter Notebooks</span>
@@ -1055,7 +1060,7 @@
           </div>
           <div class="ab-skill-chip">
             <div class="ab-skill-icon ab-skill-icon--violet">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B3FAB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.88 5.76a1 1 0 0 0 .95.69h6.07l-4.91 3.57a1 1 0 0 0-.36 1.12L17.5 20l-4.91-3.57a1 1 0 0 0-1.18 0L6.5 20l1.87-5.86a1 1 0 0 0-.36-1.12L3.1 9.45h6.07a1 1 0 0 0 .95-.69L12 3z"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.88 5.76a1 1 0 0 0 .95.69h6.07l-4.91 3.57a1 1 0 0 0-.36 1.12L17.5 20l-4.91-3.57a1 1 0 0 0-1.18 0L6.5 20l1.87-5.86a1 1 0 0 0-.36-1.12L3.1 9.45h6.07a1 1 0 0 0 .95-.69L12 3z"/></svg>
             </div>
             <div class="ab-skill-text">
               <span class="ab-skill-name">AI-assisted Development</span>
@@ -1085,7 +1090,7 @@
         <div class="ab-timeline-item">
           <div class="ab-tl-left">
             <div class="ab-tl-icon ab-tl-icon--active" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
               </svg>
             </div>
@@ -1202,7 +1207,7 @@
 
       <div class="ab-cert-card">
         <div class="ab-cert-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
           </svg>
         </div>
@@ -1237,7 +1242,7 @@
 
         <div class="ab-funding-card">
           <div class="ab-funding-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
             </svg>
           </div>
@@ -1249,7 +1254,7 @@
 
         <div class="ab-funding-card">
           <div class="ab-funding-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
               <line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
             </svg>
@@ -1262,7 +1267,7 @@
 
         <div class="ab-funding-card">
           <div class="ab-funding-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1558D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
             </svg>
           </div>
