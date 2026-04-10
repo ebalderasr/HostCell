@@ -3,14 +3,550 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BioReact Lite — Simulador de Quimiostatos y Análisis de Estabilidad | Host Cell Lab Suite</title>
-  <meta name="description" content="BioReact Lite simula la dinámica de quimiostatos con cinética de Monod, calcula eigenvalores para análisis de estabilidad local y genera diagramas de fase del espacio (X, S) para procesos continuos." />
+  <title>BioReact Lite — Simulación de Quimiostatos y Estabilidad Local | Host Cell Lab Suite</title>
+  <meta name="description" content="BioReact Lite explora la dinámica de quimiostatos con cinética de Monod, integración RK4 y análisis de estabilidad local mediante Jacobiano y eigenvalores. Simula washout, equilibrio y trayectorias en el plano de fase." />
   <link rel="canonical" href="https://hostcell.app/tools/bioreact-lite.html" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
+
+  <style>
+    /* ══ BioReact Lite page styles ═════════════════════════ */
+
+    .br-section-label {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--md-tertiary);
+      margin-bottom: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .br-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--md-outline-variant);
+    }
+
+    .br-workflow {
+      margin-bottom: 3rem;
+    }
+
+    .br-workflow__steps {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      overflow: hidden;
+    }
+
+    .br-step {
+      padding: 1.25rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .br-step__num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--md-tertiary-container);
+      color: var(--md-tertiary);
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .br-step__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      line-height: 1.3;
+    }
+
+    .br-step__desc {
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.55;
+    }
+
+    .br-step__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 0.25rem;
+    }
+
+    .br-tag {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container-high);
+      border: 1px solid var(--md-outline-variant);
+      color: var(--md-on-surface-variant);
+      font-style: italic;
+    }
+
+    .br-tag--out {
+      background: rgba(203,158,255,0.10);
+      border-color: rgba(203,158,255,0.24);
+      color: var(--md-tertiary);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .br-tag--key {
+      background: rgba(150,203,174,0.10);
+      border-color: rgba(150,203,174,0.24);
+      color: var(--md-secondary);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .br-workflow__arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0.5rem;
+      color: var(--md-tertiary);
+      opacity: 0.55;
+      border-left: 1px solid var(--md-outline-variant);
+      border-right: 1px solid var(--md-outline-variant);
+      font-size: 1.25rem;
+    }
+
+    .br-importance {
+      margin-bottom: 3rem;
+    }
+
+    .br-importance__lead {
+      background: linear-gradient(180deg, rgba(203,158,255,0.08), rgba(203,158,255,0.03));
+      border: 1px solid rgba(203,158,255,0.18);
+      border-radius: var(--md-shape-lg);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 0.875rem;
+    }
+
+    .br-importance__lead-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      margin-bottom: 0.45rem;
+    }
+
+    .br-importance__lead-body {
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: var(--md-on-surface-variant);
+    }
+
+    .br-importance__lead-body strong {
+      color: var(--md-on-surface);
+      font-weight: 500;
+    }
+
+    .br-importance__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .br-risk {
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      padding: 1rem 1.1rem;
+    }
+
+    .br-risk__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--md-tertiary);
+      margin-bottom: 0.45rem;
+    }
+
+    .br-risk__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      line-height: 1.35;
+      margin-bottom: 0.35rem;
+    }
+
+    .br-risk__body {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      color: var(--md-on-surface-variant);
+    }
+
+    .br-module {
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .br-module__header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.125rem 1.5rem;
+      background: var(--md-surface-container-high);
+      border-bottom: 1px solid var(--md-outline-variant);
+      flex-wrap: wrap;
+    }
+
+    .br-module__num {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--md-tertiary);
+      color: var(--md-on-tertiary);
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.0625rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .br-module__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.0625rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      line-height: 1.2;
+    }
+
+    .br-module__sub {
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      margin-top: 1px;
+    }
+
+    .br-module__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0.2rem 0.65rem;
+      border-radius: var(--md-shape-full);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .br-module__badge--tertiary {
+      background: rgba(203,158,255,0.10);
+      border: 1px solid rgba(203,158,255,0.24);
+      color: var(--md-tertiary);
+    }
+
+    .br-module__badge--secondary {
+      background: rgba(150,203,174,0.10);
+      border: 1px solid rgba(150,203,174,0.24);
+      color: var(--md-secondary);
+    }
+
+    .br-module__body {
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1.45fr;
+      gap: 1.5rem;
+    }
+
+    .br-io {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .br-io__group-title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      margin-bottom: 0.4rem;
+    }
+
+    .br-io__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .br-io__item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.525rem 0.75rem;
+      border-radius: var(--md-shape-sm);
+      background: var(--md-surface-container-low);
+      border: 1px solid var(--md-outline-variant);
+    }
+
+    .br-io__item--out {
+      background: rgba(203,158,255,0.07);
+      border-color: rgba(203,158,255,0.22);
+    }
+
+    .br-io__item--key {
+      background: rgba(150,203,174,0.07);
+      border-color: rgba(150,203,174,0.22);
+    }
+
+    .br-io__dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--md-outline-variant);
+    }
+
+    .br-io__item--out .br-io__dot { background: var(--md-tertiary); }
+    .br-io__item--key .br-io__dot { background: var(--md-secondary); }
+
+    .br-io__text {
+      flex: 1;
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.3;
+    }
+
+    .br-io__item--out .br-io__text {
+      color: var(--md-on-surface);
+      font-weight: 500;
+    }
+
+    .br-io__item--key .br-io__text {
+      color: var(--md-secondary);
+      font-weight: 600;
+    }
+
+    .br-io__sym {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 0.875rem;
+      color: var(--md-tertiary);
+      opacity: 0.9;
+      flex-shrink: 0;
+    }
+
+    .br-io__item--key .br-io__sym { color: var(--md-secondary); }
+
+    .eq-block {
+      background: var(--md-surface-container-high);
+      border-radius: var(--md-shape-md);
+      border: 1px solid var(--md-outline-variant);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .eq-block__item {
+      padding: 1.125rem 1.375rem;
+      border-bottom: 1px solid var(--md-outline-variant);
+    }
+
+    .eq-block__item:last-child { border-bottom: none; }
+
+    .eq-block__title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      margin-bottom: 0.875rem;
+    }
+
+    .eq {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.35em;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 1.125rem;
+      line-height: 1;
+    }
+
+    .eq-res { font-style: italic; color: var(--md-tertiary); }
+    .eq-var { font-style: italic; color: var(--md-on-surface); }
+    .eq-var--key { color: var(--md-secondary); }
+    .eq-fn { font-style: normal; color: var(--md-on-surface-variant); font-size: 0.95em; }
+    .eq-const { font-style: normal; color: var(--md-secondary); }
+    .eq-op { font-style: normal; color: var(--md-on-surface-variant); font-size: 0.95em; }
+    .eq-paren { font-style: normal; color: var(--md-on-surface-variant); font-size: 1.2em; line-height: 1; }
+
+    .eq-frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0;
+      line-height: 1.25;
+    }
+
+    .eq-frac__num {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.2em;
+      padding: 0 0.3em 0.18em;
+      border-bottom: 1.5px solid var(--md-on-surface-variant);
+      justify-content: center;
+    }
+
+    .eq-frac__den {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.2em;
+      padding: 0.18em 0.3em 0;
+      justify-content: center;
+    }
+
+    .eq sub, .eq sup {
+      font-size: 0.62em;
+      line-height: 0;
+      vertical-align: baseline;
+      position: relative;
+    }
+
+    .eq sub { top: 0.42em; }
+    .eq sup { top: -0.58em; }
+
+    .eq-note {
+      margin-top: 0.75rem;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      color: var(--md-on-surface-variant);
+    }
+
+    .eq-note strong { color: var(--md-on-surface); font-weight: 500; }
+
+    .callout {
+      border-radius: var(--md-shape-md);
+      padding: 0.875rem 1.125rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .callout--info { background: rgba(203,158,255,0.07); border: 1px solid rgba(203,158,255,0.20); }
+    .callout--warn { background: rgba(255,107,107,0.07); border: 1px solid rgba(255,107,107,0.20); }
+    .callout--idea { background: rgba(150,203,174,0.07); border: 1px solid rgba(150,203,174,0.22); }
+
+    .callout__icon { flex-shrink: 0; margin-top: 1px; color: var(--md-tertiary); }
+    .callout--warn .callout__icon { color: #FF6B6B; }
+    .callout--idea .callout__icon { color: var(--md-secondary); }
+
+    .callout__body {
+      font-size: 0.8125rem;
+      line-height: 1.65;
+      color: var(--md-on-surface-variant);
+    }
+
+    .callout__body strong { color: var(--md-on-surface); font-weight: 500; }
+
+    .br-output-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-radius: var(--md-shape-md);
+      overflow: hidden;
+      border: 1px solid var(--md-outline-variant);
+      margin-top: 1rem;
+    }
+
+    .br-output {
+      padding: 0.875rem 1rem;
+      background: var(--md-surface-container-low);
+      border-right: 1px solid var(--md-outline-variant);
+    }
+
+    .br-output:last-child { border-right: none; }
+
+    .br-output__name {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--md-on-surface);
+      margin-bottom: 0.3rem;
+    }
+
+    .br-output__desc {
+      font-size: 0.75rem;
+      line-height: 1.55;
+      color: var(--md-on-surface-variant);
+    }
+
+    .br-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 2.5rem;
+    }
+
+    .br-feature-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--md-on-surface-variant);
+    }
+
+    .br-feature-chip svg { color: var(--md-tertiary); opacity: 0.85; }
+
+    @media (max-width: 760px) {
+      .br-workflow__steps { grid-template-columns: 1fr; }
+      .br-workflow__arrow {
+        border: none;
+        border-top: 1px solid var(--md-outline-variant);
+        border-bottom: 1px solid var(--md-outline-variant);
+        padding: 0.5rem;
+        transform: rotate(90deg) scaleX(0.6);
+      }
+      .br-importance__grid { grid-template-columns: 1fr; }
+      .br-module__body { grid-template-columns: 1fr; }
+      .br-output-strip { grid-template-columns: 1fr; }
+      .br-output {
+        border-right: none;
+        border-bottom: 1px solid var(--md-outline-variant);
+      }
+      .br-output:last-child { border-bottom: none; }
+    }
+  </style>
 </head>
 <body>
 
@@ -28,7 +564,7 @@
           <span class="hc-brand__tagline">Host Cell Lab Suite</span>
         </div>
       </div>
-      <a class="md-button-tonal" href="https://bioreact.streamlit.app/" target="_blank" rel="noopener noreferrer">
+      <a class="md-button-tonal" href="https://bioreact-lite.streamlit.app/" target="_blank" rel="noopener noreferrer">
         Lanzar app
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
@@ -40,14 +576,10 @@
 
   <!-- ══ HERO ══ -->
   <section class="tool-hero tool-hero--tertiary">
-    <div class="tool-hero__bg" aria-hidden="true">
-      <div class="tool-hero__bg-blob"></div>
-      <div class="tool-hero__bg-blob"></div>
-    </div>
     <div class="tool-hero__content">
-      <div class="tool-hero__badge">Educación · Simulador</div>
+      <div class="tool-hero__badge">Simulación · Sistemas Dinámicos</div>
       <div class="tool-hero__icon" aria-hidden="true">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 19V8a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v11"/>
           <line x1="2" y1="19" x2="22" y2="19"/>
           <line x1="10" y1="8" x2="10" y2="15"/>
@@ -55,69 +587,463 @@
         </svg>
       </div>
       <h1 class="tool-hero__title">BioReact Lite</h1>
-      <p class="tool-hero__tagline">Dinámica de quimiostatos y análisis de estabilidad local con eigenvalores y plano de fase. Entiende por qué el washout ocurre y cómo prevenirlo.</p>
+      <p class="tool-hero__tagline">Explora quimiostatos más allá de la curva bonita. La app conecta cinética de Monod, integración temporal y estabilidad local para mostrar cuándo un reactor converge, cuándo entra en washout y por qué.</p>
     </div>
   </section>
 
   <!-- ══ CONTENT ══ -->
   <div class="tool-content">
-    <div class="tool-info-grid">
 
-      <div class="tool-info-card tool-info-card--tertiary">
-        <div class="tool-info-card__label">Qué es</div>
-        <div class="tool-info-card__title">Un simulador de quimiostatos con análisis de estabilidad de sistemas dinámicos</div>
-        <div class="tool-info-card__body">
-          BioReact Lite es un simulador educativo de reactores de flujo continuo perfectamente mezclados (CSTR biológicos, o quimiostatos). Va más allá de la simple simulación: incluye herramientas de análisis de estabilidad de sistemas dinámicos para determinar si los puntos de equilibrio del sistema son estables o inestables.
-          <br><br>
-          Está construido con Streamlit y pensado para cursos avanzados de bioingeniería de procesos, análisis de sistemas dinámicos y control de bioprocesos.
+    <section class="br-workflow" aria-label="Pipeline de simulación">
+      <div class="br-section-label">¿Cómo funciona?</div>
+
+      <div class="br-workflow__steps">
+        <div class="br-step">
+          <div class="br-step__num">1</div>
+          <div class="br-step__title">Define fisiología y operación</div>
+          <div class="br-step__desc">Ajusta parámetros cinéticos y de reactor para representar la cepa, el medio y la condición operativa que quieres explorar.</div>
+          <div class="br-step__tags">
+            <span class="br-tag">μmax</span>
+            <span class="br-tag">Ks</span>
+            <span class="br-tag">Yx/s</span>
+            <span class="br-tag br-tag--key">D</span>
+          </div>
+        </div>
+
+        <div class="br-workflow__arrow" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <div class="br-step">
+          <div class="br-step__num">2</div>
+          <div class="br-step__title">Inicializa el estado del reactor</div>
+          <div class="br-step__desc">Fijas biomasa, sustrato y paso numérico para ver cómo cambia la trayectoria a partir de condiciones iniciales distintas.</div>
+          <div class="br-step__tags">
+            <span class="br-tag">X0</span>
+            <span class="br-tag">S0</span>
+            <span class="br-tag br-tag--key">dt</span>
+          </div>
+        </div>
+
+        <div class="br-workflow__arrow" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <div class="br-step">
+          <div class="br-step__num">3</div>
+          <div class="br-step__title">Integra y encuentra equilibrio</div>
+          <div class="br-step__desc">El motor resuelve el sistema acoplado, traza las series temporales y localiza el punto crítico al que tiende el reactor.</div>
+          <div class="br-step__tags">
+            <span class="br-tag br-tag--out">X(t)</span>
+            <span class="br-tag br-tag--out">S(t)</span>
+            <span class="br-tag br-tag--key">steady state</span>
+          </div>
+        </div>
+
+        <div class="br-workflow__arrow" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <div class="br-step">
+          <div class="br-step__num">4</div>
+          <div class="br-step__title">Clasifica la estabilidad</div>
+          <div class="br-step__desc">La app construye el Jacobiano en el equilibrio y usa eigenvalores para indicar si el sistema regresa, diverge o cae en washout.</div>
+          <div class="br-step__tags">
+            <span class="br-tag br-tag--out">J</span>
+            <span class="br-tag br-tag--out">λ</span>
+            <span class="br-tag br-tag--key">stable / unstable</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="br-importance" aria-labelledby="importance-title">
+      <div class="br-section-label" id="importance-title">Por qué importa</div>
+
+      <div class="br-importance__lead">
+        <div class="br-importance__lead-title">Un quimiostato no falla solo por mala suerte. Falla por entrar en la región equivocada del espacio dinámico.</div>
+        <div class="br-importance__lead-body">
+          En procesos continuos, cambiar ligeramente <strong>la tasa de dilución, la alimentación o la fisiología</strong> puede desplazar el reactor desde una operación estable hacia washout. BioReact Lite hace visible esa frontera: no solo muestra trayectorias, sino la estructura matemática que determina si el sistema se recupera ante perturbaciones o si pierde biomasa de forma irreversible.
         </div>
       </div>
 
-      <div class="tool-info-card tool-info-card--tertiary">
-        <div class="tool-info-card__label">Qué hace</div>
-        <div class="tool-info-card__title">Simula trayectorias, identifica puntos de equilibrio y calcula eigenvalores</div>
-        <div class="tool-info-card__body">
-          Con BioReact Lite el usuario puede:
-          <ul>
-            <li>Configurar parámetros cinéticos (µmax, Ks, Yxs) y operativos (D, Sin)</li>
-            <li>Simular trayectorias desde múltiples condiciones iniciales</li>
-            <li>Identificar puntos de equilibrio: washout y operación estable</li>
-            <li>Calcular la matriz Jacobiana y sus eigenvalores en cada equilibrio</li>
-            <li>Visualizar el plano de fase completo del espacio (X, S)</li>
-          </ul>
+      <div class="br-importance__grid">
+        <div class="br-risk">
+          <div class="br-risk__label">Operación</div>
+          <div class="br-risk__title">D demasiado alto vacía el reactor</div>
+          <div class="br-risk__body">Cuando la dilución compite con el crecimiento, la biomasa deja de sostenerse y el sistema converge a washout.</div>
+        </div>
+
+        <div class="br-risk">
+          <div class="br-risk__label">Diseño</div>
+          <div class="br-risk__title">La misma cinética no sirve en toda condición</div>
+          <div class="br-risk__body">Pequeños cambios en μmax, Ks o Sfeed alteran equilibrio, sensibilidad y velocidad de convergencia.</div>
+        </div>
+
+        <div class="br-risk">
+          <div class="br-risk__label">Interpretación</div>
+          <div class="br-risk__title">La trayectoria no basta sin estabilidad</div>
+          <div class="br-risk__body">Dos simulaciones pueden acercarse al mismo punto aparente, pero solo el análisis local dice si ese punto resiste perturbaciones.</div>
+        </div>
+
+        <div class="br-risk">
+          <div class="br-risk__label">Valor</div>
+          <div class="br-risk__title">Convierte teoría en intuición operativa</div>
+          <div class="br-risk__body">Une balances, integración y eigenvalores en una sola vista para entender qué región de operación sí conviene usar.</div>
         </div>
       </div>
+    </section>
 
-      <div class="tool-info-card tool-info-card--tertiary">
-        <div class="tool-info-card__label">Por qué es importante</div>
-        <div class="tool-info-card__title">Los procesos continuos dependen críticamente de operar en la región de estabilidad correcta</div>
-        <div class="tool-info-card__body">
-          Los quimiostatos son la base de los procesos de fermentación continua industriales y de los cultivos de referencia en investigación básica. Operar demasiado cerca del punto de washout (D ≥ µmax) resulta en la pérdida completa del cultivo.
-          <br><br>
-          Comprender la estabilidad de estos sistemas —y cómo cambia con los parámetros cinéticos— es fundamental para diseñar procesos robustos y para interpretar resultados experimentales en quimiostatos reales.
+    <section class="br-module" aria-labelledby="mod1-title">
+      <div class="br-module__header">
+        <div class="br-module__num">1</div>
+        <div>
+          <div class="br-module__title" id="mod1-title">Modelo cinético y balances del quimiostato</div>
+          <div class="br-module__sub">Parte de Monod y de los dos balances acoplados que gobiernan biomasa y sustrato en un reactor continuo.</div>
         </div>
+        <div class="br-module__badge br-module__badge--tertiary">Modelo base</div>
       </div>
 
-      <div class="tool-info-card tool-info-card--tertiary">
-        <div class="tool-info-card__label">Cómo lo hace</div>
-        <div class="tool-info-card__title">Análisis de estabilidad local mediante eigenvalores de la matriz Jacobiana</div>
-        <div class="tool-info-card__body">
-          BioReact Lite construye la matriz Jacobiana del sistema de dos ecuaciones (dX/dt, dS/dt) evaluada en cada punto de equilibrio. El signo de la parte real de los eigenvalores determina la estabilidad:
-          <ul>
-            <li>Ambos negativos → nodo o espiral estable (operación normal)</li>
-            <li>Uno positivo, uno negativo → punto silla (inestable)</li>
-            <li>Ambos positivos → nodo inestable (washout)</li>
-          </ul>
-          El plano de fase se genera integrando trayectorias desde múltiples condiciones iniciales con SciPy (solve_ivp), visualizando cuáncias condiciones llevan al washout y cuáles al estado estacionario productivo.
+      <div class="br-module__body">
+        <div class="br-io">
+          <div>
+            <div class="br-io__group-title">Entradas fisiológicas y operativas</div>
+            <div class="br-io__list">
+              <div class="br-io__item">
+                <div class="br-io__dot"></div>
+                <span class="br-io__text">Capacidad máxima de crecimiento microbiano</span>
+                <span class="br-io__sym">μmax</span>
+              </div>
+              <div class="br-io__item">
+                <div class="br-io__dot"></div>
+                <span class="br-io__text">Afinidad por sustrato y rendimiento biomasa/sustrato</span>
+                <span class="br-io__sym">Ks, Yx/s</span>
+              </div>
+              <div class="br-io__item br-io__item--key">
+                <div class="br-io__dot"></div>
+                <span class="br-io__text">Dilución y sustrato de alimentación del reactor</span>
+                <span class="br-io__sym">D, Sr</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout--idea" style="margin-top:0;">
+            <svg class="callout__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <div class="callout__body">
+              <strong>Lectura correcta:</strong> aquí no se optimiza una receta puntual. Se explora cómo interactúan biología y operación dentro de un sistema no lineal que puede cambiar de régimen.
+            </div>
+          </div>
+        </div>
+
+        <div class="eq-block">
+          <div class="eq-block__item">
+            <div class="eq-block__title">Cinética de Monod</div>
+            <div class="eq" aria-label="mu de S igual mu max por S entre Ks más S">
+              <span class="eq-res">μ(S)</span>
+              <span class="eq-op">=</span>
+              <div class="eq-frac">
+                <div class="eq-frac__num">
+                  <span class="eq-var">μ<sub>max</sub></span>
+                  <span class="eq-op">×</span>
+                  <span class="eq-var">S</span>
+                </div>
+                <div class="eq-frac__den">
+                  <span class="eq-var">K<sub>s</sub></span>
+                  <span class="eq-op">+</span>
+                  <span class="eq-var">S</span>
+                </div>
+              </div>
+            </div>
+            <div class="eq-note">
+              La tasa específica de crecimiento queda ligada a la disponibilidad del sustrato limitante, y por eso cualquier cambio en <strong>S</strong> reorganiza la dinámica completa.
+            </div>
+          </div>
+
+          <div class="eq-block__item">
+            <div class="eq-block__title">Balances acoplados</div>
+            <div class="eq" aria-label="dXdt igual X por mu menos D">
+              <span class="eq-res">dX/dt</span>
+              <span class="eq-op">=</span>
+              <span class="eq-var">X</span>
+              <span class="eq-paren">(</span>
+              <span class="eq-var">μ(S)</span>
+              <span class="eq-op">−</span>
+              <span class="eq-var">D</span>
+              <span class="eq-paren">)</span>
+            </div>
+            <div class="eq" style="margin-top:0.85rem;" aria-label="dSdt igual D por Sr menos S menos mu por X entre rendimiento">
+              <span class="eq-res">dS/dt</span>
+              <span class="eq-op">=</span>
+              <span class="eq-var">D</span>
+              <span class="eq-paren">(</span>
+              <span class="eq-var">S<sub>r</sub></span>
+              <span class="eq-op">−</span>
+              <span class="eq-var">S</span>
+              <span class="eq-paren">)</span>
+              <span class="eq-op">−</span>
+              <div class="eq-frac">
+                <div class="eq-frac__num">
+                  <span class="eq-var">μ(S)</span>
+                  <span class="eq-op">×</span>
+                  <span class="eq-var">X</span>
+                </div>
+                <div class="eq-frac__den">
+                  <span class="eq-var">Y<sub>x/s</sub></span>
+                </div>
+              </div>
+            </div>
+            <div class="eq-note">
+              El reactor solo es sostenible cuando el crecimiento compensa la extracción. Ese equilibrio no se asume: se calcula.
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
+    <section class="br-module" aria-labelledby="mod2-title">
+      <div class="br-module__header">
+        <div class="br-module__num">2</div>
+        <div>
+          <div class="br-module__title" id="mod2-title">Integración numérica y plano de fase</div>
+          <div class="br-module__sub">Resuelve las trayectorias temporales y muestra cómo evoluciona el sistema desde condiciones iniciales distintas.</div>
+        </div>
+        <div class="br-module__badge br-module__badge--secondary">Dinámica observable</div>
+      </div>
+
+      <div class="br-module__body">
+        <div class="br-io">
+          <div>
+            <div class="br-io__group-title">Qué configura el usuario</div>
+            <div class="br-io__list">
+              <div class="br-io__item">
+                <div class="br-io__dot"></div>
+                <span class="br-io__text">Biomasa y sustrato iniciales</span>
+                <span class="br-io__sym">X0, S0</span>
+              </div>
+              <div class="br-io__item">
+                <div class="br-io__dot"></div>
+                <span class="br-io__text">Paso de integración para resolver el sistema</span>
+                <span class="br-io__sym">dt</span>
+              </div>
+              <div class="br-io__item br-io__item--out">
+                <div class="br-io__dot"></div>
+                <span class="br-io__text">Series temporales y trayectoria en plano S-X</span>
+                <span class="br-io__sym">X(t), S(t)</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="br-io__group-title">Lectura de salida</div>
+            <div class="br-io__list">
+              <div class="br-io__item">
+                <div class="br-io__dot"></div>
+                <span class="br-io__text">Si la trayectoria converge, el punto crítico es alcanzable</span>
+              </div>
+              <div class="br-io__item">
+                <div class="br-io__dot"></div>
+                <span class="br-io__text">Si deriva a X≈0, la condición lleva a washout</span>
+              </div>
+              <div class="br-io__item">
+                <div class="br-io__dot"></div>
+                <span class="br-io__text">El plano de fase muestra la geometría, no solo la magnitud temporal</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="eq-block">
+          <div class="eq-block__item">
+            <div class="eq-block__title">Integrador RK4</div>
+            <div class="eq" aria-label="y n más 1 igual y n más delta t sobre 6 por k1 más 2k2 más 2k3 más k4">
+              <span class="eq-res">y<sub>n+1</sub></span>
+              <span class="eq-op">=</span>
+              <span class="eq-var">y<sub>n</sub></span>
+              <span class="eq-op">+</span>
+              <div class="eq-frac">
+                <div class="eq-frac__num">
+                  <span class="eq-var">Δt</span>
+                </div>
+                <div class="eq-frac__den">
+                  <span class="eq-const">6</span>
+                </div>
+              </div>
+              <span class="eq-paren">(</span>
+              <span class="eq-var">k<sub>1</sub></span>
+              <span class="eq-op">+</span>
+              <span class="eq-const">2</span><span class="eq-var">k<sub>2</sub></span>
+              <span class="eq-op">+</span>
+              <span class="eq-const">2</span><span class="eq-var">k<sub>3</sub></span>
+              <span class="eq-op">+</span>
+              <span class="eq-var">k<sub>4</sub></span>
+              <span class="eq-paren">)</span>
+            </div>
+            <div class="eq-note">
+              El integrador de cuarto orden reduce error numérico al seguir trayectorias no lineales y permite ver con claridad transitorios, convergencia y pérdida de biomasa.
+            </div>
+          </div>
+
+          <div class="eq-block__item">
+            <div class="eq-block__title">Punto de equilibrio</div>
+            <div class="eq" aria-label="equilibrio cuando f1 y f2 son cero">
+              <span class="eq-res">steady state</span>
+              <span class="eq-op">:</span>
+              <span class="eq-var">f<sub>1</sub>(X,S)</span>
+              <span class="eq-op">=</span>
+              <span class="eq-const">0</span>
+              <span class="eq-op">,</span>
+              <span class="eq-var">f<sub>2</sub>(X,S)</span>
+              <span class="eq-op">=</span>
+              <span class="eq-const">0</span>
+            </div>
+            <div class="eq-note">
+              La app usa las trayectorias para visualizar a qué equilibrio se dirige el sistema y cuánto tarda en acercarse a él desde condiciones iniciales distintas.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="br-module" aria-labelledby="mod3-title">
+      <div class="br-module__header">
+        <div class="br-module__num">3</div>
+        <div>
+          <div class="br-module__title" id="mod3-title">Estabilidad local y salidas diagnósticas</div>
+          <div class="br-module__sub">Clasifica el equilibrio con Jacobiano y eigenvalores para saber si la operación es robusta frente a perturbaciones.</div>
+        </div>
+        <div class="br-module__badge br-module__badge--tertiary">Decisión matemática</div>
+      </div>
+
+      <div class="br-module__body">
+        <div class="br-io">
+          <div>
+            <div class="br-io__group-title">Qué calcula</div>
+            <div class="br-io__list">
+              <div class="br-io__item br-io__item--out">
+                <div class="br-io__dot"></div>
+                <span class="br-io__text">Jacobiano evaluado en el equilibrio</span>
+                <span class="br-io__sym">J</span>
+              </div>
+              <div class="br-io__item br-io__item--out">
+                <div class="br-io__dot"></div>
+                <span class="br-io__text">Eigenvalores y direcciones dominantes</span>
+                <span class="br-io__sym">λ, v</span>
+              </div>
+              <div class="br-io__item br-io__item--key">
+                <div class="br-io__dot"></div>
+                <span class="br-io__text">Clasificación estable, silla o inestable</span>
+                <span class="br-io__sym">class</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout--warn" style="margin-top:0;">
+            <svg class="callout__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <div class="callout__body">
+              <strong>Ojo:</strong> que una simulación “parezca converger” no garantiza estabilidad robusta. La clasificación depende del signo de la parte real de los eigenvalores alrededor del equilibrio.
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+          <div class="eq-block">
+            <div class="eq-block__item">
+              <div class="eq-block__title">Jacobiano local</div>
+              <div class="eq" aria-label="J igual matriz de derivadas parciales">
+                <span class="eq-res">J</span>
+                <span class="eq-op">=</span>
+                <span class="eq-paren">[</span>
+                <span class="eq-var">∂f<sub>i</sub>/∂x<sub>j</sub></span>
+                <span class="eq-paren">]</span>
+              </div>
+              <div class="eq-note">
+                El Jacobiano linealiza el sistema no lineal en torno al estado estacionario y traduce la intuición visual del plano de fase a una prueba formal de estabilidad local.
+              </div>
+            </div>
+
+            <div class="eq-block__item">
+              <div class="eq-block__title">Criterio de estabilidad</div>
+              <div class="eq" aria-label="estable si parte real de lambda es menor que cero">
+                <span class="eq-res">stable</span>
+                <span class="eq-op">if</span>
+                <span class="eq-var">Re(λ)</span>
+                <span class="eq-op">&lt;</span>
+                <span class="eq-const">0</span>
+                <span class="eq-op">∀</span>
+                <span class="eq-var">λ</span>
+              </div>
+              <div class="eq-note">
+                Si aparece al menos un eigenvalor con parte real positiva, el equilibrio no retiene al sistema frente a perturbaciones y la operación deja de ser segura.
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="eq-block__title" style="margin-bottom:0.4rem;">Salidas visibles</div>
+            <div class="br-output-strip" aria-label="Resultados principales">
+              <div class="br-output">
+                <div class="br-output__name">Time series</div>
+                <div class="br-output__desc">Evolución temporal de biomasa y sustrato hasta equilibrio o washout.</div>
+              </div>
+              <div class="br-output">
+                <div class="br-output__name">Phase plane</div>
+                <div class="br-output__desc">Trayectoria en el espacio S-X con punto crítico y dirección de convergencia.</div>
+              </div>
+              <div class="br-output">
+                <div class="br-output__name">Jacobian</div>
+                <div class="br-output__desc">Matriz local para entender sensibilidad del equilibrio a perturbaciones pequeñas.</div>
+              </div>
+              <div class="br-output">
+                <div class="br-output__name">Eigen analysis</div>
+                <div class="br-output__desc">Clasificación matemática del equilibrio como estable, inestable o tipo silla.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="br-features" aria-label="Características técnicas">
+      <div class="br-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-6"/></svg>
+        Cinética de Monod
+      </div>
+      <div class="br-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+        Integración RK4
+      </div>
+      <div class="br-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l3-3 3 2 4-6"/></svg>
+        Plano de fase
+      </div>
+      <div class="br-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/></svg>
+        Jacobiano y eigenvalores
+      </div>
+      <div class="br-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16"/><path d="M12 4v16"/></svg>
+        Washout vs operación estable
+      </div>
+      <div class="br-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        Streamlit en navegador
+      </div>
     </div>
 
-    <!-- CTA -->
     <div class="tool-cta">
-      <p class="tool-cta__label">Análisis de estabilidad de quimiostatos, accesible desde el navegador</p>
-      <a class="md-button-filled md-button-filled--large md-button-filled--tertiary" href="https://bioreact.streamlit.app/" target="_blank" rel="noopener noreferrer">
+      <p class="tool-cta__label">Explora qué región de operación mantiene estable tu quimiostato antes de acercarte al washout.</p>
+      <a class="md-button-filled md-button-filled--large md-button-filled--tertiary" href="https://bioreact-lite.streamlit.app/" target="_blank" rel="noopener noreferrer">
         Ir a BioReact Lite
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
