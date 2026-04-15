@@ -130,6 +130,21 @@ a { text-decoration: none; color: inherit; }
   overflow: hidden;
 }
 
+.hc-home-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--md-shape-md);
+}
+
+.hc-home-link:focus-visible {
+  outline: 2px solid var(--md-primary);
+  outline-offset: 4px;
+}
+
 /* ── 4-dot brand mark ────────────────────────────────────── */
 .hc-logo-mark {
   flex-shrink: 0;
