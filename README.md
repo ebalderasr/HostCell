@@ -10,7 +10,7 @@
 
 <br>
 
-[![Tools](https://img.shields.io/badge/Tools-9_tools_·_3_categories-5856D6?style=for-the-badge)]()
+[![Tools](https://img.shields.io/badge/Tools-10_tools_·_3_categories-5856D6?style=for-the-badge)]()
 [![Stack](https://img.shields.io/badge/Stack-Vanilla_JS_·_HTML5_·_CSS3-4A90D9?style=for-the-badge)]()
 [![Focus](https://img.shields.io/badge/Focus-CHO_·_Upstream_Bioprocessing-34C759?style=for-the-badge)]()
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](./LICENSE)
@@ -73,6 +73,7 @@ Interactive models for understanding bioprocess fundamentals.
 |------|-------------|
 | [**Kinetic Drive**](https://ebalderasr.github.io/Kinetic-Drive/) | Full kinetic analysis of mammalian cell culture data with step-by-step arithmetic, interactive Plotly charts, and a logistic growth simulator |
 | [**BioReact Lite**](https://bioreact.streamlit.app/) | Chemostat simulator for Monod kinetics, reactor dynamics, local stability analysis, and phase-plane exploration |
+| [**Microbial Kinetics Lab**](https://ebalderasr.github.io/MicrobialKineticsLab/) | Interactive microbial kinetics teaching app for batch, fed-batch, and continuous culture with growth-model exploration in the browser |
 
 ---
 
@@ -130,7 +131,7 @@ Instituto de Biotecnología (IBt), UNAM
 
 Each tool in the suite has its own repository with full documentation:
 
-[**CellSplit**](https://github.com/ebalderasr/CellSplit) · [**PulseGrowth**](https://github.com/ebalderasr/PulseGrowth) · [**MolarPrep**](https://github.com/ebalderasr/MolarPrep) · [**DiluteIt**](https://github.com/ebalderasr/DiluteIt) · [**Flowjo Sweetspot Web**](https://github.com/ebalderasr/flowjo-sweetspot-web) · [**Clonalyzer 2**](https://github.com/ebalderasr/Clonalyzer-2) · [**Kinetic Drive**](https://github.com/ebalderasr/Kinetic-Drive) · [**BioReact**](https://github.com/ebalderasr/BioReact)
+[**CellSplit**](https://github.com/ebalderasr/CellSplit) · [**PulseGrowth**](https://github.com/ebalderasr/PulseGrowth) · [**MolarPrep**](https://github.com/ebalderasr/MolarPrep) · [**DiluteIt**](https://github.com/ebalderasr/DiluteIt) · [**Flowjo Sweetspot Web**](https://github.com/ebalderasr/flowjo-sweetspot-web) · [**Clonalyzer 2**](https://github.com/ebalderasr/Clonalyzer-2) · [**Kinetic Drive**](https://github.com/ebalderasr/Kinetic-Drive) · [**BioReact**](https://github.com/ebalderasr/BioReact) · [**Microbial Kinetics Lab**](https://github.com/ebalderasr/MicrobialKineticsLab)
 
 ---
 
