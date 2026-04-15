@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Microbial Kinetics Lab — Exploración de Cinética Microbiana | Host Cell Lab Suite</title>
+  <meta name="description" content="Microbial Kinetics Lab explora crecimiento microbiano en batch, fed-batch y continuo con modelos cinéticos interactivos ejecutados directamente en el navegador." />
+  <link rel="canonical" href="https://hostcell.app/tools/microbial-kinetics-lab.html" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+
+  <style>
+    .mk-section-label {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--md-tertiary);
+      margin-bottom: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .mk-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--md-outline-variant);
+    }
+
+    .mk-workflow .mk-section-label {
+      justify-content: center;
+      font-size: 1.25rem;
+      letter-spacing: -0.01em;
+      text-transform: none;
+      margin-bottom: 1.25rem;
+    }
+
+    .mk-workflow .mk-section-label::before,
+    .mk-workflow .mk-section-label::after {
+      content: '';
+      flex: 1;
+      max-width: 120px;
+      height: 1px;
+      background: var(--md-outline-variant);
+    }
+
+    .mk-workflow {
+      margin-bottom: 3rem;
+    }
+
+    .mk-workflow__steps {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      overflow: hidden;
+    }
+
+    .mk-step {
+      padding: 1.25rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .mk-step__num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--md-tertiary);
+      color: var(--md-on-tertiary);
+      font-size: 0.8125rem;
+      font-weight: 700;
+    }
+
+    .mk-step__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+    }
+
+    .mk-step__desc {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--md-on-surface-variant);
+    }
+
+    .mk-step__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: auto;
+    }
+
+    .mk-tag {
+      padding: 0.35rem 0.7rem;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container-low);
+      color: var(--md-on-surface-variant);
+      border: 1px solid var(--md-outline-variant);
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .mk-tag--out {
+      background: var(--md-tertiary-container);
+      color: var(--md-on-tertiary-container);
+    }
+
+    .mk-workflow__arrow {
+      display: grid;
+      place-items: center;
+      min-width: 52px;
+      color: var(--md-tertiary);
+      border-left: 1px solid var(--md-outline-variant);
+      border-right: 1px solid var(--md-outline-variant);
+    }
+
+    @media (max-width: 760px) {
+      .mk-workflow__steps {
+        grid-template-columns: 1fr;
+      }
+
+      .mk-workflow__arrow {
+        border: none;
+        border-top: 1px solid var(--md-outline-variant);
+        border-bottom: 1px solid var(--md-outline-variant);
+        padding: 0.5rem;
+        transform: rotate(90deg) scaleX(0.6);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="md-top-app-bar" id="app-bar">
+    <div class="md-top-app-bar__row">
+      <div class="md-top-app-bar__leading">
+        <a class="md-icon-button" href="../index.html" aria-label="Volver al inicio">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </a>
+        <div class="hc-brand">
+          <span class="hc-brand__name">Microbial Kinetics Lab</span>
+          <span class="hc-brand__tagline">Host Cell Lab Suite</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="tool-hero tool-hero--tertiary">
+    <div class="tool-hero__content">
+      <div class="tool-hero__badge">Educación · Simulador</div>
+      <div class="tool-hero__icon" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 5v9a5 5 0 0 0 10 0V5"/>
+          <line x1="5" y1="5" x2="19" y2="5"/>
+          <circle cx="10" cy="10" r="1"/>
+          <circle cx="14" cy="12" r="1"/>
+          <path d="M9 19h6"/>
+        </svg>
+      </div>
+      <h1 class="tool-hero__title">Microbial Kinetics Lab</h1>
+      <p class="tool-hero__tagline">Explora cómo responden biomasa, sustrato y producto al cambiar el modelo cinético y el modo de cultivo, todo directamente en el navegador.</p>
+    </div>
+  </section>
+
+  <div class="tool-content">
+    <section class="mk-workflow" aria-labelledby="workflow-title">
+      <div class="mk-section-label" id="workflow-title">¿Cómo funciona?</div>
+
+      <div class="mk-workflow__steps">
+        <div class="mk-step">
+          <div class="mk-step__num">1</div>
+          <div class="mk-step__title">Elige el modelo de crecimiento</div>
+          <div class="mk-step__desc">Compara diferentes ecuaciones cinéticas para representar limitación, inhibición o respuesta no lineal al sustrato.</div>
+          <div class="mk-step__tags">
+            <span class="mk-tag">Monod</span>
+            <span class="mk-tag">Haldane</span>
+            <span class="mk-tag">Moser</span>
+          </div>
+        </div>
+
+        <div class="mk-workflow__arrow" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <div class="mk-step">
+          <div class="mk-step__num">2</div>
+          <div class="mk-step__title">Ajusta el modo de cultivo</div>
+          <div class="mk-step__desc">Observa cómo cambian las trayectorias al pasar de batch a fed-batch o continuo y al modificar parámetros fisiológicos y operativos.</div>
+          <div class="mk-step__tags">
+            <span class="mk-tag">Batch</span>
+            <span class="mk-tag">Fed-batch</span>
+            <span class="mk-tag">Continuo</span>
+          </div>
+        </div>
+
+        <div class="mk-workflow__arrow" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <div class="mk-step">
+          <div class="mk-step__num">3</div>
+          <div class="mk-step__title">Interpreta la dinámica</div>
+          <div class="mk-step__desc">La app integra el sistema en tiempo real y muestra cómo responden biomasa, sustrato, producto y velocidad específica ante cada cambio.</div>
+          <div class="mk-step__tags">
+            <span class="mk-tag mk-tag--out">X(t)</span>
+            <span class="mk-tag mk-tag--out">S(t)</span>
+            <span class="mk-tag mk-tag--out">μ(t)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="tool-info-grid">
+      <div class="tool-info-card tool-info-card--tertiary">
+        <div class="tool-info-card__label">Qué es</div>
+        <div class="tool-info-card__title">Un laboratorio docente de cinética microbiana en navegador</div>
+        <div class="tool-info-card__body">
+          Microbial Kinetics Lab es una app interactiva orientada a enseñanza que permite explorar crecimiento microbiano sin depender de software instalado ni notebooks de cálculo.
+          <br><br>
+          Está pensada para visualizar con rapidez cómo distintas hipótesis cinéticas cambian la interpretación de un bioproceso.
+        </div>
+      </div>
+
+      <div class="tool-info-card tool-info-card--tertiary">
+        <div class="tool-info-card__label">Qué hace</div>
+        <div class="tool-info-card__title">Conecta modelos, parámetros y modos de operación en una sola vista</div>
+        <div class="tool-info-card__body">
+          Permite variar parámetros fisiológicos y de reactor para observar en tiempo real curvas de biomasa, sustrato, producto e indicadores dinámicos.
+          <br><br>
+          El foco no es solo “correr una simulación”, sino desarrollar intuición sobre sensibilidad paramétrica y diferencias entre regímenes de cultivo.
+        </div>
+      </div>
+
+      <div class="tool-info-card tool-info-card--tertiary">
+        <div class="tool-info-card__label">Por qué importa</div>
+        <div class="tool-info-card__title">Hace visible la relación entre teoría cinética y operación real</div>
+        <div class="tool-info-card__body">
+          Cambios pequeños en <em>μmax</em>, <em>Ks</em>, inhibición o alimentación pueden alterar por completo la trayectoria del sistema.
+          <br><br>
+          Tener esa respuesta de forma inmediata ayuda a clase, discusión de laboratorio y diseño preliminar de estrategias de cultivo.
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-cta">
+      <p class="tool-cta__label">Explora modelos de crecimiento microbiano directamente en tu navegador.</p>
+      <a class="md-button-filled md-button-filled--large md-button-filled--tertiary" href="https://ebalderasr.github.io/MicrobialKineticsLab/" target="_blank" rel="noopener noreferrer">
+        Ir a Microbial Kinetics Lab
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <footer class="hc-footer">
+    <div class="hc-footer__inner">
+      <div class="hc-footer__brand">
+        <span class="hc-footer__name">Host Cell Lab Suite</span>
+        <span class="hc-footer__slogan">Practical tools for high-performance biotechnology</span>
+      </div>
+      <span class="hc-footer__author">© Emiliano Balderas Ramírez</span>
+      <a href="https://github.com/ebalderasr" target="_blank" rel="noopener noreferrer" class="hc-footer__github">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"/>
+        </svg>
+        <span>GitHub</span>
+      </a>
+    </div>
+  </footer>
+
+  <script src="../app.js"></script>
+</body>
+</html>
