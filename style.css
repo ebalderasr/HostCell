@@ -553,6 +553,8 @@ a { text-decoration: none; color: inherit; }
   color: var(--col-text2);
 }
 
+.md-card[role="group"] { cursor: pointer; }
+
 .md-card__actions {
   position: relative;
   z-index: 1;
@@ -587,7 +589,7 @@ a { text-decoration: none; color: inherit; }
 
 .md-card:hover .md-card__more-link svg { transform: translateX(3px); }
 
-/* "Abrir app" primary button + stretched-link magic */
+/* "Abrir app" primary button */
 .md-card__app-btn {
   position: relative;
   z-index: 2;
@@ -629,17 +631,6 @@ a { text-decoration: none; color: inherit; }
   transition: transform 150ms var(--md-easing-standard);
 }
 
-/* Stretched link: expands click area of the app button to the whole card */
-.md-card__app-btn.md-card__stretched-link::after {
-  content: '';
-  position: absolute;
-  inset: -9999px;
-  z-index: 1;
-}
-
-/* Ensure interactive elements above the stretched overlay */
-.md-card__more-link,
-.md-card__app-btn { position: relative; z-index: 2; }
 
 /* ════════════════════════════════════════════
    FOOTER

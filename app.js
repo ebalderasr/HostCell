@@ -16,4 +16,14 @@
     onScroll(); /* apply immediately in case page is already scrolled */
   }
 
+  /* Card portal: click anywhere on card → open app; "Ver más" → detail page */
+  document.querySelectorAll('.md-card[role="group"]').forEach(card => {
+    card.addEventListener('click', e => {
+      if (e.target.closest('.md-card__more-link')) return;
+      if (e.target.closest('.md-card__app-btn')) return;
+      const appBtn = card.querySelector('.md-card__app-btn');
+      if (appBtn) window.open(appBtn.href, '_blank', 'noopener,noreferrer');
+    });
+  });
+
 })();
