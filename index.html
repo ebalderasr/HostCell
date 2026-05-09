@@ -53,12 +53,6 @@
           "https://github.com/ebalderasr",
           "https://www.linkedin.com/in/emilianobalderas/",
           "https://ebalderasr.github.io/ebalderasr/"
-        ],
-        "knowsAbout": [
-          "Upstream Bioprocessing", "CHO Cell Culture", "Fed-batch Bioreactor",
-          "Saccharomyces cerevisiae", "Escherichia coli", "Molecular Biology",
-          "CRISPR-Cas9", "Scientific Software", "Data Science", "Python",
-          "Biotherapeutics", "Recombinant Protein Production"
         ]
       },
       {
@@ -68,8 +62,7 @@
         "operatingSystem": "Any — runs in web browser",
         "url": "https://hostcell.app/",
         "author": { "@id": "#emiliano" },
-        "license": "https://opensource.org/licenses/MIT",
-        "description": "Browser-based tools for upstream bioprocessing: cell passaging, growth kinetics, molar solution preparation, serial dilution, YSI 2950 data processing, flow cytometry sweetspot analysis, clone comparison, and bioreactor simulation."
+        "license": "https://opensource.org/licenses/MIT"
       }
     ]
   }
@@ -77,26 +70,26 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- ══ MD3 TOP APP BAR ══ -->
+  <!-- ══ NAVIGATION ══ -->
   <header class="md-top-app-bar" id="app-bar">
     <div class="md-top-app-bar__row">
 
       <div class="md-top-app-bar__leading">
         <div class="hc-logo-mark" aria-hidden="true">
+          <div class="hc-logo-dot" style="background:#00D9A6"></div>
+          <div class="hc-logo-dot" style="background:#FF9144"></div>
+          <div class="hc-logo-dot" style="background:#A083FF"></div>
           <div class="hc-logo-dot" style="background:#4B9EFF"></div>
-          <div class="hc-logo-dot" style="background:#FF6B6B"></div>
-          <div class="hc-logo-dot" style="background:#FFD54F"></div>
-          <div class="hc-logo-dot" style="background:#4DD0A5"></div>
         </div>
         <div class="hc-brand">
           <span class="hc-brand__name">Host Cell Lab Suite</span>
-          <span class="hc-brand__tagline">Practical tools for high-performance biotechnology</span>
+          <span class="hc-brand__tagline">Precision tools for biotechnology</span>
         </div>
       </div>
 
@@ -113,21 +106,20 @@
     <div class="hc-hero__content">
 
       <div class="hc-hero__logo" aria-hidden="true">
+        <div class="hc-logo-dot" style="background:#00D9A6"></div>
+        <div class="hc-logo-dot" style="background:#FF9144"></div>
+        <div class="hc-logo-dot" style="background:#A083FF"></div>
         <div class="hc-logo-dot" style="background:#4B9EFF"></div>
-        <div class="hc-logo-dot" style="background:#FF6B6B"></div>
-        <div class="hc-logo-dot" style="background:#FFD54F"></div>
-        <div class="hc-logo-dot" style="background:#4DD0A5"></div>
       </div>
 
       <h1 class="hc-hero__title">Host Cell Lab Suite</h1>
 
       <p class="hc-hero__body">
-        Una colección de herramientas web para biotecnólogos que trabajan con células
-        de mamífero. Desde cálculos rápidos de laboratorio hasta análisis complejos de
-        datos y simuladores educativos.
+        Herramientas web para biotecnólogos que trabajan con células de mamífero.
+        Desde cálculos rápidos de laboratorio hasta análisis avanzados de datos
+        y simuladores educativos de bioprocesos.
       </p>
 
-      <!-- MD3 Assist Chips -->
       <div class="hc-hero__chips" role="list">
         <div class="hc-assist-chip" role="listitem">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -178,8 +170,10 @@
           <span class="hc-category-chip__num" aria-hidden="true">1</span>
           PWAs para Bioprocesos
         </div>
-        <h2 class="hc-section__title" id="section-pwa-title">Herramientas de uso diario en el laboratorio</h2>
-        <p class="hc-section__sub">Rápidas, sin instalación, disponibles desde cualquier dispositivo</p>
+        <div class="hc-section__meta">
+          <h2 class="hc-section__title" id="section-pwa-title">Herramientas de uso diario en el laboratorio</h2>
+          <p class="hc-section__sub">Rápidas, sin instalación, disponibles desde cualquier dispositivo</p>
+        </div>
       </div>
 
       <div class="hc-tool-grid">
@@ -201,7 +195,7 @@
           </div>
           <div class="md-card__actions">
             <span class="md-card__action-btn">
-              Ver más
+              Abrir herramienta
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
@@ -225,7 +219,7 @@
           </div>
           <div class="md-card__actions">
             <span class="md-card__action-btn">
-              Ver más
+              Abrir herramienta
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
@@ -250,7 +244,7 @@
           </div>
           <div class="md-card__actions">
             <span class="md-card__action-btn">
-              Ver más
+              Abrir herramienta
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
@@ -276,7 +270,7 @@
           </div>
           <div class="md-card__actions">
             <span class="md-card__action-btn">
-              Ver más
+              Abrir herramienta
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
@@ -295,8 +289,10 @@
           <span class="hc-category-chip__num" aria-hidden="true">2</span>
           Herramientas Avanzadas
         </div>
-        <h2 class="hc-section__title" id="section-adv-title">Bioprocesos con células de mamífero</h2>
-        <p class="hc-section__sub">Análisis y procesamiento de datos complejos de cultivo celular</p>
+        <div class="hc-section__meta">
+          <h2 class="hc-section__title" id="section-adv-title">Bioprocesos con células de mamífero</h2>
+          <p class="hc-section__sub">Análisis y procesamiento de datos complejos de cultivo celular</p>
+        </div>
       </div>
 
       <div class="hc-tool-grid">
@@ -322,7 +318,7 @@
           </div>
           <div class="md-card__actions">
             <span class="md-card__action-btn">
-              Ver más
+              Abrir herramienta
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
@@ -348,7 +344,7 @@
           </div>
           <div class="md-card__actions">
             <span class="md-card__action-btn">
-              Ver más
+              Abrir herramienta
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
@@ -372,7 +368,7 @@
           </div>
           <div class="md-card__actions">
             <span class="md-card__action-btn">
-              Ver más
+              Abrir herramienta
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
@@ -391,8 +387,10 @@
           <span class="hc-category-chip__num" aria-hidden="true">3</span>
           Educación
         </div>
-        <h2 class="hc-section__title" id="section-edu-title">Simuladores y aprendizaje</h2>
-        <p class="hc-section__sub">Explora los fundamentos de la bioingeniería a través de modelos interactivos</p>
+        <div class="hc-section__meta">
+          <h2 class="hc-section__title" id="section-edu-title">Simuladores y aprendizaje</h2>
+          <p class="hc-section__sub">Explora los fundamentos de la bioingeniería a través de modelos interactivos</p>
+        </div>
       </div>
 
       <div class="hc-tool-grid">
@@ -414,7 +412,7 @@
           </div>
           <div class="md-card__actions">
             <span class="md-card__action-btn">
-              Ver más
+              Abrir herramienta
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
@@ -441,7 +439,7 @@
           </div>
           <div class="md-card__actions">
             <span class="md-card__action-btn">
-              Ver más
+              Abrir herramienta
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
@@ -469,7 +467,7 @@
           </div>
           <div class="md-card__actions">
             <span class="md-card__action-btn">
-              Ver más
+              Abrir herramienta
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
@@ -487,8 +485,8 @@
     <div class="hc-footer__inner">
       <div class="hc-footer__brand">
         <a class="hc-footer__brand-link" href="index.html">
-          <span class="hc-footer__name">HostCell Lab Suite</span>
-          <span class="hc-footer__slogan">Practical tools for high-performance biotechnology</span>
+          <span class="hc-footer__name">Host Cell Lab Suite</span>
+          <span class="hc-footer__slogan">Precision tools for biotechnology</span>
         </a>
       </div>
       <a class="hc-footer__author hc-footer__author-link" href="about.html">© Emiliano Balderas Ramírez</a>
