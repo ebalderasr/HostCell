@@ -560,32 +560,86 @@ a { text-decoration: none; color: inherit; }
   margin-top: auto;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
   border-top: 1px solid var(--col-border);
 }
 
-.md-card__action-btn {
+/* "Ver más" secondary link */
+.md-card__more-link {
+  position: relative;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 4px;
   font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: -0.005em;
-  color: var(--col-green);
-  border-radius: var(--md-shape-full);
-  padding: 0.3rem 0.5rem;
+  color: var(--col-text3);
+  transition: color 150ms var(--md-easing-standard);
 }
 
-.md-card--secondary .md-card__action-btn { color: var(--col-amber); }
-.md-card--tertiary  .md-card__action-btn { color: var(--col-violet); }
+.md-card:hover .md-card__more-link { color: var(--col-text2); }
 
-.md-card__action-btn svg {
+.md-card__more-link svg {
   transition: transform 150ms var(--md-easing-standard);
 }
 
-.md-card:hover .md-card__action-btn svg {
-  transform: translateX(4px);
+.md-card:hover .md-card__more-link svg { transform: translateX(3px); }
+
+/* "Abrir app" primary button + stretched-link magic */
+.md-card__app-btn {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.4rem 0.875rem;
+  border-radius: var(--md-shape-full);
+  background: var(--col-green-bg);
+  border: 1px solid rgba(0,217,166,0.2);
+  color: var(--col-green);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  transition: background 150ms var(--md-easing-standard),
+              border-color 150ms var(--md-easing-standard),
+              box-shadow 150ms var(--md-easing-standard);
 }
+
+.md-card--secondary .md-card__app-btn {
+  background: var(--col-amber-bg);
+  border-color: rgba(255,145,68,0.2);
+  color: var(--col-amber);
+}
+
+.md-card--tertiary .md-card__app-btn {
+  background: var(--col-violet-bg);
+  border-color: rgba(160,131,255,0.2);
+  color: var(--col-violet);
+}
+
+.md-card:hover .md-card__app-btn {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.md-card:hover .md-card__app-btn svg { transform: translate(2px,-2px); }
+
+.md-card__app-btn svg {
+  transition: transform 150ms var(--md-easing-standard);
+}
+
+/* Stretched link: expands click area of the app button to the whole card */
+.md-card__app-btn.md-card__stretched-link::after {
+  content: '';
+  position: absolute;
+  inset: -9999px;
+  z-index: 1;
+}
+
+/* Ensure interactive elements above the stretched overlay */
+.md-card__more-link,
+.md-card__app-btn { position: relative; z-index: 2; }
 
 /* ════════════════════════════════════════════
    FOOTER
