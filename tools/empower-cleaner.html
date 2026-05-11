@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Empower-Cleaner — De reportes PDF de Waters Empower a CSV limpio | Host Cell Lab Suite</title>
+  <meta name="description" content="Empower-Cleaner extrae concentraciones desde reportes PDF de Waters Empower HPLC, reconstruye la tabla de muestras y exporta un CSV limpio y ordenado para análisis downstream." />
+  <link rel="canonical" href="https://hostcell.app/tools/empower-cleaner.html" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+
+  <style>
+    .ec-section-label {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--md-secondary);
+      margin-bottom: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .ec-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--md-outline-variant);
+    }
+
+    .ec-workflow .ec-section-label {
+      justify-content: center;
+      font-size: 1.25rem;
+      letter-spacing: -0.01em;
+      text-transform: none;
+      margin-bottom: 1.25rem;
+    }
+
+    .ec-workflow .ec-section-label::before,
+    .ec-workflow .ec-section-label::after {
+      content: '';
+      flex: 1;
+      max-width: 120px;
+      height: 1px;
+      background: var(--md-outline-variant);
+    }
+
+    .ec-workflow {
+      margin-bottom: 3rem;
+    }
+
+    .ec-workflow__steps {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      overflow: hidden;
+    }
+
+    .ec-step {
+      padding: 1.25rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .ec-step__num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--md-secondary-container);
+      color: var(--md-secondary);
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .ec-step__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      line-height: 1.3;
+    }
+
+    .ec-step__desc {
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.55;
+    }
+
+    .ec-step__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 0.25rem;
+    }
+
+    .ec-tag {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container-high);
+      border: 1px solid var(--md-outline-variant);
+      color: var(--md-on-surface-variant);
+      font-style: italic;
+    }
+
+    .ec-tag--out {
+      background: rgba(150,203,174,0.10);
+      border-color: rgba(150,203,174,0.24);
+      color: var(--md-secondary);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .ec-tag--key {
+      background: rgba(203,158,255,0.10);
+      border-color: rgba(203,158,255,0.24);
+      color: var(--md-tertiary);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .ec-workflow__arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0.5rem;
+      color: var(--md-secondary);
+      opacity: 0.55;
+      border-left: 1px solid var(--md-outline-variant);
+      border-right: 1px solid var(--md-outline-variant);
+      font-size: 1.25rem;
+    }
+
+    .ec-importance {
+      margin-bottom: 3rem;
+    }
+
+    .ec-importance__lead {
+      background: linear-gradient(180deg, rgba(150,203,174,0.07), rgba(150,203,174,0.02));
+      border: 1px solid rgba(150,203,174,0.18);
+      border-radius: var(--md-shape-lg);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 0.875rem;
+    }
+
+    .ec-importance__lead-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      margin-bottom: 0.45rem;
+    }
+
+    .ec-importance__lead-body {
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: var(--md-on-surface-variant);
+    }
+
+    .ec-importance__lead-body strong {
+      color: var(--md-on-surface);
+      font-weight: 500;
+    }
+
+    .ec-importance__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .ec-risk {
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      padding: 1rem 1.1rem;
+    }
+
+    .ec-risk__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--md-secondary);
+      margin-bottom: 0.45rem;
+    }
+
+    .ec-risk__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      line-height: 1.35;
+      margin-bottom: 0.35rem;
+    }
+
+    .ec-risk__body {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      color: var(--md-on-surface-variant);
+    }
+
+    .ec-module {
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      border-radius: var(--md-shape-lg);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .ec-module__header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.125rem 1.5rem;
+      background: var(--md-surface-container-high);
+      border-bottom: 1px solid var(--md-outline-variant);
+      flex-wrap: wrap;
+    }
+
+    .ec-module__num {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--md-secondary);
+      color: var(--md-on-secondary);
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.0625rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ec-module__title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.0625rem;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      line-height: 1.2;
+    }
+
+    .ec-module__sub {
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      margin-top: 1px;
+    }
+
+    .ec-module__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0.2rem 0.65rem;
+      border-radius: var(--md-shape-full);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .ec-module__badge--secondary {
+      background: rgba(150,203,174,0.10);
+      border: 1px solid rgba(150,203,174,0.24);
+      color: var(--md-secondary);
+    }
+
+    .ec-module__badge--tertiary {
+      background: rgba(203,158,255,0.10);
+      border: 1px solid rgba(203,158,255,0.24);
+      color: var(--md-tertiary);
+    }
+
+    .ec-module__body {
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 1.5rem;
+    }
+
+    .ec-io {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .ec-io__group-title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      margin-bottom: 0.4rem;
+    }
+
+    .ec-io__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .ec-io__item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.525rem 0.75rem;
+      border-radius: var(--md-shape-sm);
+      background: var(--md-surface-container-low);
+      border: 1px solid var(--md-outline-variant);
+    }
+
+    .ec-io__item--out {
+      background: rgba(150,203,174,0.06);
+      border-color: rgba(150,203,174,0.20);
+    }
+
+    .ec-io__item--key {
+      background: rgba(203,158,255,0.07);
+      border-color: rgba(203,158,255,0.22);
+    }
+
+    .ec-io__dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--md-outline-variant);
+    }
+
+    .ec-io__item--out .ec-io__dot { background: var(--md-secondary); }
+    .ec-io__item--key .ec-io__dot { background: var(--md-tertiary); }
+
+    .ec-io__text {
+      flex: 1;
+      font-size: 0.8125rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.35;
+    }
+
+    .ec-io__item--out .ec-io__text {
+      color: var(--md-on-surface);
+      font-weight: 500;
+    }
+
+    .ec-io__item--key .ec-io__text {
+      color: var(--md-tertiary);
+      font-weight: 600;
+    }
+
+    .ec-io__sym {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 0.875rem;
+      color: var(--md-secondary);
+      opacity: 0.9;
+      flex-shrink: 0;
+    }
+
+    .ec-io__item--key .ec-io__sym { color: var(--md-tertiary); }
+
+    .callout {
+      border-radius: var(--md-shape-md);
+      padding: 0.875rem 1.125rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .callout--info  { background: rgba(150,203,174,0.07); border: 1px solid rgba(150,203,174,0.20); }
+    .callout--warn  { background: rgba(255,107,107,0.07); border: 1px solid rgba(255,107,107,0.20); }
+    .callout--idea  { background: rgba(203,158,255,0.07); border: 1px solid rgba(203,158,255,0.22); }
+
+    .callout__icon { flex-shrink: 0; margin-top: 1px; color: var(--md-secondary); }
+    .callout--warn .callout__icon { color: #FF6B6B; }
+    .callout--idea .callout__icon { color: var(--md-tertiary); }
+
+    .callout__body {
+      font-size: 0.8125rem;
+      line-height: 1.65;
+      color: var(--md-on-surface-variant);
+    }
+
+    .callout__body strong { color: var(--md-on-surface); font-weight: 500; }
+
+    .ec-rule-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--md-outline-variant);
+    }
+
+    .ec-rule {
+      padding: 1rem 1.1rem;
+      border-right: 1px solid var(--md-outline-variant);
+      text-align: center;
+    }
+
+    .ec-rule:last-child { border-right: none; }
+
+    .ec-rule--ok { background: rgba(150,203,174,0.08); }
+    .ec-rule--parse { background: rgba(92,214,233,0.08); }
+    .ec-rule--sort { background: rgba(203,158,255,0.08); }
+    .ec-rule--zero { background: rgba(255,193,7,0.08); }
+
+    .ec-rule__name {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .ec-rule--ok .ec-rule__name { color: var(--md-secondary); }
+    .ec-rule--parse .ec-rule__name { color: #1A73E8; }
+    .ec-rule--sort .ec-rule__name { color: var(--md-tertiary); }
+    .ec-rule--zero .ec-rule__name { color: #B26A00; }
+
+    .ec-rule__desc {
+      font-size: 0.78125rem;
+      line-height: 1.55;
+      color: var(--md-on-surface-variant);
+    }
+
+    .ec-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 0.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .ec-feature-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container);
+      border: 1px solid var(--md-outline-variant);
+      color: var(--md-on-surface-variant);
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    @media (max-width: 900px) {
+      .ec-importance__grid { grid-template-columns: 1fr 1fr; }
+      .ec-module__body { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 700px) {
+      .ec-workflow__steps { grid-template-columns: 1fr; }
+      .ec-workflow__arrow { display: none; }
+      .ec-rule-strip { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 520px) {
+      .ec-importance__grid { grid-template-columns: 1fr; }
+      .ec-rule-strip { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="md-top-app-bar">
+    <div class="md-top-app-bar__row">
+      <a class="md-top-app-bar__leading hc-home-link" href="../index.html" aria-label="Ir a la página principal de Host Cell Lab Suite">
+        <div class="hc-logo-mark" aria-hidden="true">
+          <div class="hc-logo-dot" style="background:#4B9EFF"></div>
+          <div class="hc-logo-dot" style="background:#FF6B6B"></div>
+          <div class="hc-logo-dot" style="background:#FFD54F"></div>
+          <div class="hc-logo-dot" style="background:#4DD0A5"></div>
+        </div>
+        <div class="hc-brand">
+          <span class="hc-brand__name">Host Cell Lab Suite</span>
+          <span class="hc-brand__tagline">Practical tools for high-performance biotechnology</span>
+        </div>
+      </a>
+      <a class="md-button-tonal" href="../about.html">Acerca de</a>
+    </div>
+  </header>
+
+  <section class="tool-hero tool-hero--secondary">
+    <div class="tool-hero__content">
+      <div class="tool-hero__badge">Herramienta Avanzada · HPLC y limpieza de datos</div>
+      <div class="tool-hero__icon" aria-hidden="true">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <path d="M8 13h8"/>
+          <path d="M8 17h5"/>
+        </svg>
+      </div>
+      <h1 class="tool-hero__title">Empower-Cleaner</h1>
+      <p class="tool-hero__tagline">Convierte reportes PDF de Waters Empower en un CSV limpio y ordenado para análisis downstream, sin copiar tablas a mano y sin sacar los datos del navegador.</p>
+      <div class="tool-hero__cta">
+        <a class="md-button-filled md-button-filled--large md-button-filled--secondary" href="https://ebalderasr.github.io/Empower-Cleaner/" target="_blank" rel="noopener noreferrer">
+          Ir a la app
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="tool-content">
+    <section class="ec-workflow" aria-label="Pipeline de extracción Empower-Cleaner">
+      <div class="ec-section-label">¿Cómo funciona?</div>
+
+      <div class="ec-workflow__steps">
+        <div class="ec-step">
+          <div class="ec-step__num">1</div>
+          <div class="ec-step__title">Carga uno o varios PDFs de Empower</div>
+          <div class="ec-step__desc">La app acepta reportes exportados desde Waters Empower y procesa cada archivo completamente en el navegador, sin backend ni subida de datos.</div>
+          <div class="ec-step__tags">
+            <span class="ec-tag">.pdf</span>
+            <span class="ec-tag">drag and drop</span>
+            <span class="ec-tag">multi-file</span>
+          </div>
+        </div>
+
+        <div class="ec-workflow__arrow" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <div class="ec-step">
+          <div class="ec-step__num">2</div>
+          <div class="ec-step__title">Detecta la tabla y extrae concentraciones</div>
+          <div class="ec-step__desc">Busca encabezados como <strong>SampleName</strong> y <strong>Concentration</strong>, reconstruye filas por posición en el PDF y recupera el valor correcto incluso cuando la columna de concentración está incompleta.</div>
+          <div class="ec-step__tags">
+            <span class="ec-tag ec-tag--out">PDF.js</span>
+            <span class="ec-tag ec-tag--out">SampleName</span>
+            <span class="ec-tag ec-tag--key">fallback Amount</span>
+          </div>
+        </div>
+
+        <div class="ec-workflow__arrow" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+
+        <div class="ec-step">
+          <div class="ec-step__num">3</div>
+          <div class="ec-step__title">Ordena el dataset y exporta CSV</div>
+          <div class="ec-step__desc">Parsea clona, réplica y tiempo desde el nombre de muestra, ordena los registros de forma determinista y descarga un CSV limpio para cinética o screening.</div>
+          <div class="ec-step__tags">
+            <span class="ec-tag ec-tag--out">Clona</span>
+            <span class="ec-tag ec-tag--out">Replica</span>
+            <span class="ec-tag ec-tag--key">Tiempo</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ec-importance" aria-labelledby="importance-title">
+      <div class="ec-section-label" id="importance-title">Por qué importa</div>
+
+      <div class="ec-importance__lead">
+        <div class="ec-importance__lead-title">No analiza HPLC. Elimina la fricción entre el reporte y el análisis real.</div>
+        <div class="ec-importance__lead-body">
+          Los reportes PDF de Empower suelen ser legibles para revisión visual, pero malos como formato de trabajo. Si el siguiente paso es comparar clones, revisar un time-course o alimentar otra herramienta cinética, <strong>copiar concentraciones a mano desde PDF</strong> se vuelve una tarea repetitiva, lenta y fácil de romper con un solo error de transcripción.
+        </div>
+      </div>
+
+      <div class="ec-importance__grid">
+        <div class="ec-risk">
+          <div class="ec-risk__label">Fricción</div>
+          <div class="ec-risk__title">El reporte está pensado para lectura humana</div>
+          <div class="ec-risk__body">La información existe, pero no en un formato reutilizable directamente para tablas limpias, ordenamiento o análisis downstream.</div>
+        </div>
+
+        <div class="ec-risk">
+          <div class="ec-risk__label">Riesgo</div>
+          <div class="ec-risk__title">Copiar a mano escala mal</div>
+          <div class="ec-risk__body">Con múltiples clones, réplicas y tiempos, un error pequeño de transcripción puede contaminar la tabla final sin que sea obvio dónde ocurrió.</div>
+        </div>
+
+        <div class="ec-risk">
+          <div class="ec-risk__label">Impacto</div>
+          <div class="ec-risk__title">La limpieza consume más tiempo que el análisis</div>
+          <div class="ec-risk__body">Antes de graficar, comparar o modelar, hay que reconstruir el dataset. Empower-Cleaner convierte esa parte en una operación reproducible.</div>
+        </div>
+
+        <div class="ec-risk">
+          <div class="ec-risk__label">Respuesta</div>
+          <div class="ec-risk__title">Del PDF a CSV en una sola pasada</div>
+          <div class="ec-risk__body">Extrae únicamente las filas útiles, normaliza la estructura y entrega un archivo listo para abrir en Excel o cargar en otra app.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ec-module" aria-labelledby="mod1-title">
+      <div class="ec-module__header">
+        <div class="ec-module__num">1</div>
+        <div>
+          <div class="ec-module__title" id="mod1-title">Detección de tabla útil dentro del PDF</div>
+          <div class="ec-module__sub">No intenta leer cualquier texto del reporte: busca la región correcta donde aparecen las muestras cuantificadas.</div>
+        </div>
+        <div class="ec-module__badge ec-module__badge--secondary">PDF parsing</div>
+      </div>
+
+      <div class="ec-module__body">
+        <div class="ec-io">
+          <div>
+            <div class="ec-io__group-title">Entradas</div>
+            <div class="ec-io__list">
+              <div class="ec-io__item"><span class="ec-io__dot"></span><span class="ec-io__text">Uno o varios reportes PDF de Waters Empower</span><span class="ec-io__sym">PDF</span></div>
+              <div class="ec-io__item"><span class="ec-io__dot"></span><span class="ec-io__text">Encabezados esperados como <strong>SampleName</strong> y <strong>Concentration</strong></span><span class="ec-io__sym">cols</span></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="ec-io__group-title">Salidas</div>
+            <div class="ec-io__list">
+              <div class="ec-io__item ec-io__item--out"><span class="ec-io__dot"></span><span class="ec-io__text">Filas reconstruidas con sus tokens relevantes</span><span class="ec-io__sym">rows</span></div>
+              <div class="ec-io__item ec-io__item--key"><span class="ec-io__dot"></span><span class="ec-io__text">Concentración usable por muestra</span><span class="ec-io__sym">c</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="callout callout--info" style="margin-bottom:0.9rem;">
+            <svg class="callout__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <div class="callout__body">
+              <strong>Lógica principal:</strong> por cada página, la app encuentra la fila del encabezado y luego recompone la tabla a partir de coordenadas de texto. Eso evita depender de copiar y pegar manualmente una tabla que en realidad está fragmentada dentro del PDF.
+            </div>
+          </div>
+
+          <div class="callout callout--idea">
+            <svg class="callout__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9.09 9a3 3 0 1 1 5.82 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>
+            </svg>
+            <div class="callout__body">
+              <strong>Fallback útil:</strong> si la columna <strong>Concentration</strong> está vacía, Empower-Cleaner intenta recuperar el valor desde el último token numérico de <strong>Amount</strong>. La meta no es “leer todo”, sino rescatar la concentración final con la mayor consistencia posible.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ec-rule-strip">
+        <div class="ec-rule ec-rule--ok">
+          <div class="ec-rule__name">Header match</div>
+          <div class="ec-rule__desc">Ubica páginas con tabla válida antes de extraer filas.</div>
+        </div>
+        <div class="ec-rule ec-rule--parse">
+          <div class="ec-rule__name">Row rebuild</div>
+          <div class="ec-rule__desc">Reconstruye la fila a partir de la posición de texto en el PDF.</div>
+        </div>
+        <div class="ec-rule ec-rule--sort">
+          <div class="ec-rule__name">Selective keep</div>
+          <div class="ec-rule__desc">Ignora filas que no cumplen el patrón esperado de muestra.</div>
+        </div>
+        <div class="ec-rule ec-rule--zero">
+          <div class="ec-rule__name">0.0 fallback</div>
+          <div class="ec-rule__desc">Si no hay concentración válida, exporta `0.0` para mantener rectangularidad.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ec-module" aria-labelledby="mod2-title">
+      <div class="ec-module__header">
+        <div class="ec-module__num">2</div>
+        <div>
+          <div class="ec-module__title" id="mod2-title">Parsing del nombre de muestra y ordenamiento</div>
+          <div class="ec-module__sub">Convierte el `SampleName` en variables de trabajo que sí sirven para análisis experimental.</div>
+        </div>
+        <div class="ec-module__badge ec-module__badge--tertiary">Normalization</div>
+      </div>
+
+      <div class="ec-module__body">
+        <div class="ec-io">
+          <div>
+            <div class="ec-io__group-title">Formato esperado</div>
+            <div class="ec-io__list">
+              <div class="ec-io__item"><span class="ec-io__dot"></span><span class="ec-io__text">`YYYYMMDD_CLONA_REPLICA_TTIEMPO`</span><span class="ec-io__sym">std</span></div>
+              <div class="ec-io__item"><span class="ec-io__dot"></span><span class="ec-io__text">Se aceptan sufijos extra después del tiempo</span><span class="ec-io__sym">aux</span></div>
+              <div class="ec-io__item"><span class="ec-io__dot"></span><span class="ec-io__text">Clona alfabética, réplica entera y tiempo `T0`, `T24`, `T72`, etc.</span><span class="ec-io__sym">id</span></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="ec-io__group-title">CSV final</div>
+            <div class="ec-io__list">
+              <div class="ec-io__item ec-io__item--out"><span class="ec-io__dot"></span><span class="ec-io__text">`Clona, Replica, Tiempo, Concentration, Original_SampleName`</span><span class="ec-io__sym">csv</span></div>
+              <div class="ec-io__item ec-io__item--key"><span class="ec-io__dot"></span><span class="ec-io__text">Ordenado por clona, réplica y tiempo</span><span class="ec-io__sym">sort</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="callout callout--info" style="margin-bottom:0.9rem;">
+            <svg class="callout__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <div class="callout__body">
+              <strong>Ganancia real:</strong> el PDF deja de ser un reporte estático y pasa a convertirse en un dataset estructurado, listo para ser usado en cinética, screening o análisis comparativo entre clones.
+            </div>
+          </div>
+
+          <div class="callout callout--warn">
+            <svg class="callout__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <div class="callout__body">
+              <strong>Limitación deliberada:</strong> la app es estrecha a propósito. Si el `SampleName` no sigue el convenio esperado o el layout del PDF cambia demasiado, la herramienta prefiere ignorar la fila antes que inventar una interpretación dudosa.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ec-features" aria-label="Características técnicas">
+      <div class="ec-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Extracción local desde PDF
+      </div>
+      <div class="ec-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7h8"/><path d="M8 12h8"/><path d="M8 17h5"/></svg>
+        Detección por `SampleName` y `Concentration`
+      </div>
+      <div class="ec-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6v12"/><path d="M16 6v12"/><path d="M3 12h18"/></svg>
+        Multiarchivo en una sola sesión
+      </div>
+      <div class="ec-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export CSV de un clic
+      </div>
+      <div class="ec-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h18v18H3z"/><path d="M8 12l2 2 6-6"/></svg>
+        Orden determinista por clona, réplica y tiempo
+      </div>
+      <div class="ec-feature-chip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        Sin backend ni upload de datos
+      </div>
+    </div>
+
+    <div class="tool-cta">
+      <p class="tool-cta__label">Suelta tus PDFs de Empower y obtén un CSV limpio antes de empezar el análisis real.</p>
+      <a class="md-button-filled md-button-filled--large md-button-filled--secondary" href="https://ebalderasr.github.io/Empower-Cleaner/" target="_blank" rel="noopener noreferrer">
+        Ir a Empower-Cleaner
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <footer class="hc-footer">
+    <div class="hc-footer__inner">
+      <div class="hc-footer__brand">
+        <a class="hc-footer__brand-link" href="../index.html">
+          <span class="hc-footer__name">Host Cell Lab Suite</span>
+          <span class="hc-footer__slogan">Practical tools for high-performance biotechnology</span>
+        </a>
+      </div>
+      <a class="hc-footer__author hc-footer__author-link" href="../about.html">© Emiliano Balderas Ramírez</a>
+      <a href="https://github.com/ebalderasr" target="_blank" rel="noopener noreferrer" class="hc-footer__github">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"/>
+        </svg>
+        <span>GitHub</span>
+      </a>
+    </div>
+  </footer>
+
+  <script src="../app.js"></script>
+</body>
+</html>

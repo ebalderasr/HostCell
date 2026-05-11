@@ -10,7 +10,7 @@
 
 <br>
 
-[![Tools](https://img.shields.io/badge/Tools-10_tools_·_3_categories-5856D6?style=for-the-badge)]()
+[![Tools](https://img.shields.io/badge/Tools-11_tools_·_3_categories-5856D6?style=for-the-badge)]()
 [![Stack](https://img.shields.io/badge/Stack-Vanilla_JS_·_HTML5_·_CSS3-4A90D9?style=for-the-badge)]()
 [![Focus](https://img.shields.io/badge/Focus-CHO_·_Upstream_Bioprocessing-34C759?style=for-the-badge)]()
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](./LICENSE)
@@ -64,6 +64,7 @@ For complex experimental datasets that go beyond a single calculation.
 | [**Flowjo Sweetspot Web**](https://ebalderasr.github.io/flowjo-sweetspot-web/) | Identifies the optimal protein expression gate in flow cytometry data from candidate clones — interactive visualization |
 | [**YSI Processor**](https://ebalderasr.github.io/ysi-processor/) | Processes YSI 2950 analyte exports (glucose, lactate, glutamine): QC review, replicate averaging, normalization, and export |
 | [**Clonalyzer 2**](https://ebalderasr.github.io/Clonalyzer-2/) | Compares and ranks candidate CHO clones by productivity profile, growth efficiency, and biosynthetic rate |
+| [**Empower-Cleaner**](https://ebalderasr.github.io/Empower-Cleaner/) | Extracts concentration tables from Waters Empower HPLC PDF reports and exports a clean CSV sorted by clone, replicate, and timepoint |
 
 ### Category 3 — Education · Simulators
 
@@ -131,7 +132,7 @@ Instituto de Biotecnología (IBt), UNAM
 
 Each tool in the suite has its own repository with full documentation:
 
-[**CellSplit**](https://github.com/ebalderasr/CellSplit) · [**PulseGrowth**](https://github.com/ebalderasr/PulseGrowth) · [**MolarPrep**](https://github.com/ebalderasr/MolarPrep) · [**DiluteIt**](https://github.com/ebalderasr/DiluteIt) · [**Flowjo Sweetspot Web**](https://github.com/ebalderasr/flowjo-sweetspot-web) · [**Clonalyzer 2**](https://github.com/ebalderasr/Clonalyzer-2) · [**Kinetic Drive**](https://github.com/ebalderasr/Kinetic-Drive) · [**BioReact**](https://github.com/ebalderasr/BioReact) · [**Microbial Kinetics Lab**](https://github.com/ebalderasr/MicrobialKineticsLab)
+[**CellSplit**](https://github.com/ebalderasr/CellSplit) · [**PulseGrowth**](https://github.com/ebalderasr/PulseGrowth) · [**MolarPrep**](https://github.com/ebalderasr/MolarPrep) · [**DiluteIt**](https://github.com/ebalderasr/DiluteIt) · [**Flowjo Sweetspot Web**](https://github.com/ebalderasr/flowjo-sweetspot-web) · [**YSI Processor**](https://github.com/ebalderasr/HostCell/tree/main/ysi-processor) · [**Clonalyzer 2**](https://github.com/ebalderasr/Clonalyzer-2) · [**Empower-Cleaner**](https://github.com/ebalderasr/Empower-Cleaner) · [**Kinetic Drive**](https://github.com/ebalderasr/Kinetic-Drive) · [**BioReact**](https://github.com/ebalderasr/BioReact) · [**Microbial Kinetics Lab**](https://github.com/ebalderasr/MicrobialKineticsLab)
 
 ---
 
